@@ -73,7 +73,7 @@
       "id": "2e42bb5b-ba77-5f95-a745-e09e65fce0aa"
     },
     {
-      "name": "Coverage + fraud rules",
+      "name": "Parse extraction",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
@@ -81,7 +81,25 @@
         300
       ],
       "parameters": {
-        "jsCode": "const ex = JSON.parse($json.content.find(b => b.type === 'text').text);\nconst minConf = Math.min(...ex.fields.map(f => f.confidence));\nconst rec = Object.fromEntries(ex.fields.map(f => [f.name, f.value]));\n// same rules as check_and_route() in pipeline.py; policy + history lookups via the claims API\nreturn [{json: {...ex, record: rec, min_confidence: minConf,\n  low_fields: ex.fields.filter(f => f.confidence < 0.8).map(f => f.name)}}];"
+        "jsCode": "const ex = JSON.parse($json.content.find(b => b.type === 'text').text);\nconst minConf = Math.min(...ex.fields.map(f => f.confidence));\nconst rec = Object.fromEntries(ex.fields.map(f => [f.name, f.value]));\nreturn [{json: {...ex, record: rec, min_confidence: minConf,\n  low_fields: ex.fields.filter(f => f.confidence < 0.8).map(f => f.name)}}];"
+      },
+      "id": "d40def81-62b1-535b-a1b8-3906682a2ec3"
+    },
+    {
+      "name": "Coverage + fraud rules",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        300
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://claims.example.internal/api/v1/rules/check",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.record) }}",
+        "options": {}
       },
       "id": "30b47995-716c-53a6-b040-8686dcf01421"
     },
@@ -90,7 +108,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        960,
+        1200,
         300
       ],
       "parameters": {
@@ -103,7 +121,7 @@
           "conditions": [
             {
               "id": "7e51a7c8-74db-5e80-b3e3-6100576c3c6e",
-              "leftValue": "={{ $json.min_confidence }}",
+              "leftValue": "={{ $('Parse extraction').item.json.min_confidence }}",
               "rightValue": 0.8,
               "operator": {
                 "type": "number",
@@ -122,7 +140,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1200,
+        1440,
         200
       ],
       "parameters": {
@@ -130,7 +148,7 @@
         "url": "https://claims.example.internal/api/v1/claims",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify($json.record) }}",
+        "jsonBody": "={{ JSON.stringify({...$('Parse extraction').item.json.record, coverage_issues: $json.coverage_issues, fraud_flags: $json.fraud_flags, route: $json.route}) }}",
         "options": {}
       },
       "id": "58051e79-a8eb-5361-b5e7-f1a9ab083f9c"
@@ -140,7 +158,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1200,
+        1440,
         420
       ],
       "parameters": {
@@ -148,7 +166,7 @@
         "url": "https://claims.example.internal/api/v1/review-queue",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({claim_id: $json.claim_id, fields: $json.low_fields, notes: $json.notes}) }}",
+        "jsonBody": "={{ JSON.stringify({claim_id: $('Parse extraction').item.json.claim_id, fields: $('Parse extraction').item.json.low_fields, notes: $('Parse extraction').item.json.notes, route: $json.route, fraud_flags: $json.fraud_flags}) }}",
         "options": {}
       },
       "id": "56d91bfa-a965-59ed-8e70-e27fc95bf6bc"
@@ -178,6 +196,17 @@
       ]
     },
     "Claude extract": {
+      "main": [
+        [
+          {
+            "node": "Parse extraction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse extraction": {
       "main": [
         [
           {

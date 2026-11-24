@@ -37,6 +37,7 @@ All data is synthetic. No real customer, patient or client records are used.
 ## Rebuild the site and the videos
 ```bash
 python site/build_site.py
-cd site && python -m http.server 8765 &
+cd site
+python -m http.server 8765 &
 node record.js 01 02 03 04 05 06 07 08 09 10
 ```
