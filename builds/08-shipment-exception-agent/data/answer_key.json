@@ -1,0 +1,55 @@
+{
+  "SHP-2404": {
+    "late": true,
+    "true_cause": "weather",
+    "customer_called_at": "2026-11-24T13:33"
+  },
+  "SHP-2406": {
+    "late": true,
+    "true_cause": "traffic",
+    "customer_called_at": "2026-11-24T14:39"
+  },
+  "SHP-2408": {
+    "late": true,
+    "true_cause": "weather",
+    "customer_called_at": "2026-11-24T13:22"
+  },
+  "SHP-2410": {
+    "late": true,
+    "true_cause": "carrier",
+    "customer_called_at": "2026-11-24T13:40"
+  },
+  "SHP-2412": {
+    "late": true,
+    "true_cause": "weather",
+    "customer_called_at": "2026-11-24T13:56"
+  },
+  "SHP-2413": {
+    "late": true,
+    "true_cause": "dock",
+    "customer_called_at": "2026-11-24T11:24"
+  },
+  "SHP-2415": {
+    "late": true,
+    "true_cause": "traffic",
+    "customer_called_at": "2026-11-24T14:03"
+  },
+  "SHP-2417": {
+    "late": false,
+    "true_cause": "none"
+  },
+  "SHP-2419": {
+    "late": true,
+    "true_cause": "carrier",
+    "customer_called_at": "2026-11-24T13:18"
+  },
+  "SHP-2421": {
+    "late": true,
+    "true_cause": "dock",
+    "customer_called_at": "2026-11-24T14:00"
+  },
+  "SHP-2424": {
+    "late": false,
+    "true_cause": "none"
+  }
+}

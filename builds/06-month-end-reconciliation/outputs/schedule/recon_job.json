@@ -1,0 +1,17 @@
+{
+  "schedule": "30 2 * * *",
+  "inputs": {
+    "bank": "sftp://bank/exports/{period}.csv",
+    "ledger": "netsuite saved search 'GL Cash 1010' -> CSV"
+  },
+  "outputs": {
+    "report": "Google Sheets 'Close {period}' tab Exceptions",
+    "html": "outputs/exceptions_report.html"
+  },
+  "rules": {
+    "date_window_days": 5,
+    "amount_tolerance": 1.0,
+    "name_threshold": 0.45
+  },
+  "alert_if": "unexplained difference != 0 or exceptions > 20"
+}

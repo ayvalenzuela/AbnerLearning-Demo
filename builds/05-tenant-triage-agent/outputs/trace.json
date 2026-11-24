@@ -1,0 +1,111 @@
+{
+  "build": "05",
+  "title": "Tenant request triage agent",
+  "mode": "OFFLINE (rule-based stand-in, same schema)",
+  "model": "claude-opus-5-5",
+  "steps": [
+    {
+      "n": 1,
+      "title": "Read the email and SMS inbox",
+      "kind": "io",
+      "what": "Loaded 15 synthetic tenant messages from one week; 10 arrived outside office hours.",
+      "code": "inbox = json.loads(Path(\"data/inbox.json\").read_text())\nah = [m for m in inbox if after_hours(datetime.fromisoformat(m[\"received_at\"]))]",
+      "output": "M01 sms   Sat 22:47 (after hours)  Water is pouring through the ceiling from the unit above, \nM02 email Mon 10:15                Hi, what day is rent due each month, and is there a grace \nM03 sms   Mon 19:30 (after hours)  Kitchen sink is clogged and draining really slowly.\nM04 email Tue 09:05                I was charged a $75 late fee but I paid rent on the 2nd. C\nM05 sms   Wed 02:10 (after hours)  I smell gas near the stove, it's strong. What do I do?\nM06 email Tue 13:40                Can I have a cat in my apartment? Is there a pet deposit?\nM07 email Tue 21:15 (after hours)  The dishwasher stopped working and leaks a little water on\nM08 sms   Wed 07:20 (after hours)  Where do I put recycling and what day is pickup?\nM09 email Wed 11:00                The heater makes a loud banging noise and the bedroom stay\nM10 sms   Wed 23:05 (after hours)  Can I get a receipt for my October rent payment? Need it f\nM11 email Thu 15:30                How much notice do I need to give before I move out?\nM12 sms   Thu 18:45 (after hours)  Bathroom exhaust fan is broken, it makes no sound at all.\nM13 email Fri 08:30 (after hours)  Is guest parking available overnight for a visitor this we\nM14 email Fri 20:10 (after hours)  The refrigerator isn't cooling anymore and food is going b\nM15 sms   Sun 12:00 (after hours)  My autopay didn't go through this month, how do I pay my b"
+    },
+    {
+      "n": 2,
+      "title": "Classify each message",
+      "kind": "ai",
+      "what": "Claude labels every message as question, repair, emergency or billing, with urgency and a reason.",
+      "code": "triage[m[\"id\"]] = ask_structured(system=CLASSIFY_SYSTEM,\n    content=f\"Message {m['id']}: {m['text']}\",\n    schema=Triage, offline=lambda: offline_classify(m))",
+      "output": "M01  emergency now     mentions 'pouring'\nM02  question  routine no repair, billing or safety cue; reads as a policy question\nM03  repair    today   mentions 'clogged'\nM04  billing   routine mentions 'late fee'\nM05  emergency now     mentions 'gas'\nM06  question  routine no repair, billing or safety cue; reads as a policy question\nM07  repair    today   mentions 'leak'\nM08  question  routine no repair, billing or safety cue; reads as a policy question\nM09  repair    today   mentions 'noise'\nM10  billing   routine mentions 'receipt'\nM11  question  routine no repair, billing or safety cue; reads as a policy question\nM12  repair    today   mentions 'broken'\nM13  question  routine no repair, billing or safety cue; reads as a policy question\nM14  repair    today   mentions 'isn't'\nM15  billing   routine mentions 'autopay'\n\ncounts: {'question': 5, 'repair': 5, 'emergency': 2, 'billing': 3}"
+    },
+    {
+      "n": 3,
+      "title": "Answer questions from the lease and FAQ, with the source",
+      "kind": "ai",
+      "what": "The agent searches the lease and FAQ (and the ledger for billing), then replies with a citation: 8/8 answers cite a source.",
+      "code": "run = run_agent(system=AGENT_SYSTEM, user=user, tools=TOOLS,\n                handlers=handlers, offline_planner=offline_planner)\n# LIVE: loop while resp.stop_reason == \"tool_use\";\n#       all tool_result blocks go back in ONE user message",
+      "output": "M02: \"Hi, what day is rent due each month, and is there a grace period?\"\n  -> search_policies({\"query\": \"Hi, what day is rent due each month, and is there a grace period?\"})\n     = [\"Lease \\u00a74.1 Rent due date (score 10)\", \"Lease \\u00a74.3 Payment methods (score 2)\"]\n  -> send_reply({\"message_id\": \"M02\", \"text\": \"Rent is due on the 1st day of each month. A grace)\n     = \"sent\"\n  REPLY: Rent is due on the 1st day of each month. A grace period runs through the 5th day of the month. Rent received after the 5th incurs a $75 late fee. (Source: Lease \u00a74.1 Rent due date)\n\nM04: \"I was charged a $75 late fee but I paid rent on the 2nd. Can you check\"\n  -> get_tenant_ledger({\"unit\": \"1D\"})\n     = [{\"date\": \"2026-11-02\", \"type\": \"payment\", \"amount\": 1850.0, \"ref\": \"ACH 88123\"}, {\"date\": \"2026-11-06\", \"type\n  -> search_policies({\"query\": \"I was charged a $75 late fee but I paid rent on the 2nd. Can you chec)\n     = [\"Lease \\u00a74.1 Rent due date (score 5)\", \"Lease \\u00a74.3 Payment methods (score 5)\"]\n  -> send_reply({\"message_id\": \"M04\", \"text\": \"Our ledger shows your payment of $1,850.00 on 202)\n     = \"sent\"\n  REPLY: Our ledger shows your payment of $1,850.00 on 2026-11-02, inside the grace period (through day 5). The $75 late fee should not apply; the office will confirm the reversal next business day. (Source: Lease \u00a74.1 Rent due d"
+    },
+    {
+      "n": 4,
+      "title": "Draft a work order and propose a vendor slot",
+      "kind": "ai",
+      "what": "5 repairs became draft work orders with a cost estimate and the vendor's earliest slot; 2 are over $500 and held for approval.",
+      "code": "wo = create_work_order(message_id, unit, issue, priority=\"standard\")\nslot = find_vendor_slot(wo[\"wo_id\"], wo[\"trade\"], emergency=False)\nif wo[\"needs_approval\"]:  # estimate > SPEND_LIMIT\n    request_spend_approval(wo[\"wo_id\"], reason)",
+      "output": "M09: \"The heater makes a loud banging noise and the bedroom stays cold at ni\"\n  -> create_work_order({\"message_id\": \"M09\", \"unit\": \"3A\", \"issue\": \"The heater makes a loud banging no)\n     = {\"wo_id\": \"WO-2405\", \"message_id\": \"M09\", \"unit\": \"3A\", \"issue\": \"heater\", \"trade\": \"hvac\", \"priority\": \"stand\n  -> find_vendor_slot({\"wo_id\": \"WO-2405\", \"trade\": \"hvac\", \"emergency\": false})\n     = {\"vendor\": \"Northside HVAC\", \"slot\": \"2026-11-19T08:00\", \"held\": true}\n  -> request_spend_approval({\"wo_id\": \"WO-2405\", \"reason\": \"estimate $650.00 > $500 limit\"})\n     = {\"queued\": true, \"wo_id\": \"WO-2405\", \"limit_usd\": 500.0}\n  -> send_reply({\"message_id\": \"M09\", \"text\": \"Thanks, we've opened work order WO-2405 for the h)\n     = \"sent\"\n  REPLY: Thanks, we've opened work order WO-2405 for the heater. Northside HVAC can come Thu 19 Nov at 08:00 once a manager approves the cost (usually within the hour). Reply here if that time doesn't work.\n\nWork orders:\n  WO-2403 unit 3C clog          BlueLine Plumbing      2026-11-17T08:00  $  180.00  scheduled\n  WO-2404 unit 4A dishwasher    Apex Appliance Repair  2026-11-19T13:00  $  380.00  scheduled\n  WO-2405 unit 3A heater        Northside HVAC         2026-11-19T08:00  $  650.00  awaiting_approval\n  WO-2406 unit 3D exhaust fan   Brightwire Electric    2026-11-20T10:00  $  195.00  scheduled\n  WO-2407 unit 4C refrigerator  Apex Appliance Repair  2026-11-23T11:00  $  717.50  awaiting_approval"
+    },
+    {
+      "n": 5,
+      "title": "Page on-call staff at once for any emergency",
+      "kind": "code",
+      "what": "Emergencies run first and the agent's first tool call is the pager: 2/2 paged within 1 minute, with a 24/7 vendor dispatched.",
+      "code": "order = sorted(inbox, key=lambda m: (triage[m[\"id\"]].category != \"emergency\", m[\"received_at\"]))\npage_on_call(message_id, unit, summary)   # first tool call for every emergency",
+      "output": "M05: \"I smell gas near the stove, it's strong. What do I do?\"\n  -> page_on_call({\"message_id\": \"M05\", \"unit\": \"5A\", \"summary\": \"I smell gas near the stove, it's)\n     = {\"to\": \"Rosa Imani\", \"phone\": \"+1-555-0142\", \"message_id\": \"M05\", \"unit\": \"5A\", \"summary\": \"I smell gas near t\n  -> create_work_order({\"message_id\": \"M05\", \"unit\": \"5A\", \"issue\": \"I smell gas near the stove, it's s)\n     = {\"wo_id\": \"WO-2401\", \"message_id\": \"M05\", \"unit\": \"5A\", \"issue\": \"gas leak\", \"trade\": \"gas\", \"priority\": \"emer\n  -> find_vendor_slot({\"wo_id\": \"WO-2401\", \"trade\": \"gas\", \"emergency\": true})\n     = {\"vendor\": \"Metro Gas Response\", \"slot\": \"2026-11-18T03:10\", \"note\": \"24/7 call-out, ETA 1 hour\"}\n  -> search_policies({\"query\": \"I smell gas near the stove, it's strong. What do I do?\"})\n     = [\"FAQ: Gas smell (score 6)\", \"Lease \\u00a74.1 Rent due date (score 0)\"]\n  -> send_reply({\"message_id\": \"M05\", \"text\": \"This is an emergency and the on-call manager has )\n     = \"sent\"\n  REPLY: This is an emergency and the on-call manager has been paged. Metro Gas Response is on the way (ETA 03:10). Right now: If you smell gas, leave the unit at once, do not switch lights or appliances on or off, and call 911 a\n\nPages sent:\n{\"to\": \"Rosa Imani\", \"phone\": \"+1-555-0142\", \"message_id\": \"M05\", \"unit\": \"5A\", \"summary\": \"I smell gas near the stove, it's strong. What do I do?\", \"paged_at\": \"2026-11-18T02:11\", \"requires_ack_within_min\": 10}\n{\"to\": \"Rosa Imani\", \"phone\": \"+1-555-0142\", \"message_id\": \"M01\", \"unit\": \"4B\", \"summary\": \"Water is pouring through the ceiling from the unit above, it's all over the kitchen floor!\", \"paged_at\": \"2026-11-21T22:48\", \"requires_ack_within_min\": 10}\nfirst tool per emergency: {'M01': 'page_on_call', 'M05': 'page_on_call'}"
+    },
+    {
+      "n": 6,
+      "title": "Manager approves vendor spend over the limit in Slack",
+      "kind": "human",
+      "what": "2 work orders over $500 were posted to #maintenance-approvals with Approve/Reject buttons; nothing was booked until a manager clicked. Emergency call-outs ($1,880.00) skip the queue by policy and are reviewed after.",
+      "code": "slack = {\"channel\": \"#maintenance-approvals\", \"blocks\": [header, fields,\n         {\"type\": \"actions\", \"elements\": [approve_btn, reject_btn]}]}\nwo[\"status\"] = \"scheduled\" if decision == \"approve\" else \"rejected\"",
+      "output": "{\n  \"channel\": \"#maintenance-approvals\",\n  \"text\": \"Approval needed: WO-2405 Northside HVAC $650.00\",\n  \"blocks\": [\n    {\"type\": \"header\", \"text\": {\"type\": \"plain_text\", \"text\": \"Vendor spend approval: $650.00\"}},\n    {\"type\": \"section\", \"fields\": [{\"type\": \"mrkdwn\", \"text\": \"*Work order:*\\nWO-2405 (unit 3A)\"}, {\"type\": \"mrkdwn\", \"text\": \"*Vendor:*\\nNorthside HVAC, 2026-11-19T08:00\"}, {\"type\": \"mrkdwn\", \"text\": \"*Issue:*\\nheater\"}, {\"type\": \"mrkdwn\", \"text\": \"*Why:*\\nestimate $650.00 > $500 limit\"}]},\n    {\"type\": \"actions\", \"elements\": [{\"type\": \"button\", \"text\": {\"type\": \"plain_text\", \"text\": \"Approve\"}, \"style\": \"primary\", \"action_id\": \"approve_spend\", \"value\": \"WO-2405\"}, {\"type\": \"button\", \"text\": {\"type\": \"plain_text\", \"text\": \"Reject\"}, \"style\": \"danger\", \"action_id\": \"reject_spend\", \"value\": \"WO-2405\"}]},\n  ],\n  \"response\": {\"action_id\": \"approve_spend\", \"user\": \"Jordan Wells (portfolio manager)\", \"at\": \"2026-11-18T11:22\"}\n}\n\nQueue:\n  Approval needed: WO-2405 Northside HVAC $650.00 -> approve_spend by Jordan Wells (portfolio manager) at 2026-11-18T11:22\n  Approval needed: WO-2407 Apex Appliance Repair $717.50 -> approve_spend by Jordan Wells (portfolio manager) at 2026-11-20T20:32"
+    },
+    {
+      "n": 7,
+      "title": "Check against the answer key and time every reply",
+      "kind": "check",
+      "what": "A property manager hand-labelled all 15 messages; we score the triage and compare first-response times with the old office-hours process.",
+      "code": "accuracy = mean(triage[k].category == key[k] for k in key)\nbefore = office_hours_queue(received)   # 9-5 Mon-Fri, ~3 working hours behind\nafter  = outbox[k][\"sent_at\"] - received",
+      "output": "{\n  \"category_accuracy\": \"15/15 (100%)\",\n  \"misclassified\": \"none\",\n  \"emergencies_paged\": \"2/2\",\n  \"median_first_response\": \"13.0 h before -> 1 min after\",\n  \"worst_first_response\": \"64.0 h before -> 1 min after\",\n  \"after_hours_answered_before_office_opens\": \"0/10 before -> 10/10 after\",\n  \"answers_with_source\": \"8/8\",\n  \"spend_over_limit_without_approval\": 0\n}"
+    }
+  ],
+  "arch": [
+    {
+      "label": "Email + SMS inbox",
+      "kind": "data",
+      "note": "tenant messages, 24/7"
+    },
+    {
+      "label": "Claude triage",
+      "kind": "ai",
+      "note": "question / repair / emergency / billing"
+    },
+    {
+      "label": "Agent with tools",
+      "kind": "ai",
+      "note": "lease + FAQ search, ledger, vendors"
+    },
+    {
+      "label": "Work-order API",
+      "kind": "system",
+      "note": "draft WO + vendor slot"
+    },
+    {
+      "label": "On-call pager",
+      "kind": "system",
+      "note": "emergencies, within 1 minute"
+    },
+    {
+      "label": "Slack approvals",
+      "kind": "human",
+      "note": "spend over $500"
+    }
+  ],
+  "story": {
+    "situation": "A 240-unit apartment portfolio with a two-person office. Tenant emails and texts pile up; simple questions wait days and an urgent leak can sit unread overnight.",
+    "constraints": "Emergencies must reach a human in minutes, not wait for the agent's judgement on spend. Answers must cite the lease or FAQ so staff can stand behind them. Any vendor spend over the limit needs a manager's click; the agent never spends on its own above it.",
+    "replay": "Reuse: classify -> agent with narrow tools -> human approval over a threshold fits any service inbox (IT helpdesk, facilities, field service). Next time: connect the real work-order API first, and log every tool call so the owner can audit what the agent did overnight."
+  },
+  "metrics": {
+    "median_first_response": "13.0 h -> 1 min",
+    "after_hours_coverage": "0/10 -> 10/10 answered before the office opens",
+    "emergencies_routed": "2/2 paged within 1 min (before: 37.2 h worst case)",
+    "triage_accuracy": "15/15 (100%)",
+    "answers_citing_lease_or_faq": "8/8",
+    "work_orders_drafted": 7,
+    "spend_approvals_in_slack": 2,
+    "tool_calls": 46
+  }
+}

@@ -1,0 +1,377 @@
+[
+  {
+    "shipment_id": "SHP-2401",
+    "account": "Cedar Grove Grocers",
+    "carrier": "Apex Freight",
+    "truck": "TRK-310",
+    "region": "Front Range",
+    "corridor": "I-25 N",
+    "dest_dc": "DC-Denver",
+    "miles": 250,
+    "departed": "2026-11-24T06:14",
+    "promised_window": [
+      "2026-11-24T10:10",
+      "2026-11-24T12:10"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2402",
+    "account": "Halden Medical Supply",
+    "carrier": "BlueRiver Carriers",
+    "truck": "TRK-311",
+    "region": "Great Plains",
+    "corridor": "I-80 E",
+    "dest_dc": "DC-Omaha",
+    "miles": 279,
+    "departed": "2026-11-24T06:35",
+    "promised_window": [
+      "2026-11-24T11:35",
+      "2026-11-24T13:35"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2403",
+    "account": "Northpine Hardware",
+    "carrier": "Summit Haul",
+    "truck": "TRK-312",
+    "region": "Ozarks",
+    "corridor": "I-44 W",
+    "dest_dc": "DC-Tulsa",
+    "miles": 328,
+    "departed": "2026-11-24T06:36",
+    "promised_window": [
+      "2026-11-24T12:05",
+      "2026-11-24T14:05"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2404",
+    "account": "Orbit Home Goods",
+    "carrier": "Keystone Express",
+    "truck": "TRK-313",
+    "region": "Twin Cities",
+    "corridor": "I-94 W",
+    "dest_dc": "DC-Minneapolis",
+    "miles": 326,
+    "departed": "2026-11-24T05:36",
+    "promised_window": [
+      "2026-11-24T11:02",
+      "2026-11-24T13:02"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2405",
+    "account": "Ridgeway Auto Parts",
+    "carrier": "Apex Freight",
+    "truck": "TRK-314",
+    "region": "Lake Michigan",
+    "corridor": "I-90 E",
+    "dest_dc": "DC-Chicago",
+    "miles": 298,
+    "departed": "2026-11-24T06:54",
+    "promised_window": [
+      "2026-11-24T12:17",
+      "2026-11-24T14:17"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2406",
+    "account": "Silverline Pharma Distribution",
+    "carrier": "BlueRiver Carriers",
+    "truck": "TRK-315",
+    "region": "Ohio Valley",
+    "corridor": "I-70 E",
+    "dest_dc": "DC-Columbus",
+    "miles": 294,
+    "departed": "2026-11-24T06:48",
+    "promised_window": [
+      "2026-11-24T11:56",
+      "2026-11-24T13:56"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2407",
+    "account": "Cedar Grove Grocers",
+    "carrier": "Summit Haul",
+    "truck": "TRK-316",
+    "region": "Gulf Coast",
+    "corridor": "I-10 W",
+    "dest_dc": "DC-Houston",
+    "miles": 160,
+    "departed": "2026-11-24T07:08",
+    "promised_window": [
+      "2026-11-24T09:34",
+      "2026-11-24T11:34"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2408",
+    "account": "Halden Medical Supply",
+    "carrier": "Keystone Express",
+    "truck": "TRK-317",
+    "region": "Cascades",
+    "corridor": "I-5 N",
+    "dest_dc": "DC-Portland",
+    "miles": 241,
+    "departed": "2026-11-24T06:34",
+    "promised_window": [
+      "2026-11-24T10:21",
+      "2026-11-24T12:21"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2409",
+    "account": "Northpine Hardware",
+    "carrier": "Apex Freight",
+    "truck": "TRK-318",
+    "region": "Mojave",
+    "corridor": "I-15 S",
+    "dest_dc": "DC-Las Vegas",
+    "miles": 272,
+    "departed": "2026-11-24T05:26",
+    "promised_window": [
+      "2026-11-24T10:13",
+      "2026-11-24T12:13"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2410",
+    "account": "Orbit Home Goods",
+    "carrier": "BlueRiver Carriers",
+    "truck": "TRK-319",
+    "region": "Appalachia",
+    "corridor": "I-81 N",
+    "dest_dc": "DC-Roanoke",
+    "miles": 272,
+    "departed": "2026-11-24T06:00",
+    "promised_window": [
+      "2026-11-24T10:32",
+      "2026-11-24T12:32"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2411",
+    "account": "Ridgeway Auto Parts",
+    "carrier": "Summit Haul",
+    "truck": "TRK-320",
+    "region": "Front Range",
+    "corridor": "I-25 N",
+    "dest_dc": "DC-Denver",
+    "miles": 245,
+    "departed": "2026-11-24T06:49",
+    "promised_window": [
+      "2026-11-24T11:01",
+      "2026-11-24T13:01"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2412",
+    "account": "Silverline Pharma Distribution",
+    "carrier": "Keystone Express",
+    "truck": "TRK-321",
+    "region": "Great Plains",
+    "corridor": "I-80 E",
+    "dest_dc": "DC-Omaha",
+    "miles": 338,
+    "departed": "2026-11-24T05:09",
+    "promised_window": [
+      "2026-11-24T10:54",
+      "2026-11-24T12:54"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2413",
+    "account": "Cedar Grove Grocers",
+    "carrier": "Apex Freight",
+    "truck": "TRK-322",
+    "region": "Ozarks",
+    "corridor": "I-44 W",
+    "dest_dc": "DC-Tulsa",
+    "miles": 165,
+    "departed": "2026-11-24T06:20",
+    "promised_window": [
+      "2026-11-24T08:34",
+      "2026-11-24T10:34"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2414",
+    "account": "Halden Medical Supply",
+    "carrier": "BlueRiver Carriers",
+    "truck": "TRK-323",
+    "region": "Twin Cities",
+    "corridor": "I-94 W",
+    "dest_dc": "DC-Minneapolis",
+    "miles": 271,
+    "departed": "2026-11-24T06:33",
+    "promised_window": [
+      "2026-11-24T11:10",
+      "2026-11-24T13:10"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2415",
+    "account": "Northpine Hardware",
+    "carrier": "Summit Haul",
+    "truck": "TRK-324",
+    "region": "Lake Michigan",
+    "corridor": "I-90 E",
+    "dest_dc": "DC-Chicago",
+    "miles": 315,
+    "departed": "2026-11-24T05:35",
+    "promised_window": [
+      "2026-11-24T10:56",
+      "2026-11-24T12:56"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2416",
+    "account": "Orbit Home Goods",
+    "carrier": "Keystone Express",
+    "truck": "TRK-325",
+    "region": "Ohio Valley",
+    "corridor": "I-70 E",
+    "dest_dc": "DC-Columbus",
+    "miles": 299,
+    "departed": "2026-11-24T06:13",
+    "promised_window": [
+      "2026-11-24T11:28",
+      "2026-11-24T13:28"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2417",
+    "account": "Ridgeway Auto Parts",
+    "carrier": "Apex Freight",
+    "truck": "TRK-326",
+    "region": "Gulf Coast",
+    "corridor": "I-10 W",
+    "dest_dc": "DC-Houston",
+    "miles": 224,
+    "departed": "2026-11-24T06:15",
+    "promised_window": [
+      "2026-11-24T09:51",
+      "2026-11-24T11:51"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2418",
+    "account": "Silverline Pharma Distribution",
+    "carrier": "BlueRiver Carriers",
+    "truck": "TRK-327",
+    "region": "Cascades",
+    "corridor": "I-5 N",
+    "dest_dc": "DC-Portland",
+    "miles": 318,
+    "departed": "2026-11-24T06:54",
+    "promised_window": [
+      "2026-11-24T12:31",
+      "2026-11-24T14:31"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2419",
+    "account": "Cedar Grove Grocers",
+    "carrier": "Summit Haul",
+    "truck": "TRK-328",
+    "region": "Mojave",
+    "corridor": "I-15 S",
+    "dest_dc": "DC-Las Vegas",
+    "miles": 237,
+    "departed": "2026-11-24T06:52",
+    "promised_window": [
+      "2026-11-24T10:35",
+      "2026-11-24T12:35"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2420",
+    "account": "Halden Medical Supply",
+    "carrier": "Keystone Express",
+    "truck": "TRK-329",
+    "region": "Appalachia",
+    "corridor": "I-81 N",
+    "dest_dc": "DC-Roanoke",
+    "miles": 242,
+    "departed": "2026-11-24T06:56",
+    "promised_window": [
+      "2026-11-24T10:56",
+      "2026-11-24T12:56"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2421",
+    "account": "Northpine Hardware",
+    "carrier": "Apex Freight",
+    "truck": "TRK-330",
+    "region": "Front Range",
+    "corridor": "I-25 N",
+    "dest_dc": "DC-Denver",
+    "miles": 289,
+    "departed": "2026-11-24T05:52",
+    "promised_window": [
+      "2026-11-24T10:50",
+      "2026-11-24T12:50"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2422",
+    "account": "Orbit Home Goods",
+    "carrier": "BlueRiver Carriers",
+    "truck": "TRK-331",
+    "region": "Great Plains",
+    "corridor": "I-80 E",
+    "dest_dc": "DC-Omaha",
+    "miles": 279,
+    "departed": "2026-11-24T05:37",
+    "promised_window": [
+      "2026-11-24T10:33",
+      "2026-11-24T12:33"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2423",
+    "account": "Ridgeway Auto Parts",
+    "carrier": "Summit Haul",
+    "truck": "TRK-332",
+    "region": "Ozarks",
+    "corridor": "I-44 W",
+    "dest_dc": "DC-Tulsa",
+    "miles": 353,
+    "departed": "2026-11-24T07:20",
+    "promised_window": [
+      "2026-11-24T13:40",
+      "2026-11-24T15:40"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2424",
+    "account": "Silverline Pharma Distribution",
+    "carrier": "Keystone Express",
+    "truck": "TRK-333",
+    "region": "Twin Cities",
+    "corridor": "I-94 W",
+    "dest_dc": "DC-Minneapolis",
+    "miles": 187,
+    "departed": "2026-11-24T05:55",
+    "promised_window": [
+      "2026-11-24T08:54",
+      "2026-11-24T10:54"
+    ]
+  },
+  {
+    "shipment_id": "SHP-2425",
+    "account": "Cedar Grove Grocers",
+    "carrier": "Apex Freight",
+    "truck": "TRK-334",
+    "region": "Lake Michigan",
+    "corridor": "I-90 E",
+    "dest_dc": "DC-Chicago",
+    "miles": 179,
+    "departed": "2026-11-24T05:50",
+    "promised_window": [
+      "2026-11-24T08:20",
+      "2026-11-24T10:20"
+    ]
+  }
+]

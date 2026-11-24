@@ -154,7 +154,7 @@ function rail() {
 }
 
 function archSVG(nodes) {
-  const n = nodes.length, W = 1100, bw = Math.min(150, (W - 20) / n - 26), gap = (W - n * bw) / (n + 1), H = 132, y = 30, bh = 74;
+  const n = nodes.length, W = Math.max(1100, n * 178), bw = Math.min(150, (W - 20) / n - 26), gap = (W - n * bw) / (n + 1), H = 132, y = 30, bh = 74;
   let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Architecture: ${esc(nodes.map(x => x.label).join(" to "))}">`;
   nodes.forEach((d, i) => {
     if (i < n - 1) { const x1 = gap + i * (bw + gap) + bw, x2 = x1 + gap; s += `<line class="edge" data-e="${i}" x1="${x1 + 4}" y1="${y + bh / 2}" x2="${x2 - 8}" y2="${y + bh / 2}"/><path d="M${x2 - 10} ${y + bh / 2 - 5} L${x2 - 3} ${y + bh / 2} L${x2 - 10} ${y + bh / 2 + 5}" fill="none" stroke="var(--line)" stroke-width="2"/>`; }

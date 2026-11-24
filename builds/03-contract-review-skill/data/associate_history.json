@@ -1,0 +1,296 @@
+{
+  "CT-01": {
+    "handled_by": "Associate A",
+    "review_minutes": 87,
+    "associate_calls": {
+      "Associate A": {
+        "CT-01-1": "negotiate",
+        "CT-01-2": "escalate",
+        "CT-01-3": "negotiate",
+        "CT-01-4": "OK"
+      },
+      "Associate B": {
+        "CT-01-1": "negotiate",
+        "CT-01-2": "escalate",
+        "CT-01-3": "negotiate",
+        "CT-01-4": "negotiate"
+      },
+      "Associate C": {
+        "CT-01-1": "negotiate",
+        "CT-01-2": "negotiate",
+        "CT-01-3": "negotiate",
+        "CT-01-4": "OK"
+      }
+    }
+  },
+  "CT-02": {
+    "handled_by": "Associate B",
+    "review_minutes": 102,
+    "associate_calls": {
+      "Associate A": {
+        "CT-02-1": "OK",
+        "CT-02-2": "escalate",
+        "CT-02-3": "negotiate",
+        "CT-02-4": "OK"
+      },
+      "Associate B": {
+        "CT-02-1": "negotiate",
+        "CT-02-2": "escalate",
+        "CT-02-3": "escalate",
+        "CT-02-4": "OK"
+      },
+      "Associate C": {
+        "CT-02-1": "OK",
+        "CT-02-2": "escalate",
+        "CT-02-3": "escalate",
+        "CT-02-4": "OK"
+      }
+    }
+  },
+  "CT-03": {
+    "handled_by": "Associate C",
+    "review_minutes": 83,
+    "associate_calls": {
+      "Associate A": {
+        "CT-03-1": "OK",
+        "CT-03-2": "escalate",
+        "CT-03-3": "OK",
+        "CT-03-4": "OK"
+      },
+      "Associate B": {
+        "CT-03-1": "OK",
+        "CT-03-2": "escalate",
+        "CT-03-3": "negotiate",
+        "CT-03-4": "OK"
+      },
+      "Associate C": {
+        "CT-03-1": "negotiate",
+        "CT-03-2": "escalate",
+        "CT-03-3": "negotiate",
+        "CT-03-4": "negotiate"
+      }
+    }
+  },
+  "CT-04": {
+    "handled_by": "Associate A",
+    "review_minutes": 83,
+    "associate_calls": {
+      "Associate A": {
+        "CT-04-1": "OK",
+        "CT-04-2": "negotiate",
+        "CT-04-3": "escalate",
+        "CT-04-4": "escalate"
+      },
+      "Associate B": {
+        "CT-04-1": "OK",
+        "CT-04-2": "OK",
+        "CT-04-3": "escalate",
+        "CT-04-4": "negotiate"
+      },
+      "Associate C": {
+        "CT-04-1": "OK",
+        "CT-04-2": "OK",
+        "CT-04-3": "escalate",
+        "CT-04-4": "negotiate"
+      }
+    }
+  },
+  "CT-05": {
+    "handled_by": "Associate B",
+    "review_minutes": 96,
+    "associate_calls": {
+      "Associate A": {
+        "CT-05-1": "negotiate",
+        "CT-05-2": "OK",
+        "CT-05-3": "escalate",
+        "CT-05-4": "OK",
+        "CT-05-5": "escalate",
+        "CT-05-6": "escalate",
+        "CT-05-7": "OK"
+      },
+      "Associate B": {
+        "CT-05-1": "negotiate",
+        "CT-05-2": "negotiate",
+        "CT-05-3": "escalate",
+        "CT-05-4": "OK",
+        "CT-05-5": "escalate",
+        "CT-05-6": "escalate",
+        "CT-05-7": "OK"
+      },
+      "Associate C": {
+        "CT-05-1": "negotiate",
+        "CT-05-2": "OK",
+        "CT-05-3": "escalate",
+        "CT-05-4": "OK",
+        "CT-05-5": "escalate",
+        "CT-05-6": "escalate",
+        "CT-05-7": "OK"
+      }
+    }
+  },
+  "CT-06": {
+    "handled_by": "Associate C",
+    "review_minutes": 96,
+    "associate_calls": {
+      "Associate A": {
+        "CT-06-1": "OK",
+        "CT-06-2": "OK",
+        "CT-06-3": "OK",
+        "CT-06-4": "OK",
+        "CT-06-5": "negotiate",
+        "CT-06-6": "OK",
+        "CT-06-7": "escalate"
+      },
+      "Associate B": {
+        "CT-06-1": "negotiate",
+        "CT-06-2": "OK",
+        "CT-06-3": "OK",
+        "CT-06-4": "negotiate",
+        "CT-06-5": "escalate",
+        "CT-06-6": "OK",
+        "CT-06-7": "escalate"
+      },
+      "Associate C": {
+        "CT-06-1": "OK",
+        "CT-06-2": "OK",
+        "CT-06-3": "OK",
+        "CT-06-4": "OK",
+        "CT-06-5": "escalate",
+        "CT-06-6": "OK",
+        "CT-06-7": "negotiate"
+      }
+    }
+  },
+  "CT-07": {
+    "handled_by": "Associate A",
+    "review_minutes": 89,
+    "associate_calls": {
+      "Associate A": {
+        "CT-07-1": "negotiate",
+        "CT-07-2": "negotiate",
+        "CT-07-3": "negotiate",
+        "CT-07-4": "OK",
+        "CT-07-5": "negotiate",
+        "CT-07-6": "OK",
+        "CT-07-7": "negotiate"
+      },
+      "Associate B": {
+        "CT-07-1": "escalate",
+        "CT-07-2": "escalate",
+        "CT-07-3": "escalate",
+        "CT-07-4": "OK",
+        "CT-07-5": "negotiate",
+        "CT-07-6": "OK",
+        "CT-07-7": "OK"
+      },
+      "Associate C": {
+        "CT-07-1": "OK",
+        "CT-07-2": "escalate",
+        "CT-07-3": "escalate",
+        "CT-07-4": "negotiate",
+        "CT-07-5": "OK",
+        "CT-07-6": "OK",
+        "CT-07-7": "negotiate"
+      }
+    }
+  },
+  "CT-08": {
+    "handled_by": "Associate B",
+    "review_minutes": 108,
+    "associate_calls": {
+      "Associate A": {
+        "CT-08-1": "escalate",
+        "CT-08-2": "negotiate",
+        "CT-08-3": "OK",
+        "CT-08-4": "escalate",
+        "CT-08-5": "escalate",
+        "CT-08-6": "negotiate",
+        "CT-08-7": "escalate"
+      },
+      "Associate B": {
+        "CT-08-1": "escalate",
+        "CT-08-2": "negotiate",
+        "CT-08-3": "negotiate",
+        "CT-08-4": "escalate",
+        "CT-08-5": "escalate",
+        "CT-08-6": "escalate",
+        "CT-08-7": "escalate"
+      },
+      "Associate C": {
+        "CT-08-1": "escalate",
+        "CT-08-2": "OK",
+        "CT-08-3": "negotiate",
+        "CT-08-4": "escalate",
+        "CT-08-5": "escalate",
+        "CT-08-6": "negotiate",
+        "CT-08-7": "escalate"
+      }
+    }
+  },
+  "CT-09": {
+    "handled_by": "Associate C",
+    "review_minutes": 70,
+    "associate_calls": {
+      "Associate A": {
+        "CT-09-1": "OK",
+        "CT-09-2": "OK",
+        "CT-09-3": "OK",
+        "CT-09-4": "OK",
+        "CT-09-5": "escalate",
+        "CT-09-6": "escalate",
+        "CT-09-7": "negotiate"
+      },
+      "Associate B": {
+        "CT-09-1": "negotiate",
+        "CT-09-2": "OK",
+        "CT-09-3": "negotiate",
+        "CT-09-4": "negotiate",
+        "CT-09-5": "escalate",
+        "CT-09-6": "escalate",
+        "CT-09-7": "negotiate"
+      },
+      "Associate C": {
+        "CT-09-1": "OK",
+        "CT-09-2": "OK",
+        "CT-09-3": "escalate",
+        "CT-09-4": "OK",
+        "CT-09-5": "escalate",
+        "CT-09-6": "escalate",
+        "CT-09-7": "negotiate"
+      }
+    }
+  },
+  "CT-10": {
+    "handled_by": "Associate A",
+    "review_minutes": 72,
+    "associate_calls": {
+      "Associate A": {
+        "CT-10-1": "OK",
+        "CT-10-2": "OK",
+        "CT-10-3": "escalate",
+        "CT-10-4": "OK",
+        "CT-10-5": "negotiate",
+        "CT-10-6": "OK",
+        "CT-10-7": "negotiate"
+      },
+      "Associate B": {
+        "CT-10-1": "OK",
+        "CT-10-2": "OK",
+        "CT-10-3": "escalate",
+        "CT-10-4": "OK",
+        "CT-10-5": "negotiate",
+        "CT-10-6": "negotiate",
+        "CT-10-7": "escalate"
+      },
+      "Associate C": {
+        "CT-10-1": "OK",
+        "CT-10-2": "OK",
+        "CT-10-3": "escalate",
+        "CT-10-4": "negotiate",
+        "CT-10-5": "negotiate",
+        "CT-10-6": "OK",
+        "CT-10-7": "negotiate"
+      }
+    }
+  }
+}

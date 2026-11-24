@@ -1,0 +1,9 @@
+{
+  "manual_minutes_per_exception": {
+    "investigate": 12,
+    "rebook_or_reroute": 8,
+    "write_customer_email": 8
+  },
+  "review_minutes_per_agent_proposal": 1.5,
+  "note": "Old-way minutes are dispatcher estimates; customer call times are simulated."
+}

@@ -1,0 +1,154 @@
+[
+  {
+    "policy_number": "PA-349573",
+    "holder": "Jordan Reyes",
+    "start": "2026-05-28",
+    "end": "2028-05-27",
+    "status": "active",
+    "coverages": [
+      "liability",
+      "collision"
+    ],
+    "deductible": 500,
+    "vehicle": {
+      "year": "2021",
+      "make": "Toyota",
+      "model": "Corolla",
+      "vin": "60UJMAY92PYC1L54L"
+    },
+    "vehicle_value_usd": 19500
+  },
+  {
+    "policy_number": "PA-245901",
+    "holder": "Priya Natarajan",
+    "start": "2026-06-25",
+    "end": "2028-06-24",
+    "status": "active",
+    "coverages": [
+      "liability",
+      "collision"
+    ],
+    "deductible": 500,
+    "vehicle": {
+      "year": "2017",
+      "make": "Honda",
+      "model": "Civic",
+      "vin": "GVPR3FUPXSYCNA3D1"
+    },
+    "vehicle_value_usd": 12500
+  },
+  {
+    "policy_number": "PA-738465",
+    "holder": "Marcus Webb",
+    "start": "2026-06-07",
+    "end": "2028-06-06",
+    "status": "active",
+    "coverages": [
+      "liability",
+      "collision"
+    ],
+    "deductible": 500,
+    "vehicle": {
+      "year": "2022",
+      "make": "Ford",
+      "model": "Escape",
+      "vin": "NNYAFJB94PN3E2NFK"
+    },
+    "vehicle_value_usd": 26000
+  },
+  {
+    "policy_number": "PA-938200",
+    "holder": "Hannah Kowalski",
+    "start": "2025-08-17",
+    "end": "2027-08-17",
+    "status": "active",
+    "coverages": [
+      "liability",
+      "collision"
+    ],
+    "deductible": 500,
+    "vehicle": {
+      "year": "2019",
+      "make": "Subaru",
+      "model": "Outback",
+      "vin": "CH2SL9C02SH05P2NB"
+    },
+    "vehicle_value_usd": 21000
+  },
+  {
+    "policy_number": "PA-687688",
+    "holder": "Diego Alvarez",
+    "start": "2026-11-04",
+    "end": "2028-11-03",
+    "status": "active",
+    "coverages": [
+      "liability",
+      "collision"
+    ],
+    "deductible": 500,
+    "vehicle": {
+      "year": "2020",
+      "make": "Hyundai",
+      "model": "Elantra",
+      "vin": "XFWVGDB17RZSE4RG2"
+    },
+    "vehicle_value_usd": 16000
+  },
+  {
+    "policy_number": "PA-689228",
+    "holder": "Aisha Coleman",
+    "start": "2025-10-08",
+    "end": "2027-10-08",
+    "status": "active",
+    "coverages": [
+      "liability",
+      "collision"
+    ],
+    "deductible": 500,
+    "vehicle": {
+      "year": "2018",
+      "make": "Mazda",
+      "model": "CX-5",
+      "vin": "DMTLHKAD3SP1VAZVK"
+    },
+    "vehicle_value_usd": 18500
+  },
+  {
+    "policy_number": "PA-596643",
+    "holder": "Tom Lindqvist",
+    "start": "2025-04-08",
+    "end": "2027-04-08",
+    "status": "active",
+    "coverages": [
+      "liability",
+      "collision"
+    ],
+    "deductible": 500,
+    "vehicle": {
+      "year": "2023",
+      "make": "Kia",
+      "model": "Telluride",
+      "vin": "5K1LU8ZG6PJMFLRAN"
+    },
+    "vehicle_value_usd": 41000
+  },
+  {
+    "policy_number": "PA-491268",
+    "holder": "Grace Okafor",
+    "start": "2025-11-12",
+    "end": "2026-11-07",
+    "status": "lapsed",
+    "coverages": [
+      "liability",
+      "collision"
+    ],
+    "deductible": 500,
+    "vehicle": {
+      "year": "2016",
+      "make": "Chevrolet",
+      "model": "Malibu",
+      "vin": "TEB4WEWE6NGG86D8D"
+    },
+    "vehicle_value_usd": 11000
+  }
+]

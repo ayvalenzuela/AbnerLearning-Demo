@@ -1,0 +1,106 @@
+{
+  "build": "10",
+  "title": "Account research to proposal",
+  "mode": "OFFLINE (rule-based stand-in, same schema)",
+  "model": "claude-opus-5-5",
+  "steps": [
+    {
+      "n": 1,
+      "title": "Pull the account, contacts and open deals from the CRM",
+      "kind": "io",
+      "what": "The CRM MCP server exposes 4 read-only tools; the pipeline calls them for 3 fictional accounts.",
+      "code": "mcp = MCPServer('voxly-crm')   # crm_mcp_server.py\n@mcp.tool()\ndef list_open_deals(account_id: str) -> list[dict]: ...\n\nacct = crm.get_account(id); contacts = crm.list_contacts(id)",
+      "output": "MCP tools: list_accounts, get_account, list_contacts, list_open_deals\n\nHalvorsen Freight Group (Central, Logistics): 180 agents, 3 contacts, deal D-7781 Discovery $410,000\nMeridian Health Partners (East, Healthcare): 320 agents, 4 contacts, deal D-7802 Qualification $780,000\nQuarry Lane Credit Union (West, Financial services): 60 agents, 2 contacts, deal D-7815 Discovery $160,000"
+    },
+    {
+      "n": 2,
+      "title": "Research news, hiring and tech stack with web search",
+      "kind": "ai",
+      "what": "Three searches per account through the web search tool; results about look-alike companies are dropped.",
+      "code": "tools = [{'type': 'web_search_20260209', 'name': 'web_search',\n          'max_uses': 5}]\nresp = client.messages.create(model=MODEL, tools=tools, ...)\nresearch = ask_structured(..., schema=AccountResearch)",
+      "output": "Halvorsen Freight Group: 4 findings kept, 0 dropped\n  [news] 2026-10-02 Halvorsen Freight Group acquires Prairie Line Couriers\n  [job] 2026-11-10 Seasonal Customer Service Agent (60 openings) - Halvorsen Freight Group\n  [tech] 2026-08-15 Halvorsen Freight Group tech stack\n  [news] 2026-11-04 Halvorsen posts record Q3 volume\nMeridian Health Partners: 4 findings kept, 0 dropped\n  [news] 2026-09-22 Meridian Health Partners to open three clinics\n  [job] 2026-10-28 Compliance Analyst, Call Recording - Meridian Health Partners\n  [job] 2026-11-15 Patient Access Representative - Meridian Health Partners\n  [tech] 2026-07-30 Meridian Health Partners tech stack\nQuarry Lane Credit Union: 4 findings kept, 0 dropped\n  [news] 2026-10-12 Quarry Lane Credit Union completes merger with Foothill Federal\n  [job] 2026-11-09 IT Telecom Engineer - Quarry Lane Credit Union\n  [tech] 2026-06-11 Quarry Lane Credit Union tech stack\n  [news] 2026-11-02 Quarry Lane CU passes PCI audit with findings"
+    },
+    {
+      "n": 3,
+      "title": "Map their pains to your offers with the sales playbook",
+      "kind": "ai",
+      "what": "The proposal Skill (SKILL.md) is the system prompt; it scores each playbook pain by cited evidence and keeps the top three.",
+      "code": "skill = Path('skill/proposal-writer/SKILL.md').read_text()\npmap = ask_structured(system=skill + playbook,\n                      content=crm_record + research,\n                      schema=PainMap)",
+      "output": "Halvorsen Freight Group:\n  high_abandon          score 2.2  -> Voxly Contact Center       e.g. \"VP Ops said customers complain about hold times in peak seas\"\n  multi_site            score 2.2  -> Voxly Cloud Phone          e.g. \"Integrating the depots of a newly acquired courier is the to\"\n  agent_ramp            score 1.0  -> Voxly Agent Assist         e.g. \"New agents must ramp within two weeks; high turnover in the \"\nMeridian Health Partners:\n  crm_fragmentation     score 2.8  -> Voxly CRM Connect          e.g. \"Patient access center agents swivel between the scheduling s\"\n  compliance_recording  score 2.0  -> Voxly Compliance Recording e.g. \"Compliance flagged call recording retention gaps in the last\"\n  multi_site            score 1.2  -> Voxly Cloud Phone          e.g. \"Meridian Health Partners announced three new clinics in 2027\"\nQuarry Lane Credit Union:\n  legacy_pbx_eol        score 2.8  -> Voxly Cloud Phone          e.g. \"IT says the on-prem PBX reaches end of support in 2027.\"\n  compliance_recording  score 2.2  -> Voxly Compliance Recording e.g. \"PCI audit asks for call recording with pause-and-resume for \"\n  multi_site            score 2.2  -> Voxly Cloud Phone          e.g. \"Member services wants one phone system across branches after\""
+    },
+    {
+      "n": 4,
+      "title": "Generate a branded proposal and a first-call agenda",
+      "kind": "ai",
+      "what": "Claude drafts the words; code computes the ROI and renders the same seven sections for every account, filed by territory.",
+      "code": "roi = roi_for(acct, pmap)          # code, never the model\ndraft = ask_structured(system=skill, content=pmap + roi,\n                       schema=ProposalDraft)\nrender_proposal(folder / 'proposal.docx', ...)\nrender_agenda(folder / 'first_call_agenda.md', ...)",
+      "output": "outputs/territories/Central/halvorsen-freight-group/proposal.docx  ROI $1,129,688/yr, payback 2.2 mo\noutputs/territories/East/meridian-health-partners/proposal.docx  ROI $357,500/yr, payback 12.2 mo\noutputs/territories/West/quarry-lane-credit-union/proposal.docx  ROI $146,500/yr, payback 5.6 mo\n\nExecutive summary (Halvorsen Freight Group):\nThe biggest issue we found at Halvorsen Freight Group: callers hang up before they reach anyone. From our conversations: \"VP Ops said customers complain about hold times in peak season.\" We propose Voxly Contact Center, Voxly Cloud Phone and Voxly Agent Assist for 180 agents, rolled out in 18 weeks. Our model shows about $1,129,688 of annual value and payback in about 2 months at planning prices.\n\nROI lines (Halvorsen Freight Group):\n  Voxly Contact Center       $  842,688  42,000 calls/mo x 12 x 11% abandoned x 40% recovered x $38\n  Voxly Cloud Phone          $   91,000  14 new sites x $6,500 set-up avoided\n  Voxly Agent Assist         $  196,000  70 hires/yr x 10 days x $280/day"
+    },
+    {
+      "n": 5,
+      "title": "Rep edits and sends; track which sections win",
+      "kind": "human",
+      "what": "The rep edited each draft (22 min, 31 min, 18 min) and sent it. A simulated win/loss log of 80 past proposals shows which sections move the win rate.",
+      "code": "for s in sections:\n    lift = win_rate(with s) - win_rate(without s)\nkeep = [s for s in sections if lift[s] >= 10]   # points\ndrop = [s for s in sections if lift[s] <= -10]",
+      "output": "pains_solutions_table  win 56% with / 14% without  (+42 pts, n=59/21)\nroi                    win 52% with / 18% without  (+35 pts, n=63/17)\ntimeline               win 52% with / 22% without  (+29 pts, n=62/18)\nexec_summary           win 48% with / 29% without  (+20 pts, n=66/14)\nwhat_we_heard          win 48% with / 33% without  (+14 pts, n=65/15)\ncase_study             win 50% with / 39% without  (+11 pts, n=42/38)\ncompany_overview       win 30% with / 54% without  (-24 pts, n=30/50)\n\nfreeform  40 proposals  6.3 h each  meetings 50%  wins 30%\nskill     40 proposals  1.0 h each  meetings 70%  wins 60%\n\nKeep: case_study, exec_summary, pains_solutions_table, roi, timeline, what_we_heard   Drop: company_overview\nSkill update: add case_study (wins, not yet a Skill section)"
+    },
+    {
+      "n": 6,
+      "title": "Check the pain mapping against the rep's own read",
+      "kind": "check",
+      "what": "Before seeing the output, the rep wrote down each account's top three pains; we score the Skill's picks against them.",
+      "code": "hits = len(set(rep_pains) & set(agent_pains))\nmatch = sum(hits) / sum(len(rep_pains))",
+      "output": "pain_match: 8/9 (89%)\n\nHalvorsen Freight Group:\n  Skill: high_abandon, multi_site, agent_ramp\n  Rep:   high_abandon, agent_ramp, multi_site\n  missed: -   extra: -\nMeridian Health Partners:\n  Skill: crm_fragmentation, compliance_recording, multi_site\n  Rep:   compliance_recording, high_abandon, crm_fragmentation\n  missed: high_abandon   extra: multi_site\nQuarry Lane Credit Union:\n  Skill: legacy_pbx_eol, compliance_recording, multi_site\n  Rep:   legacy_pbx_eol, multi_site, compliance_recording\n  missed: -   extra: -"
+    }
+  ],
+  "arch": [
+    {
+      "label": "CRM",
+      "kind": "data",
+      "note": "via MCP server"
+    },
+    {
+      "label": "Web search",
+      "kind": "system",
+      "note": "news, hiring, tech stack"
+    },
+    {
+      "label": "Proposal Skill",
+      "kind": "ai",
+      "note": "pains -> offers, playbook"
+    },
+    {
+      "label": "ROI calculator",
+      "kind": "code",
+      "note": "numbers from code only"
+    },
+    {
+      "label": "Word proposal + agenda",
+      "kind": "system",
+      "note": "filed per territory"
+    },
+    {
+      "label": "Rep edits and sends",
+      "kind": "human",
+      "note": "final say"
+    },
+    {
+      "label": "Win/loss log",
+      "kind": "data",
+      "note": "which sections win"
+    }
+  ],
+  "story": {
+    "situation": "An enterprise UCaaS sales team. Reps spend most of a day researching each account and building a proposal from scratch, and no two proposals look alike, so nobody can tell which parts actually win deals.",
+    "constraints": "CRM access is read-only and goes through one MCP server, so IT can audit it. Every pain must cite a source the rep can check. ROI numbers come from a calculator, never from the model. The rep edits and sends; nothing goes to a buyer automatically.",
+    "replay": "Reuse: 'Skill holds the playbook, MCP holds the data, code holds the numbers' fits any repeatable document: QBRs, renewal briefs, RFP answers. Next time: weight the pain scoring with the win/loss log, and add a 'thin evidence' check that blocks a pain with a single tech-stack source."
+  },
+  "metrics": {
+    "hours_per_proposal": "6.3 -> 1.0 (log); this run: 24 min of rep edits",
+    "meetings_booked": "50% -> 70% of proposals",
+    "win_rate": "30% -> 60%",
+    "pain_match_vs_rep": "8/9 (89%)",
+    "proposals_generated": "3 (same 7 sections, same order)",
+    "top_section_by_lift": "pains_solutions_table"
+  }
+}

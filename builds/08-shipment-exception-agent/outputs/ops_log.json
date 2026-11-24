@@ -1,0 +1,202 @@
+{
+  "log": [
+    {
+      "shipment_id": "SHP-2412",
+      "account": "Silverline Pharma Distribution",
+      "flagged_at": "06:54",
+      "cause": "traffic",
+      "fix": "reset_appointment",
+      "fix_detail": "Rebook DC-Omaha dock for 13:30",
+      "cost_usd": 0,
+      "revised_eta": "2026-11-24T13:30",
+      "window_end": "2026-11-24T12:54",
+      "within_window": false,
+      "customer_update_sent": true,
+      "dispatcher_decision": "approved",
+      "clicks": 1,
+      "review_minutes": 1.5
+    },
+    {
+      "shipment_id": "SHP-2421",
+      "account": "Northpine Hardware",
+      "flagged_at": "07:12",
+      "cause": "dock",
+      "fix": "reset_appointment",
+      "fix_detail": "Rebook DC-Denver dock for 14:30",
+      "cost_usd": 0,
+      "revised_eta": "2026-11-24T14:30",
+      "window_end": "2026-11-24T12:50",
+      "within_window": false,
+      "customer_update_sent": true,
+      "dispatcher_decision": "approved",
+      "clicks": 1,
+      "review_minutes": 1.5
+    },
+    {
+      "shipment_id": "SHP-2415",
+      "account": "Northpine Hardware",
+      "flagged_at": "07:20",
+      "cause": "traffic",
+      "fix": "reroute",
+      "fix_detail": "Take I-90 E bypass via state route (+18 mi)",
+      "cost_usd": 54,
+      "revised_eta": "2026-11-24T12:35",
+      "window_end": "2026-11-24T12:56",
+      "within_window": true,
+      "customer_update_sent": false,
+      "dispatcher_decision": "approved",
+      "clicks": 1,
+      "review_minutes": 1.5
+    },
+    {
+      "shipment_id": "SHP-2404",
+      "account": "Orbit Home Goods",
+      "flagged_at": "07:21",
+      "cause": "weather",
+      "fix": "reset_appointment",
+      "fix_detail": "Rebook DC-Minneapolis dock for 14:00",
+      "cost_usd": 0,
+      "revised_eta": "2026-11-24T14:00",
+      "window_end": "2026-11-24T13:02",
+      "within_window": false,
+      "customer_update_sent": true,
+      "dispatcher_decision": "approved",
+      "clicks": 1,
+      "review_minutes": 1.5
+    },
+    {
+      "shipment_id": "SHP-2413",
+      "account": "Cedar Grove Grocers",
+      "flagged_at": "07:40",
+      "cause": "dock",
+      "fix": "reset_appointment",
+      "fix_detail": "Rebook DC-Tulsa dock for 10:14",
+      "cost_usd": 0,
+      "revised_eta": "2026-11-24T10:14",
+      "window_end": "2026-11-24T10:34",
+      "within_window": true,
+      "customer_update_sent": false,
+      "dispatcher_decision": "approved",
+      "clicks": 1,
+      "review_minutes": 1.5
+    },
+    {
+      "shipment_id": "SHP-2410",
+      "account": "Orbit Home Goods",
+      "flagged_at": "07:45",
+      "cause": "carrier",
+      "fix": "rebook",
+      "fix_detail": "Hand trailer to Keystone Express, tractor ready in 45 min",
+      "cost_usd": 570,
+      "revised_eta": "2026-11-24T12:52",
+      "window_end": "2026-11-24T12:32",
+      "within_window": false,
+      "customer_update_sent": true,
+      "dispatcher_decision": "approved + manager notified (over $500)",
+      "clicks": 1,
+      "review_minutes": 1.5
+    },
+    {
+      "shipment_id": "SHP-2417",
+      "account": "Ridgeway Auto Parts",
+      "flagged_at": "08:00",
+      "cause": "none",
+      "fix": "monitor",
+      "fix_detail": "Keep watching; slowdown already cleared.",
+      "cost_usd": 0,
+      "revised_eta": "2026-11-24T11:09",
+      "window_end": "2026-11-24T11:51",
+      "within_window": true,
+      "customer_update_sent": false,
+      "dispatcher_decision": "dismissed (no action)",
+      "clicks": 1,
+      "review_minutes": 1.5
+    },
+    {
+      "shipment_id": "SHP-2408",
+      "account": "Halden Medical Supply",
+      "flagged_at": "08:19",
+      "cause": "weather",
+      "fix": "reset_appointment",
+      "fix_detail": "Rebook DC-Portland dock for 13:00",
+      "cost_usd": 0,
+      "revised_eta": "2026-11-24T13:00",
+      "window_end": "2026-11-24T12:21",
+      "within_window": false,
+      "customer_update_sent": true,
+      "dispatcher_decision": "approved",
+      "clicks": 1,
+      "review_minutes": 1.5
+    },
+    {
+      "shipment_id": "SHP-2406",
+      "account": "Silverline Pharma Distribution",
+      "flagged_at": "08:33",
+      "cause": "traffic",
+      "fix": "reroute",
+      "fix_detail": "Take I-70 E bypass via state route (+18 mi)",
+      "cost_usd": 54,
+      "revised_eta": "2026-11-24T13:39",
+      "window_end": "2026-11-24T13:56",
+      "within_window": true,
+      "customer_update_sent": false,
+      "dispatcher_decision": "approved",
+      "clicks": 1,
+      "review_minutes": 1.5
+    },
+    {
+      "shipment_id": "SHP-2419",
+      "account": "Cedar Grove Grocers",
+      "flagged_at": "08:37",
+      "cause": "carrier",
+      "fix": "rebook",
+      "fix_detail": "Hand trailer to Apex Freight, tractor ready in 55 min",
+      "cost_usd": 690,
+      "revised_eta": "2026-11-24T13:12",
+      "window_end": "2026-11-24T12:35",
+      "within_window": false,
+      "customer_update_sent": true,
+      "dispatcher_decision": "approved + manager notified (over $500)",
+      "clicks": 1,
+      "review_minutes": 1.5
+    }
+  ],
+  "customer_updates": {
+    "SHP-2412": {
+      "to": "Mr. Victor Hale",
+      "tone": "formal",
+      "subject": "Shipment SHP-2412: revised delivery time 13:30",
+      "body": "Dear Mr. Victor Hale,\n\nWe are writing to let you know that shipment SHP-2412 has been delayed by a major traffic incident. To limit the impact we have taken the following step: rebook DC-Omaha dock for 13:30. The revised arrival time is 13:30, which is 36 minutes after your agreed window closing at 12:54. We apologise for the inconvenience and will confirm on arrival.\n\nKind regards,\nOperations Desk, Tallgrass Logistics"
+    },
+    "SHP-2421": {
+      "to": "Raj Patel",
+      "tone": "terse",
+      "subject": "SHP-2421 new ETA 14:30",
+      "body": "SHP-2421 delayed: dock. New ETA 14:30 (window end 12:50, +100 min). Action: rebook DC-Denver dock for 14:30.\n-- Tallgrass Ops"
+    },
+    "SHP-2404": {
+      "to": "Sam Ortega",
+      "tone": "friendly",
+      "subject": "Heads-up: SHP-2404 now arriving 14:00",
+      "body": "Hi Sam,\n\nQuick heads-up on SHP-2404: it's been held up by severe weather on the route. We've already acted (rebook DC-Minneapolis dock for 14:00), and it's now due at 14:00, about 58 minutes past your 13:02 window. We'll ping you again when it's at the dock.\n\nThanks for bearing with us!\nThe Tallgrass ops team"
+    },
+    "SHP-2410": {
+      "to": "Sam Ortega",
+      "tone": "friendly",
+      "subject": "Heads-up: SHP-2410 now arriving 12:52",
+      "body": "Hi Sam,\n\nQuick heads-up on SHP-2410: it's been held up by an equipment problem with the carrier. We've already acted (hand trailer to Keystone Express, tractor ready in 45 min), and it's now due at 12:52, about 20 minutes past your 12:32 window. We'll ping you again when it's at the dock.\n\nThanks for bearing with us!\nThe Tallgrass ops team"
+    },
+    "SHP-2408": {
+      "to": "Dr. Ellen Whitcombe",
+      "tone": "formal",
+      "subject": "Shipment SHP-2408: revised delivery time 13:00",
+      "body": "Dear Dr. Ellen Whitcombe,\n\nWe are writing to let you know that shipment SHP-2408 has been delayed by severe weather on the route. To limit the impact we have taken the following step: rebook DC-Portland dock for 13:00. The revised arrival time is 13:00, which is 39 minutes after your agreed window closing at 12:21. We apologise for the inconvenience and will confirm on arrival.\n\nKind regards,\nOperations Desk, Tallgrass Logistics"
+    },
+    "SHP-2419": {
+      "to": "Maya Brooks",
+      "tone": "friendly",
+      "subject": "Heads-up: SHP-2419 now arriving 13:12",
+      "body": "Hi Maya,\n\nQuick heads-up on SHP-2419: it's been held up by an equipment problem with the carrier. We've already acted (hand trailer to Apex Freight, tractor ready in 55 min), and it's now due at 13:12, about 37 minutes past your 12:35 window. We'll ping you again when it's at the dock.\n\nThanks for bearing with us!\nThe Tallgrass ops team"
+    }
+  }
+}

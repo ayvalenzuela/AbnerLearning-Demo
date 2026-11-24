@@ -1,0 +1,132 @@
+[
+  {
+    "channel": "#maintenance-approvals",
+    "text": "Approval needed: WO-2405 Northside HVAC $650.00",
+    "blocks": [
+      {
+        "type": "header",
+        "text": {
+          "type": "plain_text",
+          "text": "Vendor spend approval: $650.00"
+        }
+      },
+      {
+        "type": "section",
+        "fields": [
+          {
+            "type": "mrkdwn",
+            "text": "*Work order:*\nWO-2405 (unit 3A)"
+          },
+          {
+            "type": "mrkdwn",
+            "text": "*Vendor:*\nNorthside HVAC, 2026-11-19T08:00"
+          },
+          {
+            "type": "mrkdwn",
+            "text": "*Issue:*\nheater"
+          },
+          {
+            "type": "mrkdwn",
+            "text": "*Why:*\nestimate $650.00 > $500 limit"
+          }
+        ]
+      },
+      {
+        "type": "actions",
+        "elements": [
+          {
+            "type": "button",
+            "text": {
+              "type": "plain_text",
+              "text": "Approve"
+            },
+            "style": "primary",
+            "action_id": "approve_spend",
+            "value": "WO-2405"
+          },
+          {
+            "type": "button",
+            "text": {
+              "type": "plain_text",
+              "text": "Reject"
+            },
+            "style": "danger",
+            "action_id": "reject_spend",
+            "value": "WO-2405"
+          }
+        ]
+      }
+    ],
+    "posted_at": "2026-11-18T11:00",
+    "response": {
+      "action_id": "approve_spend",
+      "user": "Jordan Wells (portfolio manager)",
+      "at": "2026-11-18T11:22"
+    }
+  },
+  {
+    "channel": "#maintenance-approvals",
+    "text": "Approval needed: WO-2407 Apex Appliance Repair $717.50",
+    "blocks": [
+      {
+        "type": "header",
+        "text": {
+          "type": "plain_text",
+          "text": "Vendor spend approval: $717.50"
+        }
+      },
+      {
+        "type": "section",
+        "fields": [
+          {
+            "type": "mrkdwn",
+            "text": "*Work order:*\nWO-2407 (unit 4C)"
+          },
+          {
+            "type": "mrkdwn",
+            "text": "*Vendor:*\nApex Appliance Repair, 2026-11-23T11:00"
+          },
+          {
+            "type": "mrkdwn",
+            "text": "*Issue:*\nrefrigerator"
+          },
+          {
+            "type": "mrkdwn",
+            "text": "*Why:*\nestimate $717.50 > $500 limit"
+          }
+        ]
+      },
+      {
+        "type": "actions",
+        "elements": [
+          {
+            "type": "button",
+            "text": {
+              "type": "plain_text",
+              "text": "Approve"
+            },
+            "style": "primary",
+            "action_id": "approve_spend",
+            "value": "WO-2407"
+          },
+          {
+            "type": "button",
+            "text": {
+              "type": "plain_text",
+              "text": "Reject"
+            },
+            "style": "danger",
+            "action_id": "reject_spend",
+            "value": "WO-2407"
+          }
+        ]
+      }
+    ],
+    "posted_at": "2026-11-20T20:10",
+    "response": {
+      "action_id": "approve_spend",
+      "user": "Jordan Wells (portfolio manager)",
+      "at": "2026-11-20T20:32"
+    }
+  }
+]

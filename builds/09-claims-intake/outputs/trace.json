@@ -1,0 +1,110 @@
+{
+  "build": "09",
+  "title": "Claims intake and extraction",
+  "mode": "OFFLINE (rule-based stand-in, same schema)",
+  "model": "claude-opus-5-5",
+  "steps": [
+    {
+      "n": 1,
+      "title": "Gather the claim packet",
+      "kind": "io",
+      "what": "Collected 8 synthetic FNOL packets: police report (PNG + PDF), damage photo, phone note.",
+      "code": "for p in packets:\n    files = [p / 'police_report.pdf', p / 'damage_photo.png',\n             p / 'phone_note.txt']\n    content = packet_content(files, instructions)  # document + image blocks",
+      "output": "Packet CLM-5001:\n  police_report.png  (40 KB)\n  police_report.pdf  (62 KB)\n  police_report.txt  (1 KB)\n  damage_photo.png  (3 KB)\n  phone_note.txt  (1 KB)\n\nphone_note.txt:\nFNOL call 11/17 9:57am. Caller Jordan Reyes, policy PA-349573. Says it happened 11/16 at Elm St & 4th Ave. Vehicle 1 was struck while stopped at a red light. Driver cooperative. Body shop guessed about $2,400. Nobody hurt. Callback 555-0124. Police report RPD-26-27357 filed."
+    },
+    {
+      "n": 2,
+      "title": "Extract fields into the claims schema, with a confidence per field",
+      "kind": "ai",
+      "what": "One vision call per packet reads the report and photo together; offline, the stand-in parses the OCR text, the phone note, and measures the red damage area in the photo.",
+      "code": "ex = ask_structured(system=SYSTEM, content=content,\n                    schema=ClaimExtraction)\n# offline: regex on report + note; severity from red pixels\nshare = red_pixels / vehicle_pixels  # <4.5% minor, <14% moderate",
+      "output": "CLM-5003:\n  policy_number         PA-738465                             0.98  both\n  claimant_name         Marcus Webb                           0.98  both\n  phone                 555-0116                              0.90  phone_note\n  loss_date             2026-11-16                            0.98  both\n  loss_location         Lakeview Mall parking lot, Riverton   0.98  both\n  police_report_number  RPD-26-45388                          0.98  both\n  vin                   NNYAFJB94PN3EZNFK                     0.35  police_report\n  vehicle_year          2022                                  0.90  police_report\n  vehicle_make          Ford                                  0.90  police_report\n  vehicle_model         Escape                                0.90  police_report\n  injuries              no                                    0.98  both\n  estimated_amount_usd  1900                                  0.90  phone_note\n  damage_severity       minor                                 0.95  damage_photo\n  notes: vin NNYAFJB94PN3EZNFK fails the check-digit test; damage area 2.8% of vehicle"
+    },
+    {
+      "n": 3,
+      "title": "Check coverage and run fraud rules",
+      "kind": "check",
+      "what": "Plain-code rules: policy active on the loss date, VIN on the policy, claim soon after policy start, estimate vs vehicle value, VIN claimed before.",
+      "code": "if not pol.start <= loss <= pol.end: coverage.append('not active')\nif (loss - pol.start).days <= 30: flags.append('new policy')\nif amount > 0.8 * pol.vehicle_value: flags.append('amount')\nif vin in prior_claim_vins: flags.append('duplicate VIN')",
+      "output": "CLM-5001  coverage: ok  |  fraud: none\nCLM-5002  coverage: ok  |  fraud: estimate $11,800 is 94% of vehicle value\nCLM-5003  coverage: VIN does not match the insured vehicle  |  fraud: none\nCLM-5004  coverage: ok  |  fraud: none\nCLM-5005  coverage: ok  |  fraud: loss 12 days after policy start\nCLM-5006  coverage: ok  |  fraud: VIN already claimed in CLM-4112\nCLM-5007  coverage: ok  |  fraud: none\nCLM-5008  coverage: policy not active on loss date (status lapsed, ends 2026-11-07)  |  fraud: none"
+    },
+    {
+      "n": 4,
+      "title": "Route by severity: fast-track, adjuster or special unit",
+      "kind": "code",
+      "what": "Fraud flags go to the special investigations unit; coverage questions, injuries or moderate-plus damage go to an adjuster; the rest fast-track.",
+      "code": "route = ('special_unit' if flags else\n         'adjuster' if coverage or severity != 'minor'\n                    or injuries or amount >= 5000 else\n         'fast_track')",
+      "output": "CLM-5001  minor     injuries=no   $2400   -> fast_track\nCLM-5002  moderate  injuries=no   $11800  -> special_unit\nCLM-5003  minor     injuries=no   $1900   -> adjuster\nCLM-5004  moderate  injuries=no   $6200   -> adjuster\nCLM-5005  moderate  injuries=no   $5400   -> special_unit\nCLM-5006  minor     injuries=no   $2100   -> special_unit\nCLM-5007  severe    injuries=yes  $14000  -> adjuster\nCLM-5008  minor     injuries=no   $?      -> adjuster"
+    },
+    {
+      "n": 5,
+      "title": "Low-confidence fields go to a person before anything is saved",
+      "kind": "human",
+      "what": "3 fields on 3 claims fell under the 80% bar and were checked against the originals; the rest saved straight through.",
+      "code": "low = [f for f in ex.fields if f.confidence < 0.80]\nif low: review_queue.post(claim_id, low)   # n8n IF node, false branch\nelse:   claims_api.post(record)            # true branch\nroute = check_and_route(record_after_review)",
+      "output": "CLM-5003  vin                   extracted=NNYAFJB94PN3EZNFK    conf=0.35  reviewer=NNYAFJB94PN3E2NFK\nCLM-5004  loss_date             extracted=2026-11-16           conf=0.55  reviewer=2026-11-16\nCLM-5008  estimated_amount_usd  extracted=None                 conf=0.00  reviewer=3100\n\nRe-routed after review: CLM-5003: adjuster -> fast_track"
+    },
+    {
+      "n": 6,
+      "title": "Score field accuracy against the answer key",
+      "kind": "check",
+      "what": "A claims supervisor hand-keyed the true values for all 8 packets; we score extraction before and after review.",
+      "code": "acc = mean(record[c][f] == key[c][f]\n           for c in claims for f in FIELDS)\ncaught = wrong fields that were sent to review / all wrong fields",
+      "output": "{\n  \"fields_scored\": 104,\n  \"auto_accuracy\": \"98.1%\",\n  \"saved_accuracy\": \"100.0%\",\n  \"wrong_before_review\": [\n    \"CLM-5003.vin: got NNYAFJB94PN3EZNFK, truth NNYAFJB94PN3E2NFK\",\n    \"CLM-5008.estimated_amount_usd: got None, truth 3100\"\n  ],\n  \"wrong_fields_caught_by_confidence_bar\": \"2/2\",\n  \"route_accuracy_before_review\": \"7/8\",\n  \"route_accuracy_saved\": \"8/8\"\n}"
+    }
+  ],
+  "arch": [
+    {
+      "label": "FNOL packet",
+      "kind": "data",
+      "note": "report PDF, photo, phone note"
+    },
+    {
+      "label": "n8n webhook",
+      "kind": "system",
+      "note": "one run per claim"
+    },
+    {
+      "label": "Claude vision",
+      "kind": "ai",
+      "note": "schema + confidence per field"
+    },
+    {
+      "label": "Coverage + fraud rules",
+      "kind": "code",
+      "note": "auditable checks"
+    },
+    {
+      "label": "Severity routing",
+      "kind": "code",
+      "note": "fast-track / adjuster / SIU"
+    },
+    {
+      "label": "Review queue",
+      "kind": "human",
+      "note": "low-confidence fields"
+    },
+    {
+      "label": "Claims system API",
+      "kind": "system",
+      "note": "save only when clean"
+    }
+  ],
+  "story": {
+    "situation": "A regional auto insurer takes about 300 first notices of loss a week. Each arrives as photos, a police report and a phone note, and an adjuster retypes it all into the claims system before anyone triages it.",
+    "constraints": "Nothing reaches the claims system unless every field is confident or a person has checked it. Fraud and coverage rules stay in plain code so auditors can read them. Claimant data stays inside the insurer's tenant.",
+    "replay": "Reuse: 'extract with a confidence per field, check with plain rules, send only the doubtful fields to a person' fits any document intake (loan files, invoices, onboarding). Next time: measure reviewer edits per field and tune the confidence bar per field rather than one bar for all."
+  },
+  "metrics": {
+    "intake_minutes_per_claim": "32 -> 0.7 (average human minutes)",
+    "data_accuracy": "98.1% auto -> 100.0% saved after review",
+    "fields_sent_to_review": "3/104",
+    "time_to_first_contact_min": "122 -> 6 (average)",
+    "route_accuracy": "8/8",
+    "routes": {
+      "fast_track": 2,
+      "adjuster": 3,
+      "special_unit": 3
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "request_id": "REQ-105",
+  "ready_to_submit": false,
+  "missing_items": [
+    "CMM-95810-1: Epworth Sleepiness Scale score of 12 or higher. (NOT MET - Chart value 11; policy requires >= 12.)"
+  ],
+  "letter": "To: Cascade Mutual Utilization Management\nRe: Prior authorization for Attended polysomnography (in-lab sleep study) (CPT 95810) - Patient E (fictional, 39F)\nDiagnosis: R06.83 Snoring\n\nI am requesting authorization for attended polysomnography (in-lab sleep study). The chart documents each of your criteria:\n- Witnessed apneas or loud habitual snoring. Chart (PCP visit 2026-10-02): \"Loud snoring for years, daytime fatigue.\"\n- Home sleep apnea test is non-diagnostic or clinically inappropriate. Chart (Sleep medicine 2026-10-18): \"Home sleep test was non-diagnostic due to poor signal quality.\"\n\nSincerely, Dr. Grace Lin (fictional)"
+}

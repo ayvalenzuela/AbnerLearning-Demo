@@ -1,0 +1,6 @@
+{
+  "manual_search_minutes": 30,
+  "copilot_search_minutes": 5,
+  "minutes_per_cause_checked": 20,
+  "escalation_minutes_if_not_in_manual": 60
+}

@@ -1,0 +1,2 @@
+# Nightly bank reconciliation, 02:30 server time (after the bank's SFTP drop at 01:00)
+30 2 * * * cd /opt/finance/recon && ./fetch_exports.sh && python3 pipeline.py >> logs/recon.log 2>&1

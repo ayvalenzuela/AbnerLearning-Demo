@@ -1,0 +1,82 @@
+{
+  "P01": {
+    "color": "navy",
+    "material": "organic cotton"
+  },
+  "P02": {
+    "color": "heather grey",
+    "material": "cotton-polyester blend"
+  },
+  "P03": {
+    "color": "forest green",
+    "material": "cotton-polyester blend"
+  },
+  "P04": {
+    "color": "black",
+    "material": "cotton-polyester blend"
+  },
+  "P05": {
+    "color": "charcoal",
+    "material": "cotton-polyester blend"
+  },
+  "P06": {
+    "color": "rust",
+    "material": "linen"
+  },
+  "P07": {
+    "color": "sky blue",
+    "material": "linen"
+  },
+  "P08": {
+    "color": "olive",
+    "material": "nylon"
+  },
+  "P09": {
+    "color": "mustard",
+    "material": "recycled polyester"
+  },
+  "P10": {
+    "color": "sand",
+    "material": "recycled polyester"
+  },
+  "P11": {
+    "color": "burgundy",
+    "material": "merino wool"
+  },
+  "P12": {
+    "color": "cream",
+    "material": "wool blend"
+  },
+  "P13": {
+    "color": "red",
+    "material": "acrylic"
+  },
+  "P14": {
+    "color": "charcoal",
+    "material": "merino wool"
+  },
+  "P15": {
+    "color": "cream",
+    "material": "cotton canvas"
+  },
+  "P16": {
+    "color": "black",
+    "material": "recycled polyester"
+  },
+  "P17": {
+    "color": "navy",
+    "material": "cotton twill"
+  },
+  "P18": {
+    "color": "olive",
+    "material": "cotton twill"
+  },
+  "P19": {
+    "color": "pink",
+    "material": "recycled polyester"
+  },
+  "P20": {
+    "color": "mustard",
+    "material": "organic cotton"
+  }
+}

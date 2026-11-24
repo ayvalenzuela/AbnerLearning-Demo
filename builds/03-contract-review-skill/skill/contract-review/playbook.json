@@ -1,0 +1,68 @@
+{
+  "version": "2026-11",
+  "owner": "Commercial contracts practice group (fictional firm)",
+  "perspective": "We act for the service provider. Lower caps, shorter tails and faster payment favour our client.",
+  "decisions": {
+    "OK": "Clause meets our standard position. No change.",
+    "negotiate": "Clause is worse than our position but short of the walk-away. Propose the fallback clause from clause_library.json.",
+    "escalate": "Clause hits a walk-away condition, or cannot be read with confidence. A partner decides."
+  },
+  "rules": {
+    "confidentiality_term": {
+      "title": "Confidentiality term",
+      "position": "Confidentiality obligations last no more than 3 years after disclosure.",
+      "fallback": "3 years, with trade secrets protected for as long as they remain trade secrets.",
+      "walk_away": "Perpetual obligations for all information, or a term longer than 7 years.",
+      "check": {"param": "years", "ok_max": 3, "escalate_above": 7, "escalate_flags": ["perpetual"]}
+    },
+    "limitation_of_liability": {
+      "title": "Limitation of liability",
+      "position": "Total liability capped at the fees paid in the 12 months before the claim.",
+      "fallback": "Cap at fees paid in the prior 24 months, with carve-outs only for confidentiality breach and indemnity.",
+      "walk_away": "Uncapped or unlimited liability for our client.",
+      "check": {"param": "months", "ok_max": 12, "escalate_above": 36, "escalate_flags": ["unlimited"]}
+    },
+    "indemnification": {
+      "title": "Indemnification",
+      "position": "Mutual indemnities, each limited to third-party claims.",
+      "fallback": "Mutual indemnities for third-party IP and confidentiality claims, subject to the liability cap.",
+      "walk_away": "One-sided indemnity from our client that is not subject to any cap.",
+      "check": {"param": "mutual_and_capped", "ok_if": ["mutual"], "escalate_if_all": ["one_sided", "uncapped"]}
+    },
+    "governing_law": {
+      "title": "Governing law",
+      "position": "Delaware or New York law.",
+      "fallback": "Any US state law, with venue in that state's courts.",
+      "walk_away": "Non-US governing law.",
+      "check": {"param": "jurisdiction", "ok_in": ["Delaware", "New York"], "escalate_if": "non_us"}
+    },
+    "payment_terms": {
+      "title": "Payment terms",
+      "position": "Invoices due within 30 days.",
+      "fallback": "Invoices due within 45 days, with late interest of 1% per month.",
+      "walk_away": "Payment terms longer than 60 days.",
+      "check": {"param": "days", "ok_max": 30, "escalate_above": 60}
+    },
+    "auto_renewal": {
+      "title": "Auto-renewal",
+      "position": "No auto-renewal, or non-renewal notice of 30 days or less.",
+      "fallback": "Auto-renewal for one-year terms with 60 days' non-renewal notice.",
+      "walk_away": "Non-renewal notice longer than 90 days.",
+      "check": {"param": "days", "ok_max": 30, "escalate_above": 90}
+    },
+    "non_solicitation": {
+      "title": "Non-solicitation of employees",
+      "position": "Mutual, 12 months or less.",
+      "fallback": "Mutual, 12 months, excluding general job advertisements.",
+      "walk_away": "Longer than 24 months.",
+      "check": {"param": "months", "ok_max": 12, "escalate_above": 24}
+    },
+    "assignment": {
+      "title": "Assignment",
+      "position": "Neither party may assign without consent, not to be unreasonably withheld.",
+      "fallback": "Consent not unreasonably withheld, with a carve-out for a merger or sale of the business.",
+      "walk_away": "The counterparty may assign freely while our client may not.",
+      "check": {"param": "assignment_style", "ok_if": ["reasonable_consent"], "escalate_if": ["one_sided_free"]}
+    }
+  }
+}

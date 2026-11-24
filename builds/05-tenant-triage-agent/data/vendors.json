@@ -1,0 +1,54 @@
+[
+  {
+    "vendor": "BlueLine Plumbing",
+    "trade": "plumbing",
+    "hourly": 120,
+    "after_hours_24_7": true,
+    "open_slots": [
+      "2026-11-17T08:00",
+      "2026-11-17T14:00",
+      "2026-11-19T10:00",
+      "2026-11-23T09:00"
+    ]
+  },
+  {
+    "vendor": "Apex Appliance Repair",
+    "trade": "appliance",
+    "hourly": 95,
+    "after_hours_24_7": false,
+    "open_slots": [
+      "2026-11-19T13:00",
+      "2026-11-20T09:00",
+      "2026-11-23T11:00",
+      "2026-11-24T10:00"
+    ]
+  },
+  {
+    "vendor": "Northside HVAC",
+    "trade": "hvac",
+    "hourly": 140,
+    "after_hours_24_7": true,
+    "open_slots": [
+      "2026-11-19T08:00",
+      "2026-11-20T15:00",
+      "2026-11-24T08:00"
+    ]
+  },
+  {
+    "vendor": "Brightwire Electric",
+    "trade": "electrical",
+    "hourly": 110,
+    "after_hours_24_7": false,
+    "open_slots": [
+      "2026-11-20T10:00",
+      "2026-11-23T13:00"
+    ]
+  },
+  {
+    "vendor": "Metro Gas Response",
+    "trade": "gas",
+    "hourly": 150,
+    "after_hours_24_7": true,
+    "open_slots": []
+  }
+]

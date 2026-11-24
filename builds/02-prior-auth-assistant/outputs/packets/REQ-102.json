@@ -1,0 +1,8 @@
+{
+  "request_id": "REQ-102",
+  "ready_to_submit": false,
+  "missing_items": [
+    "CMM-72148-2: At least 4 weeks of supervised physical therapy. (NOT MET - Chart shows 3 weeks; policy requires at least 4 weeks.)"
+  ],
+  "letter": "To: Cascade Mutual Utilization Management\nRe: Prior authorization for Lumbar spine MRI without contrast (CPT 72148) - Patient B (fictional, 44M)\nDiagnosis: M54.50 Low back pain, unspecified\n\nI am requesting authorization for lumbar spine mri without contrast. The chart documents each of your criteria:\n- Low back pain persisting for at least 4 weeks. Chart (Urgent care 2026-09-02): \"Acute low back pain after lifting, present for 5 weeks.\"\n- Neurological deficit or radiculopathy documented on exam. Chart (Ortho visit 2026-10-06): \"Numbness over the right lateral foot and mild weakness of great toe extension.\"\n- Plain radiographs (X-ray) of the lumbar spine completed. Chart (Urgent care 2026-09-02): \"Lumbar x-ray shows mild degenerative change, no fracture.\"\n\nSincerely, Dr. Sam Whitfield (fictional)"
+}

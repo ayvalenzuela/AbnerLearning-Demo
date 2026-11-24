@@ -1,0 +1,370 @@
+{
+  "CT-01": {
+    "CT-01-1": {
+      "clause_type": "confidentiality_term",
+      "partner_decision": "negotiate",
+      "true_value": 5,
+      "partner_note": ""
+    },
+    "CT-01-2": {
+      "clause_type": "non_solicitation",
+      "partner_decision": "escalate",
+      "true_value": 36,
+      "partner_note": ""
+    },
+    "CT-01-3": {
+      "clause_type": "governing_law",
+      "partner_decision": "negotiate",
+      "true_value": "Texas",
+      "partner_note": ""
+    },
+    "CT-01-4": {
+      "clause_type": "assignment",
+      "partner_decision": "OK",
+      "true_value": "reasonable_consent",
+      "partner_note": ""
+    }
+  },
+  "CT-02": {
+    "CT-02-1": {
+      "clause_type": "confidentiality_term",
+      "partner_decision": "OK",
+      "true_value": 3,
+      "partner_note": ""
+    },
+    "CT-02-2": {
+      "clause_type": "non_solicitation",
+      "partner_decision": "escalate",
+      "true_value": 36,
+      "partner_note": ""
+    },
+    "CT-02-3": {
+      "clause_type": "governing_law",
+      "partner_decision": "escalate",
+      "true_value": "England and Wales",
+      "partner_note": ""
+    },
+    "CT-02-4": {
+      "clause_type": "assignment",
+      "partner_decision": "OK",
+      "true_value": "reasonable_consent",
+      "partner_note": ""
+    }
+  },
+  "CT-03": {
+    "CT-03-1": {
+      "clause_type": "confidentiality_term",
+      "partner_decision": "OK",
+      "true_value": 5,
+      "partner_note": "Strategic client; partner accepted 5 years."
+    },
+    "CT-03-2": {
+      "clause_type": "non_solicitation",
+      "partner_decision": "escalate",
+      "true_value": 36,
+      "partner_note": ""
+    },
+    "CT-03-3": {
+      "clause_type": "governing_law",
+      "partner_decision": "negotiate",
+      "true_value": "California",
+      "partner_note": ""
+    },
+    "CT-03-4": {
+      "clause_type": "assignment",
+      "partner_decision": "OK",
+      "true_value": "reasonable_consent",
+      "partner_note": ""
+    }
+  },
+  "CT-04": {
+    "CT-04-1": {
+      "clause_type": "confidentiality_term",
+      "partner_decision": "OK",
+      "true_value": 2,
+      "partner_note": ""
+    },
+    "CT-04-2": {
+      "clause_type": "non_solicitation",
+      "partner_decision": "OK",
+      "true_value": 12,
+      "partner_note": ""
+    },
+    "CT-04-3": {
+      "clause_type": "governing_law",
+      "partner_decision": "escalate",
+      "true_value": "England and Wales",
+      "partner_note": ""
+    },
+    "CT-04-4": {
+      "clause_type": "assignment",
+      "partner_decision": "escalate",
+      "true_value": "one_sided_free",
+      "partner_note": ""
+    }
+  },
+  "CT-05": {
+    "CT-05-1": {
+      "clause_type": "limitation_of_liability",
+      "partner_decision": "negotiate",
+      "true_value": 24,
+      "partner_note": ""
+    },
+    "CT-05-2": {
+      "clause_type": "indemnification",
+      "partner_decision": "OK",
+      "true_value": "mutual",
+      "partner_note": ""
+    },
+    "CT-05-3": {
+      "clause_type": "payment_terms",
+      "partner_decision": "escalate",
+      "true_value": 90,
+      "partner_note": ""
+    },
+    "CT-05-4": {
+      "clause_type": "auto_renewal",
+      "partner_decision": "OK",
+      "true_value": 0,
+      "partner_note": ""
+    },
+    "CT-05-5": {
+      "clause_type": "confidentiality_term",
+      "partner_decision": "escalate",
+      "true_value": "perpetual",
+      "partner_note": ""
+    },
+    "CT-05-6": {
+      "clause_type": "governing_law",
+      "partner_decision": "escalate",
+      "true_value": "England and Wales",
+      "partner_note": ""
+    },
+    "CT-05-7": {
+      "clause_type": "assignment",
+      "partner_decision": "OK",
+      "true_value": "reasonable_consent",
+      "partner_note": ""
+    }
+  },
+  "CT-06": {
+    "CT-06-1": {
+      "clause_type": "limitation_of_liability",
+      "partner_decision": "OK",
+      "true_value": 12,
+      "partner_note": ""
+    },
+    "CT-06-2": {
+      "clause_type": "indemnification",
+      "partner_decision": "OK",
+      "true_value": "mutual",
+      "partner_note": ""
+    },
+    "CT-06-3": {
+      "clause_type": "payment_terms",
+      "partner_decision": "OK",
+      "true_value": 30,
+      "partner_note": ""
+    },
+    "CT-06-4": {
+      "clause_type": "auto_renewal",
+      "partner_decision": "OK",
+      "true_value": 30,
+      "partner_note": ""
+    },
+    "CT-06-5": {
+      "clause_type": "confidentiality_term",
+      "partner_decision": "negotiate",
+      "true_value": 5,
+      "partner_note": ""
+    },
+    "CT-06-6": {
+      "clause_type": "governing_law",
+      "partner_decision": "OK",
+      "true_value": "Delaware",
+      "partner_note": ""
+    },
+    "CT-06-7": {
+      "clause_type": "assignment",
+      "partner_decision": "escalate",
+      "true_value": "one_sided_free",
+      "partner_note": ""
+    }
+  },
+  "CT-07": {
+    "CT-07-1": {
+      "clause_type": "limitation_of_liability",
+      "partner_decision": "negotiate",
+      "true_value": 24,
+      "partner_note": ""
+    },
+    "CT-07-2": {
+      "clause_type": "indemnification",
+      "partner_decision": "escalate",
+      "true_value": "one_sided_uncapped",
+      "partner_note": ""
+    },
+    "CT-07-3": {
+      "clause_type": "payment_terms",
+      "partner_decision": "escalate",
+      "true_value": 60,
+      "partner_note": "Client flagged cash-flow risk; partner wants to decide on 60 days."
+    },
+    "CT-07-4": {
+      "clause_type": "auto_renewal",
+      "partner_decision": "OK",
+      "true_value": 30,
+      "partner_note": ""
+    },
+    "CT-07-5": {
+      "clause_type": "confidentiality_term",
+      "partner_decision": "negotiate",
+      "true_value": 5,
+      "partner_note": ""
+    },
+    "CT-07-6": {
+      "clause_type": "governing_law",
+      "partner_decision": "OK",
+      "true_value": "New York",
+      "partner_note": ""
+    },
+    "CT-07-7": {
+      "clause_type": "assignment",
+      "partner_decision": "negotiate",
+      "true_value": "strict_consent",
+      "partner_note": ""
+    }
+  },
+  "CT-08": {
+    "CT-08-1": {
+      "clause_type": "limitation_of_liability",
+      "partner_decision": "escalate",
+      "true_value": "unlimited",
+      "partner_note": ""
+    },
+    "CT-08-2": {
+      "clause_type": "indemnification",
+      "partner_decision": "OK",
+      "true_value": "mutual",
+      "partner_note": ""
+    },
+    "CT-08-3": {
+      "clause_type": "payment_terms",
+      "partner_decision": "OK",
+      "true_value": 30,
+      "partner_note": ""
+    },
+    "CT-08-4": {
+      "clause_type": "auto_renewal",
+      "partner_decision": "escalate",
+      "true_value": 120,
+      "partner_note": ""
+    },
+    "CT-08-5": {
+      "clause_type": "confidentiality_term",
+      "partner_decision": "escalate",
+      "true_value": 10,
+      "partner_note": ""
+    },
+    "CT-08-6": {
+      "clause_type": "governing_law",
+      "partner_decision": "negotiate",
+      "true_value": "California",
+      "partner_note": ""
+    },
+    "CT-08-7": {
+      "clause_type": "assignment",
+      "partner_decision": "escalate",
+      "true_value": "one_sided_free",
+      "partner_note": ""
+    }
+  },
+  "CT-09": {
+    "CT-09-1": {
+      "clause_type": "limitation_of_liability",
+      "partner_decision": "negotiate",
+      "true_value": 24,
+      "partner_note": ""
+    },
+    "CT-09-2": {
+      "clause_type": "indemnification",
+      "partner_decision": "OK",
+      "true_value": "mutual",
+      "partner_note": ""
+    },
+    "CT-09-3": {
+      "clause_type": "payment_terms",
+      "partner_decision": "negotiate",
+      "true_value": 45,
+      "partner_note": ""
+    },
+    "CT-09-4": {
+      "clause_type": "auto_renewal",
+      "partner_decision": "negotiate",
+      "true_value": 60,
+      "partner_note": ""
+    },
+    "CT-09-5": {
+      "clause_type": "confidentiality_term",
+      "partner_decision": "escalate",
+      "true_value": "perpetual",
+      "partner_note": ""
+    },
+    "CT-09-6": {
+      "clause_type": "governing_law",
+      "partner_decision": "escalate",
+      "true_value": "England and Wales",
+      "partner_note": ""
+    },
+    "CT-09-7": {
+      "clause_type": "assignment",
+      "partner_decision": "negotiate",
+      "true_value": "strict_consent",
+      "partner_note": ""
+    }
+  },
+  "CT-10": {
+    "CT-10-1": {
+      "clause_type": "limitation_of_liability",
+      "partner_decision": "OK",
+      "true_value": 12,
+      "partner_note": ""
+    },
+    "CT-10-2": {
+      "clause_type": "indemnification",
+      "partner_decision": "OK",
+      "true_value": "mutual",
+      "partner_note": ""
+    },
+    "CT-10-3": {
+      "clause_type": "payment_terms",
+      "partner_decision": "escalate",
+      "true_value": 90,
+      "partner_note": ""
+    },
+    "CT-10-4": {
+      "clause_type": "auto_renewal",
+      "partner_decision": "OK",
+      "true_value": 0,
+      "partner_note": ""
+    },
+    "CT-10-5": {
+      "clause_type": "confidentiality_term",
+      "partner_decision": "negotiate",
+      "true_value": 5,
+      "partner_note": ""
+    },
+    "CT-10-6": {
+      "clause_type": "governing_law",
+      "partner_decision": "OK",
+      "true_value": "Delaware",
+      "partner_note": ""
+    },
+    "CT-10-7": {
+      "clause_type": "assignment",
+      "partner_decision": "negotiate",
+      "true_value": "strict_consent",
+      "partner_note": ""
+    }
+  }
+}

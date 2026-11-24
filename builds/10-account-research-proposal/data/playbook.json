@@ -1,0 +1,127 @@
+{
+  "seller": "Voxly",
+  "brand_color": "1F4E79",
+  "accent_color": "E8F0F8",
+  "planning_price_per_seat_month_usd": 95,
+  "pains": {
+    "high_abandon": {
+      "label": "Callers hang up before they reach anyone",
+      "triggers": [
+        "hold time",
+        "wait",
+        "abandon",
+        "missed call",
+        "hang up"
+      ],
+      "offer": "Voxly Contact Center",
+      "solution": "Queue callbacks, skills routing and live wallboards",
+      "outcome": "Cut abandoned calls by about 40%",
+      "discovery_q": "What happens to a caller who hangs up during peak today?"
+    },
+    "agent_ramp": {
+      "label": "New agents take too long to ramp",
+      "triggers": [
+        "hiring",
+        "seasonal",
+        "ramp",
+        "turnover",
+        "new agents"
+      ],
+      "offer": "Voxly Agent Assist",
+      "solution": "Real-time AI prompts and after-call summaries",
+      "outcome": "New agents productive about 10 days sooner",
+      "discovery_q": "How long until a new agent handles calls alone, and who coaches them?"
+    },
+    "compliance_recording": {
+      "label": "Call recording does not meet audit rules",
+      "triggers": [
+        "hipaa",
+        "pci",
+        "audit",
+        "recording",
+        "compliance"
+      ],
+      "offer": "Voxly Compliance Recording",
+      "solution": "Policy-based retention, pause-and-resume, QA sampling",
+      "outcome": "Audit evidence on demand; about 400 prep hours saved a year",
+      "discovery_q": "What did the last audit ask for that took the longest to produce?"
+    },
+    "legacy_pbx_eol": {
+      "label": "Phone system is old and reaching end of support",
+      "triggers": [
+        "end of support",
+        "legacy pbx",
+        "on-prem pbx",
+        "legacy on-prem"
+      ],
+      "offer": "Voxly Cloud Phone",
+      "solution": "Cloud phone system with number porting and staged cut-over",
+      "outcome": "Retire PBX maintenance and hardware refresh",
+      "discovery_q": "When does support end, and what is the hardware refresh quote?"
+    },
+    "multi_site": {
+      "label": "New sites or a merger need one phone system",
+      "triggers": [
+        "acquire",
+        "acquisition",
+        "merger",
+        "new sites",
+        "new clinics",
+        "branches",
+        "expansion"
+      ],
+      "offer": "Voxly Cloud Phone",
+      "solution": "Site templates and one admin console for every location",
+      "outcome": "Bring a new site live in days, not weeks",
+      "discovery_q": "How many sites must move, and in what order?"
+    },
+    "crm_fragmentation": {
+      "label": "Agents swivel between the phone and the CRM",
+      "triggers": [
+        "swivel",
+        "screen pop",
+        "side by side",
+        "no integration",
+        "crm integration"
+      ],
+      "offer": "Voxly CRM Connect",
+      "solution": "Screen pop, click-to-dial and auto-logged calls",
+      "outcome": "About 30 seconds saved per call",
+      "discovery_q": "How many screens does an agent touch on a typical call?"
+    }
+  },
+  "source_weight": {
+    "crm_note": 1.0,
+    "news": 1.2,
+    "job": 1.0,
+    "tech": 0.8
+  },
+  "roi_assumptions": {
+    "abandon_reduction": 0.4,
+    "ramp_days_saved": 10,
+    "loaded_agent_cost_per_day_usd": 280,
+    "audit_prep_hours_saved": 400,
+    "compliance_hourly_cost_usd": 85,
+    "site_setup_cost_avoided_usd": 6500,
+    "seconds_saved_per_call": 30,
+    "agent_hourly_cost_usd": 32
+  },
+  "timeline": [
+    [
+      "Discovery workshop and design",
+      2
+    ],
+    [
+      "Pilot with one team",
+      4
+    ],
+    [
+      "Wave 1 roll-out",
+      6
+    ],
+    [
+      "Remaining sites and hand-over",
+      6
+    ]
+  ]
+}

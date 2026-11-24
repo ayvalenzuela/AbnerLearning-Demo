@@ -1,0 +1,349 @@
+[
+  {
+    "sku": "P01",
+    "title": "Everyday Tee in Navy | Organic Cotton",
+    "description": "A relaxed tee made for everyday wear. It's made from organic cotton (180gsm), so you know what you're getting. The relaxed fit gives you room to move. Shown in navy, as photographed in natural light.",
+    "material": "organic cotton",
+    "fit": "relaxed",
+    "color": "navy",
+    "use_case": [
+      "everyday wear"
+    ],
+    "search_keywords": [
+      "everyday wear",
+      "navy",
+      "organic cotton",
+      "tee"
+    ]
+  },
+  {
+    "sku": "P02",
+    "title": "Crew Tee in Heather Grey | Cotton-Polyester Blend",
+    "description": "A slim tee made for everyday wear. It's made from cotton-polyester blend, so you know what you're getting. The slim fit sits close without clinging. Shown in heather grey, as photographed in natural light.",
+    "material": "cotton-polyester blend",
+    "fit": "slim",
+    "color": "heather grey",
+    "use_case": [
+      "everyday wear"
+    ],
+    "search_keywords": [
+      "cotton-polyester blend",
+      "everyday wear",
+      "heather grey",
+      "tee"
+    ]
+  },
+  {
+    "sku": "P03",
+    "title": "Pullover Hoodie in Forest Green | Cotton-Polyester Blend",
+    "description": "A regular hoodie made for lounging and weekends. It's made from cotton-polyester blend (320gsm), so you know what you're getting. The regular fit is true to size. Shown in forest green, as photographed in natural light.",
+    "material": "cotton-polyester blend",
+    "fit": "regular",
+    "color": "forest green",
+    "use_case": [
+      "lounging",
+      "weekends"
+    ],
+    "search_keywords": [
+      "cotton-polyester blend",
+      "forest green",
+      "hoodie",
+      "lounging",
+      "weekends"
+    ]
+  },
+  {
+    "sku": "P04",
+    "title": "Zip Hoodie in Black | Cotton-Polyester Blend",
+    "description": "A oversized hoodie made for lounging and weekends. It's made from cotton-polyester blend, so you know what you're getting. The oversized fit is cut roomy on purpose; size down for a closer fit. Shown in black, as photographed in natural light.",
+    "material": "cotton-polyester blend",
+    "fit": "oversized",
+    "color": "black",
+    "use_case": [
+      "lounging",
+      "weekends"
+    ],
+    "search_keywords": [
+      "black",
+      "cotton-polyester blend",
+      "hoodie",
+      "lounging",
+      "weekends"
+    ]
+  },
+  {
+    "sku": "P05",
+    "title": "Fleece Jogger in Charcoal | Cotton-Polyester Blend",
+    "description": "A tapered pair of joggers made for lounging and weekends. It's made from cotton-polyester blend, so you know what you're getting. The tapered leg narrows toward the ankle. Shown in charcoal, as photographed in natural light.",
+    "material": "cotton-polyester blend",
+    "fit": "tapered",
+    "color": "charcoal",
+    "use_case": [
+      "lounging",
+      "weekends"
+    ],
+    "search_keywords": [
+      "charcoal",
+      "cotton-polyester blend",
+      "joggers",
+      "lounging",
+      "weekends"
+    ]
+  },
+  {
+    "sku": "P06",
+    "title": "Midi Dress in Rust | Linen",
+    "description": "A relaxed dress made for warm days and travel. It's made from linen, so you know what you're getting. The relaxed fit gives you room to move. Shown in rust, as photographed in natural light. Breathable linen for hot days.",
+    "material": "linen",
+    "fit": "relaxed",
+    "color": "rust",
+    "use_case": [
+      "warm days",
+      "travel"
+    ],
+    "search_keywords": [
+      "dress",
+      "linen",
+      "rust",
+      "travel",
+      "warm days"
+    ]
+  },
+  {
+    "sku": "P07",
+    "title": "Wrap Dress in Sky Blue | Linen",
+    "description": "A regular dress made for warm days and travel. It's made from linen, so you know what you're getting. The regular fit is true to size. Shown in sky blue, as photographed in natural light.",
+    "material": "linen",
+    "fit": "regular",
+    "color": "sky blue",
+    "use_case": [
+      "warm days",
+      "travel"
+    ],
+    "search_keywords": [
+      "dress",
+      "linen",
+      "sky blue",
+      "travel",
+      "warm days"
+    ]
+  },
+  {
+    "sku": "P08",
+    "title": "Rain Shell in Olive | Nylon",
+    "description": "A regular jacket made for rain and commuting. It's made from nylon, so you know what you're getting. The regular fit is true to size. Shown in olive, as photographed in natural light. A DWR finish makes it water-resistant in light rain.",
+    "material": "nylon",
+    "fit": "regular",
+    "color": "olive",
+    "use_case": [
+      "rain",
+      "commuting"
+    ],
+    "search_keywords": [
+      "commuting",
+      "jacket",
+      "nylon",
+      "olive",
+      "rain"
+    ]
+  },
+  {
+    "sku": "P09",
+    "title": "Coach Jacket in Mustard | Recycled Polyester",
+    "description": "A relaxed jacket made for rain and commuting. It's made from recycled polyester, so you know what you're getting. The relaxed fit gives you room to move. Shown in mustard, as photographed in natural light. A DWR finish makes it water-resistant in light rain. Made from recycled bottles.",
+    "material": "recycled polyester",
+    "fit": "relaxed",
+    "color": "mustard",
+    "use_case": [
+      "rain",
+      "commuting"
+    ],
+    "search_keywords": [
+      "commuting",
+      "jacket",
+      "mustard",
+      "rain",
+      "recycled polyester"
+    ]
+  },
+  {
+    "sku": "P10",
+    "title": "Puffer Vest in Sand | Recycled Polyester",
+    "description": "A regular vest made for layering. It's made from recycled polyester, so you know what you're getting. The regular fit is true to size. Shown in sand, as photographed in natural light.",
+    "material": "recycled polyester",
+    "fit": "regular",
+    "color": "sand",
+    "use_case": [
+      "layering"
+    ],
+    "search_keywords": [
+      "layering",
+      "recycled polyester",
+      "sand",
+      "vest"
+    ]
+  },
+  {
+    "sku": "P11",
+    "title": "Merino Crew in Burgundy | Merino Wool",
+    "description": "A slim sweater made for hiking and travel. It's made from merino wool (18.5 micron), so you know what you're getting. The slim fit sits close without clinging. Shown in burgundy, as photographed in natural light.",
+    "material": "merino wool",
+    "fit": "slim",
+    "color": "burgundy",
+    "use_case": [
+      "hiking",
+      "travel"
+    ],
+    "search_keywords": [
+      "burgundy",
+      "hiking",
+      "merino wool",
+      "sweater",
+      "travel"
+    ]
+  },
+  {
+    "sku": "P12",
+    "title": "Cable Knit in Cream | Wool Blend",
+    "description": "A relaxed sweater made for everyday wear. It's made from wool blend, so you know what you're getting. The relaxed fit gives you room to move. Shown in cream, as photographed in natural light.",
+    "material": "wool blend",
+    "fit": "relaxed",
+    "color": "cream",
+    "use_case": [
+      "everyday wear"
+    ],
+    "search_keywords": [
+      "cream",
+      "everyday wear",
+      "sweater",
+      "wool blend"
+    ]
+  },
+  {
+    "sku": "P13",
+    "title": "Rib Beanie in Red | Acrylic",
+    "description": "A beanie made for cold mornings. It's made from acrylic, so you know what you're getting. One size fits most. Shown in red, as photographed in natural light.",
+    "material": "acrylic",
+    "fit": "one size",
+    "color": "red",
+    "use_case": [
+      "cold mornings"
+    ],
+    "search_keywords": [
+      "acrylic",
+      "beanie",
+      "cold mornings",
+      "red"
+    ]
+  },
+  {
+    "sku": "P14",
+    "title": "Merino Beanie in Charcoal | Merino Wool",
+    "description": "A beanie made for hiking, travel and cold mornings. It's made from merino wool, so you know what you're getting. One size fits most. Shown in charcoal, as photographed in natural light.",
+    "material": "merino wool",
+    "fit": "one size",
+    "color": "charcoal",
+    "use_case": [
+      "hiking",
+      "travel",
+      "cold mornings"
+    ],
+    "search_keywords": [
+      "beanie",
+      "charcoal",
+      "cold mornings",
+      "hiking",
+      "merino wool",
+      "travel"
+    ]
+  },
+  {
+    "sku": "P15",
+    "title": "Market Tote in Cream | Cotton Canvas",
+    "description": "A tote made for shopping and everyday carry. It's made from cotton canvas (12oz), so you know what you're getting. One size fits most. Shown in cream, as photographed in natural light.",
+    "material": "cotton canvas",
+    "fit": "one size",
+    "color": "cream",
+    "use_case": [
+      "shopping",
+      "everyday carry"
+    ],
+    "search_keywords": [
+      "cotton canvas",
+      "cream",
+      "everyday carry",
+      "shopping",
+      "tote"
+    ]
+  },
+  {
+    "sku": "P16",
+    "title": "Packable Tote in Black | Recycled Polyester",
+    "description": "A tote made for shopping and everyday carry. It's made from recycled polyester, so you know what you're getting. One size fits most. Shown in black, as photographed in natural light.",
+    "material": "recycled polyester",
+    "fit": "one size",
+    "color": "black",
+    "use_case": [
+      "shopping",
+      "everyday carry"
+    ],
+    "search_keywords": [
+      "black",
+      "everyday carry",
+      "recycled polyester",
+      "shopping",
+      "tote"
+    ]
+  },
+  {
+    "sku": "P18",
+    "title": "Chino Short in Olive | Cotton Twill",
+    "description": "A regular pair of shorts made for everyday wear. It's made from cotton twill (7in inseam), so you know what you're getting. The regular fit is true to size. Shown in olive, as photographed in natural light.",
+    "material": "cotton twill",
+    "fit": "regular",
+    "color": "olive",
+    "use_case": [
+      "everyday wear"
+    ],
+    "search_keywords": [
+      "cotton twill",
+      "everyday wear",
+      "olive",
+      "shorts"
+    ]
+  },
+  {
+    "sku": "P19",
+    "title": "Run Short in Pink | Recycled Polyester",
+    "description": "A relaxed pair of shorts made for running. It's made from recycled polyester, so you know what you're getting. The relaxed fit gives you room to move. Shown in pink, as photographed in natural light.",
+    "material": "recycled polyester",
+    "fit": "relaxed",
+    "color": "pink",
+    "use_case": [
+      "running"
+    ],
+    "search_keywords": [
+      "pink",
+      "recycled polyester",
+      "running",
+      "shorts"
+    ]
+  },
+  {
+    "sku": "P20",
+    "title": "Boxy Tee in Mustard | Organic Cotton",
+    "description": "A oversized tee made for everyday wear. It's made from organic cotton, so you know what you're getting. The oversized fit is cut roomy on purpose; size down for a closer fit. Shown in mustard, as photographed in natural light.",
+    "material": "organic cotton",
+    "fit": "oversized",
+    "color": "mustard",
+    "use_case": [
+      "everyday wear"
+    ],
+    "search_keywords": [
+      "everyday wear",
+      "mustard",
+      "organic cotton",
+      "tee"
+    ]
+  }
+]

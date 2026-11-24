@@ -1,0 +1,74 @@
+[
+  {
+    "id": "INC-01",
+    "cause": "F200-E14-C2",
+    "manual_rank": 2,
+    "copilot_rank_before_log": 1,
+    "copilot_rank": 1,
+    "mttr_manual": 110,
+    "mttr_copilot": 65
+  },
+  {
+    "id": "INC-02",
+    "cause": "F200-E14-C1",
+    "manual_rank": 1,
+    "copilot_rank_before_log": 1,
+    "copilot_rank": 1,
+    "mttr_manual": 85,
+    "mttr_copilot": 60
+  },
+  {
+    "id": "INC-03",
+    "cause": "NEW-ORING",
+    "manual_rank": null,
+    "copilot_rank_before_log": null,
+    "copilot_rank": 1,
+    "mttr_manual": 215,
+    "mttr_copilot": 70
+  },
+  {
+    "id": "INC-04",
+    "cause": "NEW-ORING",
+    "manual_rank": null,
+    "copilot_rank_before_log": null,
+    "copilot_rank": 1,
+    "mttr_manual": 215,
+    "mttr_copilot": 70
+  },
+  {
+    "id": "INC-05",
+    "cause": "C40-E31-C1",
+    "manual_rank": 1,
+    "copilot_rank_before_log": 1,
+    "copilot_rank": 1,
+    "mttr_manual": 100,
+    "mttr_copilot": 75
+  },
+  {
+    "id": "INC-06",
+    "cause": "C40-E31-C3",
+    "manual_rank": 3,
+    "copilot_rank_before_log": 1,
+    "copilot_rank": 1,
+    "mttr_manual": 120,
+    "mttr_copilot": 55
+  },
+  {
+    "id": "INC-07",
+    "cause": "L12-E41-C1",
+    "manual_rank": 1,
+    "copilot_rank_before_log": 1,
+    "copilot_rank": 1,
+    "mttr_manual": 80,
+    "mttr_copilot": 55
+  },
+  {
+    "id": "INC-08",
+    "cause": "C40-E35-C2",
+    "manual_rank": 2,
+    "copilot_rank_before_log": 1,
+    "copilot_rank": 1,
+    "mttr_manual": 95,
+    "mttr_copilot": 50
+  }
+]

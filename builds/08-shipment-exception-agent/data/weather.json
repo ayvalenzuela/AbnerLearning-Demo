@@ -1,0 +1,52 @@
+{
+  "Front Range": {
+    "condition": "clear",
+    "severity": 0,
+    "est_delay_min": 0
+  },
+  "Great Plains": {
+    "condition": "freezing rain",
+    "severity": 3,
+    "est_delay_min": 55
+  },
+  "Ozarks": {
+    "condition": "overcast",
+    "severity": 0,
+    "est_delay_min": 0
+  },
+  "Twin Cities": {
+    "condition": "freezing rain",
+    "severity": 3,
+    "est_delay_min": 55
+  },
+  "Lake Michigan": {
+    "condition": "clear",
+    "severity": 0,
+    "est_delay_min": 0
+  },
+  "Ohio Valley": {
+    "condition": "light rain",
+    "severity": 1,
+    "est_delay_min": 10
+  },
+  "Gulf Coast": {
+    "condition": "clear",
+    "severity": 0,
+    "est_delay_min": 0
+  },
+  "Cascades": {
+    "condition": "freezing rain",
+    "severity": 3,
+    "est_delay_min": 55
+  },
+  "Mojave": {
+    "condition": "clear",
+    "severity": 0,
+    "est_delay_min": 0
+  },
+  "Appalachia": {
+    "condition": "clear",
+    "severity": 0,
+    "est_delay_min": 0
+  }
+}

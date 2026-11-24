@@ -1,0 +1,25 @@
+{
+  "note": "Simulated minutes the rep spent editing each generated proposal before sending.",
+  "Halvorsen Freight Group": {
+    "minutes": 22,
+    "edited": [
+      "exec_summary"
+    ],
+    "removed": []
+  },
+  "Meridian Health Partners": {
+    "minutes": 31,
+    "edited": [
+      "exec_summary",
+      "timeline"
+    ],
+    "removed": []
+  },
+  "Quarry Lane Credit Union": {
+    "minutes": 18,
+    "edited": [],
+    "removed": [
+      "case_study"
+    ]
+  }
+}

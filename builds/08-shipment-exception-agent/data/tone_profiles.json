@@ -1,0 +1,20 @@
+{
+  "formal": {
+    "greeting": "Dear {contact},",
+    "signoff": "Kind regards,\nOperations Desk, Tallgrass Logistics",
+    "max_sentences": 6,
+    "style": "complete sentences, no contractions, apologise once"
+  },
+  "friendly": {
+    "greeting": "Hi {first},",
+    "signoff": "Thanks for bearing with us!\nThe Tallgrass ops team",
+    "max_sentences": 5,
+    "style": "warm, plain words, contractions fine"
+  },
+  "terse": {
+    "greeting": "",
+    "signoff": "-- Tallgrass Ops",
+    "max_sentences": 3,
+    "style": "facts only: shipment, cause, new ETA, action"
+  }
+}

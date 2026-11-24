@@ -1,0 +1,107 @@
+[
+  {
+    "id": "M01",
+    "channel": "sms",
+    "received_at": "2026-11-21T22:47",
+    "unit": "4B",
+    "text": "Water is pouring through the ceiling from the unit above, it's all over the kitchen floor!"
+  },
+  {
+    "id": "M02",
+    "channel": "email",
+    "received_at": "2026-11-16T10:15",
+    "unit": "2A",
+    "text": "Hi, what day is rent due each month, and is there a grace period?"
+  },
+  {
+    "id": "M03",
+    "channel": "sms",
+    "received_at": "2026-11-16T19:30",
+    "unit": "3C",
+    "text": "Kitchen sink is clogged and draining really slowly."
+  },
+  {
+    "id": "M04",
+    "channel": "email",
+    "received_at": "2026-11-17T09:05",
+    "unit": "1D",
+    "text": "I was charged a $75 late fee but I paid rent on the 2nd. Can you check?"
+  },
+  {
+    "id": "M05",
+    "channel": "sms",
+    "received_at": "2026-11-18T02:10",
+    "unit": "5A",
+    "text": "I smell gas near the stove, it's strong. What do I do?"
+  },
+  {
+    "id": "M06",
+    "channel": "email",
+    "received_at": "2026-11-17T13:40",
+    "unit": "2C",
+    "text": "Can I have a cat in my apartment? Is there a pet deposit?"
+  },
+  {
+    "id": "M07",
+    "channel": "email",
+    "received_at": "2026-11-17T21:15",
+    "unit": "4A",
+    "text": "The dishwasher stopped working and leaks a little water onto the floor when it runs."
+  },
+  {
+    "id": "M08",
+    "channel": "sms",
+    "received_at": "2026-11-18T07:20",
+    "unit": "1B",
+    "text": "Where do I put recycling and what day is pickup?"
+  },
+  {
+    "id": "M09",
+    "channel": "email",
+    "received_at": "2026-11-18T11:00",
+    "unit": "3A",
+    "text": "The heater makes a loud banging noise and the bedroom stays cold at night."
+  },
+  {
+    "id": "M10",
+    "channel": "sms",
+    "received_at": "2026-11-18T23:05",
+    "unit": "5C",
+    "text": "Can I get a receipt for my October rent payment? Need it for taxes."
+  },
+  {
+    "id": "M11",
+    "channel": "email",
+    "received_at": "2026-11-19T15:30",
+    "unit": "2B",
+    "text": "How much notice do I need to give before I move out?"
+  },
+  {
+    "id": "M12",
+    "channel": "sms",
+    "received_at": "2026-11-19T18:45",
+    "unit": "3D",
+    "text": "Bathroom exhaust fan is broken, it makes no sound at all."
+  },
+  {
+    "id": "M13",
+    "channel": "email",
+    "received_at": "2026-11-20T08:30",
+    "unit": "1A",
+    "text": "Is guest parking available overnight for a visitor this weekend?"
+  },
+  {
+    "id": "M14",
+    "channel": "email",
+    "received_at": "2026-11-20T20:10",
+    "unit": "4C",
+    "text": "The refrigerator isn't cooling anymore and food is going bad."
+  },
+  {
+    "id": "M15",
+    "channel": "sms",
+    "received_at": "2026-11-22T12:00",
+    "unit": "5B",
+    "text": "My autopay didn't go through this month, how do I pay my balance?"
+  }
+]

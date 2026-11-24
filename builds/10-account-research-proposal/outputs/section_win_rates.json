@@ -1,0 +1,105 @@
+{
+  "by_section": {
+    "case_study": {
+      "win_with": 0.5,
+      "win_without": 0.39,
+      "lift_pts": 11,
+      "n_with": 42,
+      "n_without": 38
+    },
+    "company_overview": {
+      "win_with": 0.3,
+      "win_without": 0.54,
+      "lift_pts": -24,
+      "n_with": 30,
+      "n_without": 50
+    },
+    "exec_summary": {
+      "win_with": 0.48,
+      "win_without": 0.29,
+      "lift_pts": 20,
+      "n_with": 66,
+      "n_without": 14
+    },
+    "pains_solutions_table": {
+      "win_with": 0.56,
+      "win_without": 0.14,
+      "lift_pts": 42,
+      "n_with": 59,
+      "n_without": 21
+    },
+    "roi": {
+      "win_with": 0.52,
+      "win_without": 0.18,
+      "lift_pts": 35,
+      "n_with": 63,
+      "n_without": 17
+    },
+    "timeline": {
+      "win_with": 0.52,
+      "win_without": 0.22,
+      "lift_pts": 29,
+      "n_with": 62,
+      "n_without": 18
+    },
+    "what_we_heard": {
+      "win_with": 0.48,
+      "win_without": 0.33,
+      "lift_pts": 14,
+      "n_with": 65,
+      "n_without": 15
+    }
+  },
+  "by_template": {
+    "freeform": {
+      "proposals": 40,
+      "hours": 6.3,
+      "meeting_rate": 0.5,
+      "win_rate": 0.3
+    },
+    "skill": {
+      "proposals": 40,
+      "hours": 1.0,
+      "meeting_rate": 0.7,
+      "win_rate": 0.6
+    }
+  },
+  "keep": [
+    "case_study",
+    "exec_summary",
+    "pains_solutions_table",
+    "roi",
+    "timeline",
+    "what_we_heard"
+  ],
+  "drop": [
+    "company_overview"
+  ],
+  "add_to_skill": [
+    "case_study"
+  ],
+  "rep_edits_this_run": {
+    "Halvorsen Freight Group": {
+      "minutes": 22,
+      "edited": [
+        "exec_summary"
+      ],
+      "removed": []
+    },
+    "Meridian Health Partners": {
+      "minutes": 31,
+      "edited": [
+        "exec_summary",
+        "timeline"
+      ],
+      "removed": []
+    },
+    "Quarry Lane Credit Union": {
+      "minutes": 18,
+      "edited": [],
+      "removed": [
+        "case_study"
+      ]
+    }
+  }
+}

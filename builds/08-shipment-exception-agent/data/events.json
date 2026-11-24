@@ -1,0 +1,477 @@
+[
+  {
+    "ts": "2026-11-24T05:09",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2412",
+    "miles_remaining": 338
+  },
+  {
+    "ts": "2026-11-24T05:26",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2409",
+    "miles_remaining": 272
+  },
+  {
+    "ts": "2026-11-24T05:35",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2415",
+    "miles_remaining": 315
+  },
+  {
+    "ts": "2026-11-24T05:36",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2404",
+    "miles_remaining": 326
+  },
+  {
+    "ts": "2026-11-24T05:37",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2422",
+    "miles_remaining": 279
+  },
+  {
+    "ts": "2026-11-24T05:50",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2425",
+    "miles_remaining": 179
+  },
+  {
+    "ts": "2026-11-24T05:52",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2421",
+    "miles_remaining": 289
+  },
+  {
+    "ts": "2026-11-24T05:55",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2424",
+    "miles_remaining": 187
+  },
+  {
+    "ts": "2026-11-24T06:00",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2410",
+    "miles_remaining": 272
+  },
+  {
+    "ts": "2026-11-24T06:09",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2412",
+    "miles_remaining": 282.5,
+    "speed_mph": 56
+  },
+  {
+    "ts": "2026-11-24T06:13",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2416",
+    "miles_remaining": 299
+  },
+  {
+    "ts": "2026-11-24T06:14",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2401",
+    "miles_remaining": 250
+  },
+  {
+    "ts": "2026-11-24T06:15",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2417",
+    "miles_remaining": 224
+  },
+  {
+    "ts": "2026-11-24T06:20",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2413",
+    "miles_remaining": 165
+  },
+  {
+    "ts": "2026-11-24T06:26",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2409",
+    "miles_remaining": 221.8,
+    "speed_mph": 50
+  },
+  {
+    "ts": "2026-11-24T06:33",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2414",
+    "miles_remaining": 271
+  },
+  {
+    "ts": "2026-11-24T06:34",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2408",
+    "miles_remaining": 241
+  },
+  {
+    "ts": "2026-11-24T06:35",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2402",
+    "miles_remaining": 279
+  },
+  {
+    "ts": "2026-11-24T06:35",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2415",
+    "miles_remaining": 260.5,
+    "speed_mph": 55
+  },
+  {
+    "ts": "2026-11-24T06:36",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2403",
+    "miles_remaining": 328
+  },
+  {
+    "ts": "2026-11-24T06:36",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2404",
+    "miles_remaining": 276.4,
+    "speed_mph": 50
+  },
+  {
+    "ts": "2026-11-24T06:37",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2422",
+    "miles_remaining": 229.8,
+    "speed_mph": 49
+  },
+  {
+    "ts": "2026-11-24T06:48",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2406",
+    "miles_remaining": 294
+  },
+  {
+    "ts": "2026-11-24T06:49",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2411",
+    "miles_remaining": 245
+  },
+  {
+    "ts": "2026-11-24T06:50",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2425",
+    "miles_remaining": 129.7,
+    "speed_mph": 49
+  },
+  {
+    "ts": "2026-11-24T06:52",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2419",
+    "miles_remaining": 237
+  },
+  {
+    "ts": "2026-11-24T06:52",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2421",
+    "miles_remaining": 235.0,
+    "speed_mph": 54
+  },
+  {
+    "ts": "2026-11-24T06:54",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2405",
+    "miles_remaining": 298
+  },
+  {
+    "ts": "2026-11-24T06:54",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2412",
+    "miles_remaining": 268.2,
+    "speed_mph": 19
+  },
+  {
+    "ts": "2026-11-24T06:54",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2418",
+    "miles_remaining": 318
+  },
+  {
+    "ts": "2026-11-24T06:55",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2424",
+    "miles_remaining": 135.2,
+    "speed_mph": 52
+  },
+  {
+    "ts": "2026-11-24T06:56",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2420",
+    "miles_remaining": 242
+  },
+  {
+    "ts": "2026-11-24T07:00",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2410",
+    "miles_remaining": 219.0,
+    "speed_mph": 53
+  },
+  {
+    "ts": "2026-11-24T07:08",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2407",
+    "miles_remaining": 160
+  },
+  {
+    "ts": "2026-11-24T07:12",
+    "source": "TMS",
+    "type": "appointment_moved",
+    "shipment_id": "SHP-2421",
+    "new_appointment": "2026-11-24T14:00"
+  },
+  {
+    "ts": "2026-11-24T07:13",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2416",
+    "miles_remaining": 248.2,
+    "speed_mph": 51
+  },
+  {
+    "ts": "2026-11-24T07:14",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2401",
+    "miles_remaining": 200.8,
+    "speed_mph": 49
+  },
+  {
+    "ts": "2026-11-24T07:15",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2417",
+    "miles_remaining": 169.0,
+    "speed_mph": 55
+  },
+  {
+    "ts": "2026-11-24T07:20",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2413",
+    "miles_remaining": 109.3,
+    "speed_mph": 56
+  },
+  {
+    "ts": "2026-11-24T07:20",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2415",
+    "miles_remaining": 250.0,
+    "speed_mph": 14
+  },
+  {
+    "ts": "2026-11-24T07:20",
+    "source": "TMS",
+    "type": "departed",
+    "shipment_id": "SHP-2423",
+    "miles_remaining": 353
+  },
+  {
+    "ts": "2026-11-24T07:21",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2404",
+    "miles_remaining": 260.7,
+    "speed_mph": 21
+  },
+  {
+    "ts": "2026-11-24T07:33",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2414",
+    "miles_remaining": 220.8,
+    "speed_mph": 50
+  },
+  {
+    "ts": "2026-11-24T07:34",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2408",
+    "miles_remaining": 185.4,
+    "speed_mph": 56
+  },
+  {
+    "ts": "2026-11-24T07:35",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2402",
+    "miles_remaining": 227.9,
+    "speed_mph": 51
+  },
+  {
+    "ts": "2026-11-24T07:35",
+    "source": "TMS",
+    "type": "carrier_update",
+    "shipment_id": "SHP-2410",
+    "note": "carrier reports unit stopped"
+  },
+  {
+    "ts": "2026-11-24T07:36",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2403",
+    "miles_remaining": 274.6,
+    "speed_mph": 53
+  },
+  {
+    "ts": "2026-11-24T07:40",
+    "source": "TMS",
+    "type": "appointment_moved",
+    "shipment_id": "SHP-2413",
+    "new_appointment": "2026-11-24T11:59"
+  },
+  {
+    "ts": "2026-11-24T07:40",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2424",
+    "miles_remaining": 104.4,
+    "speed_mph": 41
+  },
+  {
+    "ts": "2026-11-24T07:45",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2410",
+    "miles_remaining": 219.0,
+    "speed_mph": 0
+  },
+  {
+    "ts": "2026-11-24T07:48",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2406",
+    "miles_remaining": 240.9,
+    "speed_mph": 53
+  },
+  {
+    "ts": "2026-11-24T07:49",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2411",
+    "miles_remaining": 191.6,
+    "speed_mph": 53
+  },
+  {
+    "ts": "2026-11-24T07:52",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2419",
+    "miles_remaining": 184.0,
+    "speed_mph": 53
+  },
+  {
+    "ts": "2026-11-24T07:54",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2405",
+    "miles_remaining": 248.1,
+    "speed_mph": 50
+  },
+  {
+    "ts": "2026-11-24T07:54",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2418",
+    "miles_remaining": 268.4,
+    "speed_mph": 50
+  },
+  {
+    "ts": "2026-11-24T07:56",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2420",
+    "miles_remaining": 189.0,
+    "speed_mph": 53
+  },
+  {
+    "ts": "2026-11-24T08:00",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2417",
+    "miles_remaining": 157.7,
+    "speed_mph": 15
+  },
+  {
+    "ts": "2026-11-24T08:08",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2407",
+    "miles_remaining": 106.0,
+    "speed_mph": 54
+  },
+  {
+    "ts": "2026-11-24T08:19",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2408",
+    "miles_remaining": 169.6,
+    "speed_mph": 21
+  },
+  {
+    "ts": "2026-11-24T08:20",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2423",
+    "miles_remaining": 298.7,
+    "speed_mph": 54
+  },
+  {
+    "ts": "2026-11-24T08:27",
+    "source": "TMS",
+    "type": "carrier_update",
+    "shipment_id": "SHP-2419",
+    "note": "carrier reports unit stopped"
+  },
+  {
+    "ts": "2026-11-24T08:33",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2406",
+    "miles_remaining": 230.4,
+    "speed_mph": 14
+  },
+  {
+    "ts": "2026-11-24T08:37",
+    "source": "GPS",
+    "type": "ping",
+    "shipment_id": "SHP-2419",
+    "miles_remaining": 184.0,
+    "speed_mph": 0
+  }
+]

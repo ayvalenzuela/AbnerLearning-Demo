@@ -20,7 +20,7 @@ const OUT = path.join(__dirname, "videos"), TMP = process.env.REC_TMP || path.jo
     const v = page.video(); await ctx.close();
     const webm = await v.path();
     const mp4 = path.join(OUT, `build-${id}.mp4`);
-    execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", webm, "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "30", "-preset", "slow", "-movflags", "+faststart", mp4]);
+    execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-ss", "2", "-i", webm, "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "30", "-preset", "slow", "-movflags", "+faststart", mp4]);
     console.log("wrote", mp4, (fs.statSync(mp4).size / 1e6).toFixed(1) + "MB");
   }
   await browser.close();
