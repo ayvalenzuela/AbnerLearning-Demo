@@ -154,7 +154,7 @@ def check_and_route(rec: dict) -> dict:
 
 
 def n8n_workflow() -> dict:
-    """An importable n8n workflow: webhook -> Claude -> rules -> IF confidence -> claims API / review queue."""
+    """An importable n8n workflow: webhook -> Claude -> parse -> coverage/fraud rules -> IF confidence -> claims API / review queue."""
     nid = lambda n: str(uuid.uuid5(uuid.NAMESPACE_URL, f"build09/{n}"))
     claude_req = {"model": MODEL, "max_tokens": 16000, "system": SYSTEM,
                   "output_config": {"format": {"type": "json_schema", "schema": _strict_schema(ClaimExtraction)}}}
@@ -181,29 +181,38 @@ def n8n_workflow() -> dict:
                             {"name": "content-type", "value": "application/json"}]},
                         "sendBody": True, "specifyBody": "json",
                         "jsonBody": "={{ JSON.stringify($json.claude_request) }}", "options": {"timeout": 120000}}},
-        {"name": "Coverage + fraud rules", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [720, 300],
+        {"name": "Parse extraction", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [720, 300],
          "parameters": {"jsCode": (
              "const ex = JSON.parse($json.content.find(b => b.type === 'text').text);\n"
              "const minConf = Math.min(...ex.fields.map(f => f.confidence));\n"
              "const rec = Object.fromEntries(ex.fields.map(f => [f.name, f.value]));\n"
-             "// same rules as check_and_route() in pipeline.py; policy + history lookups via the claims API\n"
              "return [{json: {...ex, record: rec, min_confidence: minConf,\n"
              "  low_fields: ex.fields.filter(f => f.confidence < " + str(CONF_BAR) + ").map(f => f.name)}}];")}},
-        {"name": "All fields confident?", "type": "n8n-nodes-base.if", "typeVersion": 2, "position": [960, 300],
+        # Runs the same rules as check_and_route(): policy active on loss date, collision coverage, VIN match,
+        # claim soon after policy start, estimate vs vehicle value, VIN already claimed. Returns
+        # {coverage_issues, fraud_flags, route} from the claims system, which holds the policy + claim history.
+        {"name": "Coverage + fraud rules", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2,
+         "position": [960, 300],
+         "parameters": {"method": "POST", "url": "https://claims.example.internal/api/v1/rules/check",
+                        "sendBody": True, "specifyBody": "json",
+                        "jsonBody": "={{ JSON.stringify($json.record) }}", "options": {}}},
+        {"name": "All fields confident?", "type": "n8n-nodes-base.if", "typeVersion": 2, "position": [1200, 300],
          "parameters": {"conditions": {"options": {"caseSensitive": True, "leftValue": "", "typeValidation": "strict"},
-                                       "conditions": [{"id": nid("cond"), "leftValue": "={{ $json.min_confidence }}",
+                                       "conditions": [{"id": nid("cond"), "leftValue": "={{ $('Parse extraction').item.json.min_confidence }}",
                                                        "rightValue": CONF_BAR,
                                                        "operator": {"type": "number", "operation": "gte"}}],
                                        "combinator": "and"}, "options": {}}},
         {"name": "Claims API: create claim", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2,
-         "position": [1200, 200],
+         "position": [1440, 200],
          "parameters": {"method": "POST", "url": "https://claims.example.internal/api/v1/claims", "sendBody": True,
-                        "specifyBody": "json", "jsonBody": "={{ JSON.stringify($json.record) }}", "options": {}}},
+                        "specifyBody": "json",
+                        "jsonBody": "={{ JSON.stringify({...$('Parse extraction').item.json.record, coverage_issues: $json.coverage_issues, fraud_flags: $json.fraud_flags, route: $json.route}) }}",
+                        "options": {}}},
         {"name": "Human review queue", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2,
-         "position": [1200, 420],
+         "position": [1440, 420],
          "parameters": {"method": "POST", "url": "https://claims.example.internal/api/v1/review-queue",
                         "sendBody": True, "specifyBody": "json",
-                        "jsonBody": "={{ JSON.stringify({claim_id: $json.claim_id, fields: $json.low_fields, notes: $json.notes}) }}",
+                        "jsonBody": "={{ JSON.stringify({claim_id: $('Parse extraction').item.json.claim_id, fields: $('Parse extraction').item.json.low_fields, notes: $('Parse extraction').item.json.notes, route: $json.route, fraud_flags: $json.fraud_flags}) }}",
                         "options": {}}},
     ]
     for n in nodes:
@@ -211,7 +220,8 @@ def n8n_workflow() -> dict:
     link = lambda to: {"node": to, "type": "main", "index": 0}
     conns = {"FNOL webhook": {"main": [[link("Build Claude request")]]},
              "Build Claude request": {"main": [[link("Claude extract")]]},
-             "Claude extract": {"main": [[link("Coverage + fraud rules")]]},
+             "Claude extract": {"main": [[link("Parse extraction")]]},
+             "Parse extraction": {"main": [[link("Coverage + fraud rules")]]},
              "Coverage + fraud rules": {"main": [[link("All fields confident?")]]},
              "All fields confident?": {"main": [[link("Claims API: create claim")], [link("Human review queue")]]}}
     return {"name": "FNOL intake - Claude extraction", "nodes": nodes, "connections": conns, "active": False,

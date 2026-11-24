@@ -17,7 +17,7 @@ FNOL packet (police report PDF, damage photo, phone note) -> n8n webhook
    -> coverage + fraud rules (code) -> severity routing (fast-track / adjuster / special unit)
    -> IF any field < 0.80: human review queue, else: claims system API
 ```
-`outputs/n8n_workflow.json` is the same flow as an n8n workflow (webhook, Code, HTTP Request to the Claude API, IF, two HTTP Request nodes). Import it with n8n's "Import from file" and add an `x-api-key` header credential.
+`outputs/n8n_workflow.json` is the same flow as an n8n workflow (webhook, Code, HTTP Request to the Claude API, Code to parse the extraction, HTTP Request to the claims system's coverage and fraud rules check, IF on confidence, then create the claim with its route or send it to the review queue). Import it with n8n's "Import from file" and add an `x-api-key` header credential.
 
 ## 4 · Demo — run it yourself
 ```bash

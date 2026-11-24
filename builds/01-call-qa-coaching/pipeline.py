@@ -64,6 +64,11 @@ def offline_score(call_id: str, transcript: str) -> CallScore:
                      coaching_tips=[tips[c.name] for c in weakest])
 
 
+def crm_note(s: CallScore) -> str:
+    return (f"QA score {s.total}/100" + (" | COMPLIANCE FLAG" if s.compliance_flag else "") +
+            "\nCoaching:\n- " + "\n- ".join(s.coaching_tips))
+
+
 def main():
     tr = Trace("01", "Call QA and coaching engine", HERE / "outputs")
 
@@ -104,10 +109,8 @@ def main():
     crm = []
     for c in calls:
         s = scores[c["call_id"]]
-        note = (f"QA score {s.total}/100" + (" | COMPLIANCE FLAG" if s.compliance_flag else "") +
-                "\nCoaching:\n- " + "\n- ".join(s.coaching_tips))
         crm.append({"call_id": c["call_id"], "rep": c["rep"], "score": s.total,
-                    "flag": s.compliance_flag, "crm_note": note})
+                    "flag": s.compliance_flag, "crm_note": crm_note(s)})
     (HERE / "outputs/crm_notes.json").write_text(json.dumps(crm, indent=2))
     tr.step("Post scores and three tips to the CRM", kind="code",
             what="An n8n webhook (simulated here) writes a note to each call's CRM record.",
@@ -146,8 +149,10 @@ def main():
             output={"agreement_before": f"{agree:.0%}", "agreement_after": f"{agree2:.0%}",
                     "mean_abs_diff_before": round(sum(diffs) / len(diffs), 1),
                     "mean_abs_diff_after": round(sum(diffs2) / len(diffs2), 1)})
-    for c in crm:
-        c["score"] = scores[c["call_id"]].total
+    for c in crm:  # rebuild every CRM field from the final, calibrated scores
+        s = scores[c["call_id"]]
+        c.update(score=s.total, flag=s.compliance_flag, crm_note=crm_note(s))
+    flags = [c["call_id"] for c in crm if c["flag"]]
     (HERE / "outputs/crm_notes.json").write_text(json.dumps(crm, indent=2))
 
     by_rep = {}

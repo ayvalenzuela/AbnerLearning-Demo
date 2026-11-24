@@ -3,3 +3,4 @@ pydantic>=2
 pandas>=2
 python-docx>=1.1
 pillow>=10
+mcp>=2.3,<3
