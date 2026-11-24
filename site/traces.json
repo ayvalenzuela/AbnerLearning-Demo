@@ -1,0 +1,112 @@
+[
+ {
+  "build": "01",
+  "title": "Call QA and coaching engine",
+  "mode": "OFFLINE (rule-based stand-in, same schema)",
+  "model": "claude-opus-5-5",
+  "steps": [
+   {
+    "n": 1,
+    "title": "Pull yesterday's recordings",
+    "kind": "io",
+    "what": "Loaded 12 transcribed calls (synthetic) from the VoIP export.",
+    "code": "calls = json.loads(Path(\"data/calls.json\").read_text())",
+    "output": "REP: Hi, this is Dana Ortiz from Voxly. Thanks for taking the call.\nPROSPECT: Sure. I'm the office manager at Harbor Credit Union.\nREP: Before I pitch anything, can you walk me through how calls get routed today?\nPROSPECT: Okay, that makes sense.\nREP: What happens when a call is missed after hours, and what does that cost you?\nPROSPECT: We already have a contract with our current provider.\nREP: So if I heard you right, the pain is dropped calls during the lunch rush. Did I get that right?\nPROSPECT: I'm not sure we have time to switch right now.\nREP: Who else needs to be part of this decision, "
+   },
+   {
+    "n": 2,
+    "title": "Write the rubric as a JSON schema",
+    "kind": "code",
+    "what": "Sales leaders' five criteria become a Pydantic schema, so every score is comparable.",
+    "code": "class CallScore(BaseModel):\n    call_id: str\n    criteria: list[Criterion]\n    total: int\n    compliance_flag: bool\n    coaching_tips: list[str]",
+    "output": "{\n  \"Discovery\": \"Asks open questions about the current process and its cost\",\n  \"Active listening\": \"Plays the pain back in the prospect's words\",\n  \"Value over features\": \"Links the product to the prospect's pain, not a feature list\",\n  \"Next step\": \"Books a dated next step with the right people\",\n  \"Compliance\": \"No misleading statements about recording, pricing or guarantees\"\n}"
+   },
+   {
+    "n": 3,
+    "title": "Score every call in one overnight batch",
+    "kind": "ai",
+    "what": "12 calls sent through the Message Batches API (50% cheaper, results by morning).",
+    "code": "scores = batch_structured(system=SYSTEM, items=items,\n                          schema=CallScore)  # client.messages.batches.create(...)",
+    "output": "{\n  \"call_id\": \"CALL-1001\",\n  \"criteria\": [\n    {\n      \"name\": \"Discovery\",\n      \"score\": 5,\n      \"evidence\": \"REP: Before I pitch anything, can you walk me through how calls get routed today?\"\n    },\n    {\n      \"name\": \"Active listening\",\n      \"score\": 5,\n      \"evidence\": \"REP: So if I heard you right, the pain is dropped calls during the lunch rush. Did I get that right?\"\n    },\n    {\n      \"name\": \"Value over features\",\n      \"score\": 4,\n      \"evidence\": \"REP: So if I heard you right, the pain is dropped calls during the lunch rush. Did I get that right?\"\n    },\n    {\n      \"name\": \"Next step\",\n      \"score\": 4,\n      \"evidence\": \"REP: Let's book thirty minutes Thursday with your IT lead to look at the number port. Does 2pm work?\"\n    },\n    {\n      \"name\": \"Compliance\",\n      \"score\": 5,\n      \"evidence\": \"No issues found\"\n    }\n  ],\n  \"total\": 92,\n  \"compliance_flag\": false,\n  \"coaching_tips\": [\n    \"Swap the feature list for one sentence tying Voxly to their pain.\",\n    \"End every call with a dated meeting and named attendees.\",\n    \"Open with two process questions before any product talk.\"\n  ]\n}"
+   },
+   {
+    "n": 4,
+    "title": "Post scores and three tips to the CRM",
+    "kind": "code",
+    "what": "An n8n webhook (simulated here) writes a note to each call's CRM record.",
+    "code": "requests.post(N8N_WEBHOOK, json={\"call_id\": id, \"note\": note})",
+    "output": "QA score 40/100\nCoaching:\n- Repeat the prospect's pain back in their words before pitching.\n- Swap the feature list for one sentence tying Voxly to their pain.\n- End every call with a dated meeting and named attendees.\n\nQA score 0/100 | COMPLIANCE FLAG\nCoaching:\n- Open with two process questions before any product talk.\n- Repeat the prospect's pain back in their words before pitching.\n- Swap the feature list for one sentence tying Voxly to their pain."
+   },
+   {
+    "n": 5,
+    "title": "Check calls by hand against Claude's scores",
+    "kind": "human",
+    "what": "A manager's hand scores are the answer key. Agreement = within 15 points.",
+    "code": "agree = mean(abs(model - manager) <= 15 for each call)",
+    "output": "{\n  \"calls_checked\": 12,\n  \"agreement\": \"33%\",\n  \"mean_abs_diff\": 20.3,\n  \"compliance_flags\": [\n    \"CALL-1003\",\n    \"CALL-1006\",\n    \"CALL-1009\",\n    \"CALL-1011\",\n    \"CALL-1012\"\n  ]\n}"
+   },
+   {
+    "n": 6,
+    "title": "Tune the prompt, then score again",
+    "kind": "check",
+    "what": "Added three manager-scored anchor calls to the prompt as calibration, then re-ran the batch.",
+    "code": "SYSTEM_V2 = SYSTEM + \"Calibration anchors (manager-scored):\\n\" + anchors",
+    "output": "{\n  \"agreement_before\": \"33%\",\n  \"agreement_after\": \"92%\",\n  \"mean_abs_diff_before\": 20.3,\n  \"mean_abs_diff_after\": 4.1\n}"
+   }
+  ],
+  "arch": [
+   {
+    "label": "VoIP recordings",
+    "kind": "data",
+    "note": "nightly export"
+   },
+   {
+    "label": "Speech-to-text",
+    "kind": "system",
+    "note": "transcripts"
+   },
+   {
+    "label": "Claude Batch API",
+    "kind": "ai",
+    "note": "rubric as JSON schema"
+   },
+   {
+    "label": "Validation",
+    "kind": "code",
+    "note": "schema-checked scores"
+   },
+   {
+    "label": "n8n -> CRM",
+    "kind": "system",
+    "note": "score + 3 tips"
+   },
+   {
+    "label": "Manager spot-check",
+    "kind": "human",
+    "note": "eval + tuning"
+   }
+  ],
+  "story": {
+   "situation": "A 40-rep UCaaS sales floor. Managers hear about 2% of calls, so coaching is random and compliance misses slip through.",
+   "constraints": "Recordings contain customer PII, so data stays in the company's tenant. Scores must be explainable to reps. Budget favours overnight batch over real-time.",
+   "replay": "Reuse: the rubric-as-schema + batch pattern works for any 'review every X' job (tickets, emails, chats). Next time: calibrate with anchor calls from day one, and track tip adoption per rep."
+  },
+  "metrics": {
+   "calls_scored": "12/12 (100%)",
+   "manager_agreement": "33% -> 92% after tuning",
+   "compliance_issues_caught": 5,
+   "avg_score_by_rep": {
+    "Dana Ortiz": 60,
+    "Marcus Lee": 60,
+    "Priya Shah": 56,
+    "Tom Becker": 60
+   },
+   "manager_hours_saved_per_week": 12.0
+  },
+  "dir": "builds/01-call-qa-coaching",
+  "industry": "Telecom / UCaaS",
+  "pattern": "Workflow + batch",
+  "why": "Batch is cheaper for work that can wait, and a schema makes every score comparable.",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/claude/serene-lovelace-zoo2ae/builds/01-call-qa-coaching"
+ }
+]

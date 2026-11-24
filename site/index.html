@@ -1,0 +1,273 @@
+<meta charset="utf-8">
+<title>AI Build Replays</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+/* Layout: one build at a time. Rail of 10 builds on top, then story -> architecture -> step player -> results. */
+:root {
+  --bg: #f5f2ec;          /* playbook cream */
+  --surface: #ebe5da;     /* card sand */
+  --ink: #141a2a;         /* playbook navy */
+  --muted: #5b6070;
+  --line: #d6cfc2;
+  --accent: #b9532b;      /* playbook orange */
+  --accent-soft: #e8935a;
+  --term-bg: #141a2a;
+  --term-panel: #1e2638;
+  --term-fg: #e9e6df;
+  --term-dim: #9aa3b5;
+  --k-data: #3f6fa8; --k-system: #6b7385; --k-ai: #b9532b; --k-code: #2f7d74; --k-human: #6a7d2f; --k-check: #8a5aa8;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #10151f; --surface: #1a2130; --ink: #ece8e0; --muted: #a2a9b8; --line: #2b3446;
+  --accent: #e8935a; --accent-soft: #f0b088; --term-bg: #0b0f17; --term-panel: #161d2b;
+  --k-data: #79a6dc; --k-system: #a0a8b9; --k-ai: #e8935a; --k-code: #5fb8ad; --k-human: #a9bf5f; --k-check: #b88fd6;
+  color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #10151f; --surface: #1a2130; --ink: #ece8e0; --muted: #a2a9b8; --line: #2b3446;
+  --accent: #e8935a; --accent-soft: #f0b088; --term-bg: #0b0f17; --term-panel: #161d2b;
+  --k-data: #79a6dc; --k-system: #a0a8b9; --k-ai: #e8935a; --k-code: #5fb8ad; --k-human: #a9bf5f; --k-check: #b88fd6;
+  color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--body); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -0.01em }
+.eyebrow { font: 600 12px/1 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--accent) }
+header.top { padding-block: 40px 20px; display: grid; gap: 12px }
+header.top h1 { font-size: clamp(30px, 5vw, 48px); line-height: 1.05 }
+header.top p { margin: 0; max-width: 64ch; color: var(--muted) }
+
+/* rail */
+nav.rail { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; padding-block: 12px 28px }
+@media (max-width: 860px) { nav.rail { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+.rail a { display: grid; gap: 2px; padding: 10px 12px; border-radius: 10px; text-decoration: none; color: var(--ink); border: 1px solid var(--line); background: transparent; min-width: 0 }
+.rail a:hover { border-color: var(--accent) }
+.rail a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.rail a[aria-current="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink) }
+.rail .num { font: 600 12px/1 var(--mono); color: var(--accent) }
+.rail a[aria-current="true"] .num { color: var(--accent-soft) }
+.rail .ind { font: 600 13px/1.25 var(--display); overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.rail .pat { font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.rail a[aria-current="true"] .pat { color: color-mix(in srgb, var(--bg) 75%, transparent) }
+
+/* build header */
+section.build { display: grid; gap: 28px; padding-bottom: 56px }
+.bhead { display: grid; gap: 10px }
+.bhead h2 { font-size: clamp(26px, 4vw, 40px); line-height: 1.1 }
+.chips { display: flex; flex-wrap: wrap; gap: 8px }
+.chip { font: 500 12px/1 var(--body); padding: 7px 10px; border-radius: 999px; background: var(--surface); color: var(--ink) }
+.chip.mode { background: transparent; border: 1px dashed var(--muted); color: var(--muted) }
+.story { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px }
+@media (max-width: 860px) { .story { grid-template-columns: 1fr } }
+.story h3 { font: 600 12px/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px }
+.story p { margin: 0; max-width: 60ch }
+
+/* architecture */
+.arch { overflow-x: auto; padding: 4px 0 }
+.arch svg { display: block; min-width: 760px; width: 100%; height: auto }
+.arch .lbl { font: 600 13px var(--display); fill: var(--ink) }
+.arch .note { font: 400 11px var(--body); fill: var(--muted) }
+.arch .kind { font: 600 9.5px var(--body); letter-spacing: .1em }
+.arch .edge { stroke: var(--line); stroke-width: 2 }
+.arch .edge.lit { stroke: var(--accent) }
+.arch rect.node { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; transition: stroke .3s, fill .3s }
+.arch g.on rect.node { stroke: var(--accent); stroke-width: 2.5 }
+.arch circle.pulse { fill: var(--accent) }
+
+/* player */
+.player { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 0; border-radius: 14px; overflow: hidden; background: var(--term-bg); color: var(--term-fg) }
+@media (max-width: 860px) { .player { grid-template-columns: 1fr } }
+.steps { list-style: none; margin: 0; padding: 14px; display: grid; gap: 6px; align-content: start; background: var(--term-panel) }
+.steps button { all: unset; cursor: pointer; display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; padding: 10px; border-radius: 8px; color: var(--term-dim); width: 100%; box-sizing: border-box }
+.steps button:hover { background: color-mix(in srgb, var(--term-fg) 6%, transparent) }
+.steps button[aria-current="step"] { background: color-mix(in srgb, var(--term-fg) 10%, transparent); color: var(--term-fg) }
+.steps .dot { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font: 600 12px/1 var(--mono); border: 1.5px solid currentColor }
+.steps .done .dot { background: var(--k-tint, var(--accent-soft)); border-color: transparent; color: var(--term-bg) }
+.steps .t { font: 500 13.5px/1.3 var(--body) }
+.steps .k { font: 600 10px/1 var(--body); letter-spacing: .1em; text-transform: uppercase; margin-top: 4px; color: var(--k-tint) }
+.stage { padding: 18px 20px 20px; display: grid; gap: 12px; min-width: 0; align-content: start; min-height: 520px }
+.stage .bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap }
+.stage .bar h3 { font-size: 19px; color: var(--term-fg); flex: 1 1 260px; min-width: 0 }
+.ctrl { display: flex; gap: 8px }
+.ctrl button { font: 600 13px/1 var(--body); padding: 9px 14px; border-radius: 8px; border: 1px solid #3a4560; background: transparent; color: var(--term-fg); cursor: pointer }
+.ctrl button.primary { background: var(--accent-soft); color: #141a2a; border-color: transparent }
+.what { margin: 0; color: var(--term-dim); max-width: 75ch }
+.pane { border-radius: 10px; background: var(--term-panel); min-width: 0 }
+.pane .ph { font: 600 10.5px/1 var(--body); letter-spacing: .12em; text-transform: uppercase; padding: 10px 12px 0; color: var(--term-dim); display: flex; justify-content: space-between; gap: 8px }
+.pane pre { margin: 0; padding: 10px 12px 12px; font: 12.5px/1.55 var(--mono); white-space: pre-wrap; word-break: break-word; overflow: auto; max-height: 340px }
+.pane.code pre { color: #f0c9a8 }
+.pane.out pre { color: var(--term-fg) }
+.caret::after { content: "▍"; color: var(--accent-soft); animation: blink 1s steps(1) infinite }
+@keyframes blink { 50% { opacity: 0 } }
+.progress { height: 3px; background: #2a3348; border-radius: 3px; overflow: hidden }
+.progress i { display: block; height: 100%; width: 0; background: var(--accent-soft); transition: width .25s linear }
+
+/* results */
+.results { display: grid; gap: 14px }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px }
+.tile { padding: 14px; border-radius: 12px; background: var(--surface); display: grid; gap: 6px; align-content: start; min-width: 0 }
+.tile .lab { font-size: 12px; color: var(--muted) }
+.tile .val { font: 600 18px/1.3 var(--display); font-variant-numeric: tabular-nums; overflow-wrap: anywhere }
+.tile .val.small { font: 500 13px/1.5 var(--mono) }
+.replay { border-left: 3px solid var(--accent); padding: 4px 0 4px 14px; max-width: 80ch; margin: 0 }
+.links { display: flex; flex-wrap: wrap; gap: 10px; align-items: center }
+.links a { color: var(--accent); font-weight: 600 }
+video { width: 100%; max-width: 100%; border-radius: 12px; background: var(--term-bg) }
+footer { padding-block: 24px 48px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line) }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--muted) }
+.legend span::before { content: ""; display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--c); margin-right: 6px }
+body.rec header.top, body.rec nav.rail, body.rec .results, body.rec footer, body.rec .story { display: none }
+body.rec section.build { padding-top: 24px }
+@media (prefers-reduced-motion: reduce) { .caret::after { animation: none } .arch rect.node { transition: none } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Portfolio · Abner Yegres Valenzuela</div>
+    <h1>Ten AI builds, replayed step by step</h1>
+    <p>Each build is working Python in the repo, run on synthetic data. Press Play to watch the real code and the real output of every step, in order. Every build follows the same method: discover, map, choose the simplest pattern, architect, prototype, evaluate, prove.</p>
+  </header>
+  <nav class="rail" id="rail" aria-label="Builds"></nav>
+  <main id="main"><p>Loading builds…</p></main>
+  <footer>
+    <div class="legend">
+      <span style="--c: var(--k-data)">Data</span><span style="--c: var(--k-code)">Code</span><span style="--c: var(--k-ai)">Claude</span><span style="--c: var(--k-check)">Check</span><span style="--c: var(--k-human)">Human</span><span style="--c: var(--k-system)">System</span>
+    </div>
+    <p>All data is synthetic. Runs shown are offline runs: a rule-based stand-in with the same output schema as the Claude call, so the pipeline runs without an API key. Set <code>ANTHROPIC_API_KEY</code> and the same code calls Claude.</p>
+  </footer>
+</div>
+
+<script>
+const KIND = { io: ["Data", "--k-data"], code: ["Code", "--k-code"], ai: ["Claude", "--k-ai"], check: ["Check", "--k-check"], human: ["Human", "--k-human"], data: ["Data", "--k-data"], system: ["System", "--k-system"] };
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let BUILDS = [], cur = null, stepIdx = 0, playing = false, timer = null, typing = null;
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+function rail() {
+  $("#rail").innerHTML = BUILDS.map(b => `<a href="#build-${b.build}" aria-current="${cur && cur.build === b.build}">
+    <span class="num">${b.build}</span><span class="ind">${esc(b.industry)}</span><span class="pat">${esc(b.title)}</span></a>`).join("");
+}
+
+function archSVG(nodes) {
+  const n = nodes.length, W = 1100, bw = Math.min(150, (W - 20) / n - 26), gap = (W - n * bw) / (n + 1), H = 132, y = 30, bh = 74;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Architecture: ${esc(nodes.map(x => x.label).join(" to "))}">`;
+  nodes.forEach((d, i) => {
+    if (i < n - 1) { const x1 = gap + i * (bw + gap) + bw, x2 = x1 + gap; s += `<line class="edge" data-e="${i}" x1="${x1 + 4}" y1="${y + bh / 2}" x2="${x2 - 8}" y2="${y + bh / 2}"/><path d="M${x2 - 10} ${y + bh / 2 - 5} L${x2 - 3} ${y + bh / 2} L${x2 - 10} ${y + bh / 2 + 5}" fill="none" stroke="var(--line)" stroke-width="2"/>`; }
+  });
+  nodes.forEach((d, i) => {
+    const x = gap + i * (bw + gap), k = KIND[d.kind] || KIND.system;
+    s += `<g data-n="${i}"><rect class="node" x="${x}" y="${y}" width="${bw}" height="${bh}" rx="10"/>
+      <rect x="${x}" y="${y}" width="${bw}" height="5" rx="2" fill="var(${k[1]})"/>
+      <text class="kind" x="${x + 10}" y="${y + 22}" fill="var(${k[1]})">${k[0].toUpperCase()}</text>
+      <text class="lbl" x="${x + 10}" y="${y + 42}">${esc(d.label)}</text>
+      <text class="note" x="${x + 10}" y="${y + 60}">${esc(d.note || "")}</text></g>`;
+  });
+  s += `<circle class="pulse" r="6" cx="${gap + bw / 2}" cy="${y + bh + 16}" id="pulse"/></svg>`;
+  return s;
+}
+
+function fmtVal(v) {
+  if (v && typeof v === "object") return { html: esc(Object.entries(v).map(([a, b]) => `${a}: ${typeof b === "object" ? JSON.stringify(b) : b}`).join("\n")).replace(/\n/g, "<br>"), small: true };
+  return { html: esc(v), small: String(v).length > 40 };
+}
+
+function render(b) {
+  cur = b; stepIdx = 0; stop(); rail();
+  const st = b.story || {};
+  const m = b.metrics || {};
+  $("#main").innerHTML = `<section class="build">
+    <div class="bhead">
+      <div class="eyebrow">Build ${b.build} · ${esc(b.industry)}</div>
+      <h2>${esc(b.title)}</h2>
+      <div class="chips"><span class="chip">Pattern: ${esc(b.pattern)}</span><span class="chip">${b.steps.length} steps</span><span class="chip mode">${esc(b.mode.startsWith("LIVE") ? "Live Claude run" : "Offline run · synthetic data")}</span></div>
+    </div>
+    <div class="story">
+      <div><h3>Situation</h3><p>${esc(st.situation || "")}</p></div>
+      <div><h3>Constraints</h3><p>${esc(st.constraints || "")}</p></div>
+      <div><h3>Why this pattern</h3><p>${esc(b.why || "")}</p></div>
+    </div>
+    <div class="arch" id="arch">${archSVG(b.arch || [])}</div>
+    <div class="player">
+      <ol class="steps" id="steps">${b.steps.map((s, i) => { const k = KIND[s.kind] || KIND.code; return `<li><button data-i="${i}" style="--k-tint: var(${k[1]})"><span class="dot">${i + 1}</span><span><div class="t">${esc(s.title)}</div><div class="k">${k[0]}</div></span></button></li>`; }).join("")}</ol>
+      <div class="stage">
+        <div class="bar"><h3 id="st-title"></h3><div class="ctrl"><button id="prev" aria-label="Previous step">Back</button><button id="play" class="primary">Play</button><button id="next" aria-label="Next step">Next</button></div></div>
+        <div class="progress"><i id="prog"></i></div>
+        <p class="what" id="st-what"></p>
+        <div class="pane code"><div class="ph"><span>Code</span><span>${esc(b.dir)}/pipeline.py</span></div><pre id="st-code"></pre></div>
+        <div class="pane out"><div class="ph"><span>Output</span><span id="st-kind"></span></div><pre id="st-out"></pre></div>
+      </div>
+    </div>
+    <div class="results">
+      <div class="eyebrow">Results</div>
+      <div class="tiles">${Object.entries(m).map(([k, v]) => { const f = fmtVal(v); return `<div class="tile"><span class="lab">${esc(k.replace(/_/g, " "))}</span><span class="val${f.small ? " small" : ""}">${f.html}</span></div>`; }).join("")}</div>
+      <p class="replay"><strong>Replay.</strong> ${esc(st.replay || "")}</p>
+      ${b.video ? `<video controls preload="metadata" src="${b.video}" aria-label="Screen recording of build ${b.build} running"></video>` : ""}
+      <div class="links"><a href="${b.repo}" target="_blank" rel="noopener">Code on GitHub</a><span>·</span><span>Run it: <code>cd ${esc(b.dir)} && python make_data.py && python pipeline.py</code></span></div>
+    </div>
+  </section>`;
+  $("#steps").addEventListener("click", e => { const btn = e.target.closest("button"); if (btn) { stop(); show(+btn.dataset.i, false); } });
+  $("#play").onclick = () => playing ? stop() : play();
+  $("#prev").onclick = () => { stop(); show(Math.max(0, stepIdx - 1), false); };
+  $("#next").onclick = () => { stop(); show(Math.min(b.steps.length - 1, stepIdx + 1), false); };
+  show(0, false);
+}
+
+function litArch(i) {
+  const nodes = cur.arch || [], n = nodes.length, total = cur.steps.length;
+  const at = Math.round(i * (n - 1) / Math.max(1, total - 1));
+  document.querySelectorAll("#arch g[data-n]").forEach(g => g.classList.toggle("on", +g.dataset.n <= at));
+  document.querySelectorAll("#arch .edge").forEach(e => e.classList.toggle("lit", +e.dataset.e < at));
+  const g = $(`#arch g[data-n="${at}"] rect.node`), p = $("#pulse");
+  if (g && p) { p.setAttribute("cx", +g.getAttribute("x") + +g.getAttribute("width") / 2); }
+}
+
+function show(i, animate) {
+  stepIdx = i; const s = cur.steps[i], k = KIND[s.kind] || KIND.code;
+  document.querySelectorAll("#steps button").forEach((btn, j) => { btn.toggleAttribute("aria-current", j === i); if (j === i) btn.setAttribute("aria-current", "step"); btn.classList.toggle("done", j < i || (j === i && !animate)); });
+  $("#st-title").textContent = `${i + 1}. ${s.title}`;
+  $("#st-what").textContent = s.what;
+  $("#st-kind").textContent = k[0];
+  $("#prog").style.width = `${((i + 1) / cur.steps.length) * 100}%`;
+  litArch(i);
+  clearInterval(typing);
+  const code = $("#st-code"), out = $("#st-out");
+  if (!animate || reduce) { code.textContent = s.code || "(no code: this step is done by a person)"; out.textContent = s.output; out.classList.remove("caret"); return Promise.resolve(); }
+  return new Promise(res => {
+    const full = s.code || "(no code: this step is done by a person)";
+    const o = s.output.length > 2400 ? s.output.slice(0, 2400) + "\n…" : s.output;
+    code.textContent = ""; out.textContent = ""; out.classList.add("caret");
+    let ci = 0, oi = 0; const cstep = Math.max(2, Math.ceil(full.length / 50)), ostep = Math.max(3, Math.ceil(o.length / 90));
+    typing = setInterval(() => {
+      if (ci < full.length) { ci += cstep; code.textContent = full.slice(0, ci); return; }
+      if (oi < o.length) { oi += ostep; out.textContent = o.slice(0, oi); out.scrollTop = out.scrollHeight; return; }
+      clearInterval(typing); out.classList.remove("caret"); out.scrollTop = 0;
+      document.querySelectorAll("#steps button")[i].classList.add("done"); res();
+    }, 28);
+  });
+}
+
+async function play() {
+  playing = true; $("#play").textContent = "Pause"; window.__done = false;
+  for (let i = stepIdx; i < cur.steps.length && playing; i++) {
+    await show(i, true);
+    if (!playing) return;
+    await new Promise(r => timer = setTimeout(r, reduce ? 600 : 2200));
+  }
+  if (playing) { playing = false; $("#play").textContent = "Replay"; stepIdx = 0; window.__done = true; }
+}
+function stop() { playing = false; clearInterval(typing); clearTimeout(timer); const p = $("#play"); if (p) p.textContent = "Play"; }
+
+function route() {
+  const id = (location.hash.match(/^#build-(\d\d)$/) || [])[1];
+  const b = BUILDS.find(x => x.build === id) || BUILDS[0];
+  if (b && b !== cur) { render(b); if (location.hash) window.scrollTo({ top: $("#main").offsetTop - 12, behavior: "instant" }); }
+}
+
+fetch("traces.json").then(r => r.json()).then(d => { BUILDS = d; route(); addEventListener("hashchange", route); window.__ready = true; })
+  .catch(() => { $("#main").innerHTML = "<p>The build data could not load. Reload the page to try again.</p>"; });
+</script>
