@@ -1,0 +1,12 @@
+{
+  "tried_first": "F200-E14-C2",
+  "root_cause_id": "NEW-ORING",
+  "root_cause": "Nozzle valve O-ring swollen (EPDM O-rings attacked by the new peracetic sanitizer; FKM required)",
+  "fix_steps": "Lock out per SOP-LOTO-01. Replace nozzle valve O-rings with FKM part OR-22-FKM on all heads. Sanitize per SOP-SAN-03 and swab before restart.",
+  "parts": [
+    "OR-22-FKM x12"
+  ],
+  "minutes_down": 95,
+  "first_time_fix": false,
+  "technician": "K. Osei"
+}

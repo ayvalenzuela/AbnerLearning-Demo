@@ -1,0 +1,102 @@
+{
+  "build": "02",
+  "title": "Prior-auth packet assistant",
+  "mode": "OFFLINE (rule-based stand-in, same schema)",
+  "model": "claude-opus-5-5",
+  "steps": [
+    {
+      "n": 1,
+      "title": "Load payer policies, chunk by section, embed",
+      "kind": "io",
+      "what": "Split 3 payer policy manuals into 21 sections and embedded each one (TF-IDF stand-in for an embedding model + pgvector).",
+      "code": "for sec in re.split(r\"\\n(?=## )\", policy_md):\n    idx.add(chunk_id, sec, payer=payer, heading=heading)\nidx.build()  # prod: embed with a real model, INSERT INTO policy_chunks (embedding vector)",
+      "output": "{\n  \"payers\": {\n    \"LCA\": \"Lakeshore Care Alliance\",\n    \"CMM\": \"Cascade Mutual\",\n    \"RHP\": \"Ridgeway Health Plan\"\n  },\n  \"chunks\": 21,\n  \"vocabulary\": 192,\n  \"sample_chunk\": \"CMM:Section 4.2\\n## Section 4.2 - Total knee arthroplasty (knee replacement) (CPT 27447)\\nCascade Mutual considers total knee arthroplasty (knee replacement) medically necessary when ALL of the following are documented:\\n- [CMM-27447-1] Radiographic advanced osteoarthritis, Kellgren-Lawrence grade 3 or 4.\\n- [CMM-27447-2] At least 12 weeks of non-surgical treatment.\\n- [CMM-27447-3] Body mass index below 40.\\n\"\n}"
+    },
+    {
+      "n": 2,
+      "title": "Retrieve this payer's criteria for the procedure",
+      "kind": "code",
+      "what": "For each request, searched only that payer's sections; the top hit was the right procedure section for 6/6 requests.",
+      "code": "hits = idx.search(f\"{procedure} CPT {cpt} medically necessary criteria\",\n                  k=3, payer=req[\"payer\"])  # metadata filter = WHERE payer = $1\ncriteria = criteria_from_section(hits[0].text)",
+      "output": "REQ-102 (Cascade Mutual, CPT 72148) top hits:\n  0.610  Section 4.1 - Lumbar spine MRI without contrast (CPT 72148)\n  0.064  Section 1.1 - Eligibility and member verification\n  0.058  Section 4.2 - Total knee arthroplasty (knee replacement) (CPT 27447)\n\nCriteria retrieved:\n  [CMM-72148-1] Low back pain persisting for at least 4 weeks.\n  [CMM-72148-2] At least 4 weeks of supervised physical therapy.\n  [CMM-72148-3] Neurological deficit or radiculopathy documented on exam.\n  [CMM-72148-4] Plain radiographs (X-ray) of the lumbar spine completed."
+    },
+    {
+      "n": 3,
+      "title": "Map chart evidence to each criterion, with citations",
+      "kind": "ai",
+      "what": "Claude read each request's chart notes as cited documents and marked every criterion MET / NOT MET / MISSING; 0 MET claims lacked a citation.",
+      "code": "content = [{\"type\": \"document\", \"title\": note[\"title\"],\n            \"source\": {\"type\": \"text\", \"media_type\": \"text/plain\", \"data\": note[\"text\"]},\n            \"citations\": {\"enabled\": True}} for note in req[\"notes\"]]\nblocks = ask_cited(system=MAP_SYSTEM, documents=req[\"notes\"], prompt=criteria_list)\nfindings = parse_findings(blocks)  # block.citations -> cited_text, document_title",
+      "output": "REQ-102:\n  CMM-72148-1  MET      Chart shows 5 weeks; policy requires at least 4 weeks.\n      cites (Urgent care 2026-09-02): \"Acute low back pain after lifting, present for 5 weeks.\"\n  CMM-72148-2  NOT MET  Chart shows 3 weeks; policy requires at least 4 weeks.\n      cites (PT progress note 2026-10-03): \"Patient has attended 3 weeks of physical therapy, two visits per week.\"\n  CMM-72148-3  MET      Documented in the chart.\n      cites (Ortho visit 2026-10-06): \"Numbness over the right lateral foot and mild weakness of great toe extension.\"\n  CMM-72148-4  MET      Documented in the chart.\n      cites (Urgent care 2026-09-02): \"Lumbar x-ray shows mild degenerative change, no fracture.\""
+    },
+    {
+      "n": 4,
+      "title": "Flag missing evidence and draft the necessity letter",
+      "kind": "ai",
+      "what": "Packets for 2 requests are ready; 4 are flagged with the exact items staff must obtain first.",
+      "code": "class PacketDraft(BaseModel):\n    ready_to_submit: bool\n    missing_items: list[str]\n    letter: str\n\ndraft = ask_structured(system=LETTER_SYSTEM, content=findings_json, schema=PacketDraft)",
+      "output": "{\n  \"flagged\": {\n    \"REQ-102\": [\n      \"CMM-72148-2: At least 4 weeks of supervised physical therapy. (NOT MET - Chart shows 3 weeks; policy requires at least 4 weeks.)\"\n    ],\n    \"REQ-103\": [\n      \"LCA-27447-5: Documented tobacco-free status (non-smoker or quit at least 4 weeks prior). (MISSING - No supporting documentation found in the chart.)\"\n    ],\n    \"REQ-104\": [\n      \"RHP-95810-2: Witnessed apneas or loud habitual snoring. (MISSING - No supporting documentation found in the chart.)\"\n    ],\n    \"REQ-105\": [\n      \"CMM-95810-1: Epworth Sleepiness Scale score of 12 or higher. (NOT MET - Chart value 11; policy requires >= 12.)\"\n    ]\n  },\n  \"REQ-101 letter\": \"To: Ridgeway Health Plan Utilization Management\\nRe: Prior authorization for Lumbar spine MRI without contrast (CPT 72148) - Patient A (fictional, 52F)\\nDiagnosis: M54.16 Radiculopathy, lumbar region\\n\\nI am requesting authorization for lumbar spine mri without contrast. The chart documents each of your criteria:\\n- Low back pain persisting for at least 6 weeks. Chart (PCP visit 2026-08-04): \\\"Patient reports low back pain for 9 weeks radiating to the left leg.\\\"\\n- At least 6 weeks of conservative therapy (physical therapy or NSAIDs). Chart (PT discharge summary 2026-09-22): \\\"Completed 7 weeks of physical therapy with minimal relief.\\\"\\n- Neurological deficit or radiculopathy documented on exam. Chart (Spine clinic 2026-10-01): \\\"Exam shows positive straight leg raise on the left and diminished left ankle reflex.\\\"\\n\\nSincerely, Dr. Lena Ortiz (fictional)\"\n}"
+    },
+    {
+      "n": 5,
+      "title": "Staff review and submit; every edit becomes eval data",
+      "kind": "human",
+      "what": "Staff corrected 4 of 28 fields (14% edit rate); each edit was saved to eval_set.jsonl. Complete packets went out; the rest were held for documents.",
+      "code": "if model_status != staff_status:\n    eval_rows.append({\"request_id\": rid, \"field\": cid,\n                      \"model\": model_status, \"staff\": staff_status})\nsubmit if all(status == \"MET\") else hold_for_docs",
+      "output": "{\n  \"submitted\": [\n    \"REQ-101\",\n    \"REQ-104\",\n    \"REQ-106\"\n  ],\n  \"held_for_documents\": [\n    \"REQ-102\",\n    \"REQ-103\",\n    \"REQ-105\"\n  ],\n  \"edits\": [\n    \"REQ-101 letter: staff added a line (5% changed)\",\n    \"REQ-104 RHP-95810-2: MISSING -> MET\",\n    \"REQ-104 letter: staff added a line (11% changed)\",\n    \"REQ-106 letter: staff added a line (3% changed)\"\n  ],\n  \"review_minutes\": \"REQ-101=16 REQ-102=12 REQ-103=12 REQ-104=20 REQ-105=12 REQ-106=16\"\n}"
+    },
+    {
+      "n": 6,
+      "title": "Score against the nurse's answer key",
+      "kind": "check",
+      "what": "Compared every criterion decision with a prior-auth nurse's hand labels.",
+      "code": "pairs = [(findings[rid][cid].status, nurse) for rid, cid, nurse in answer_key]\nagree = mean(model == nurse for model, nurse in pairs)\ngaps = [c for c in answer_key if c.nurse != 'MET']\ngap_recall = mean(findings[c].status != 'MET' for c in gaps)",
+      "output": "{\n  \"criteria_checked\": 22,\n  \"agreement\": \"95%\",\n  \"gap_recall\": \"3/3\",\n  \"MET_claims_with_citation\": \"18/18\",\n  \"false_flags (model said gap, nurse said met)\": [\n    \"REQ-104 RHP-95810-2\"\n  ]\n}"
+    }
+  ],
+  "arch": [
+    {
+      "label": "Payer policy docs",
+      "kind": "data",
+      "note": "3 payers, chunked by section"
+    },
+    {
+      "label": "Embeddings + pgvector",
+      "kind": "system",
+      "note": "TF-IDF stand-in here"
+    },
+    {
+      "label": "EHR chart notes",
+      "kind": "data",
+      "note": "per request, under a BAA"
+    },
+    {
+      "label": "Claude + citations",
+      "kind": "ai",
+      "note": "criterion -> cited chart text"
+    },
+    {
+      "label": "Gap check + letter",
+      "kind": "code",
+      "note": "missing items, draft letter"
+    },
+    {
+      "label": "Staff review screen",
+      "kind": "human",
+      "note": "edits become eval data"
+    }
+  ],
+  "story": {
+    "situation": "A specialty clinic's prior-auth team spends hours per request matching each payer's rules to chart notes, and incomplete packets come back denied weeks later.",
+    "constraints": "Chart notes are PHI, so the whole system runs under a BAA with no data retention outside the tenant. Every claim in a packet must point to a chart sentence. Staff, not the model, submit.",
+    "replay": "Reuse: retrieve-the-rules, map-evidence-with-citations, human-submits works for any rules-vs-records check (claims, underwriting, audits). Next time: capture staff edits from day one so the eval set grows with real cases.",
+    "problem_cost": "About 2.4 staff hours per request, and roughly 3 in 10 first submissions denied for missing documentation."
+  },
+  "metrics": {
+    "hours_per_request": "2.4 -> 0.24 (staff review time, simulated)",
+    "first_pass_approvals": "50% if sent as-is -> 3/3 submitted packets complete",
+    "denials_avoided": "3 incomplete packets held before submission (REQ-102, REQ-103, REQ-105)",
+    "criterion_agreement_with_nurse": "95%",
+    "gap_recall": "3/3",
+    "staff_edit_rate": "14% (4 edits -> eval_set.jsonl)"
+  }
+}

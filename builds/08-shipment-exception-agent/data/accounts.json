@@ -1,0 +1,26 @@
+{
+  "Cedar Grove Grocers": {
+    "tone": "friendly",
+    "contact": "Maya Brooks"
+  },
+  "Halden Medical Supply": {
+    "tone": "formal",
+    "contact": "Dr. Ellen Whitcombe"
+  },
+  "Northpine Hardware": {
+    "tone": "terse",
+    "contact": "Raj Patel"
+  },
+  "Orbit Home Goods": {
+    "tone": "friendly",
+    "contact": "Sam Ortega"
+  },
+  "Ridgeway Auto Parts": {
+    "tone": "terse",
+    "contact": "Lena Fox"
+  },
+  "Silverline Pharma Distribution": {
+    "tone": "formal",
+    "contact": "Mr. Victor Hale"
+  }
+}

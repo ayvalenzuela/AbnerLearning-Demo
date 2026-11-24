@@ -1,0 +1,17 @@
+{
+  "M01": "emergency",
+  "M02": "question",
+  "M03": "repair",
+  "M04": "billing",
+  "M05": "emergency",
+  "M06": "question",
+  "M07": "repair",
+  "M08": "question",
+  "M09": "repair",
+  "M10": "billing",
+  "M11": "question",
+  "M12": "repair",
+  "M13": "question",
+  "M14": "repair",
+  "M15": "billing"
+}

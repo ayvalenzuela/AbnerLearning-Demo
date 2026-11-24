@@ -1,0 +1,22 @@
+{
+  "Apex Freight": {
+    "backup_carrier": "Summit Haul",
+    "ready_in_min": 35,
+    "cost_usd": 450
+  },
+  "BlueRiver Carriers": {
+    "backup_carrier": "Keystone Express",
+    "ready_in_min": 45,
+    "cost_usd": 570
+  },
+  "Summit Haul": {
+    "backup_carrier": "Apex Freight",
+    "ready_in_min": 55,
+    "cost_usd": 690
+  },
+  "Keystone Express": {
+    "backup_carrier": "BlueRiver Carriers",
+    "ready_in_min": 65,
+    "cost_usd": 810
+  }
+}

@@ -1,0 +1,51 @@
+[
+  {
+    "type": "bank_fee",
+    "lines": [
+      "BK-0196"
+    ]
+  },
+  {
+    "type": "bank_fee",
+    "lines": [
+      "BK-0127"
+    ]
+  },
+  {
+    "type": "bank_fee",
+    "lines": [
+      "BK-0161"
+    ]
+  },
+  {
+    "type": "duplicate_payment",
+    "lines": [
+      "BK-0081"
+    ]
+  },
+  {
+    "type": "transposed_amount",
+    "lines": [
+      "GL-0192",
+      "BK-0109"
+    ]
+  },
+  {
+    "type": "timing_difference",
+    "lines": [
+      "GL-0193"
+    ]
+  },
+  {
+    "type": "timing_difference",
+    "lines": [
+      "GL-0194"
+    ]
+  },
+  {
+    "type": "unknown_vendor",
+    "lines": [
+      "BK-0178"
+    ]
+  }
+]

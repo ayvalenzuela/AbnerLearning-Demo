@@ -1,0 +1,38 @@
+{
+  "1D": [
+    {
+      "date": "2026-11-02",
+      "type": "payment",
+      "amount": 1850.0,
+      "ref": "ACH 88123"
+    },
+    {
+      "date": "2026-11-06",
+      "type": "late_fee",
+      "amount": 75.0,
+      "ref": "AUTO-LF"
+    }
+  ],
+  "5C": [
+    {
+      "date": "2026-10-01",
+      "type": "payment",
+      "amount": 1725.0,
+      "ref": "ACH 77410"
+    },
+    {
+      "date": "2026-11-01",
+      "type": "payment",
+      "amount": 1725.0,
+      "ref": "ACH 80122"
+    }
+  ],
+  "5B": [
+    {
+      "date": "2026-11-01",
+      "type": "autopay_failed",
+      "amount": 1640.0,
+      "ref": "NSF R01"
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "build": "03",
+  "title": "Contract review Skill",
+  "mode": "OFFLINE (rule-based stand-in, same schema)",
+  "model": "claude-opus-5-5",
+  "steps": [
+    {
+      "n": 1,
+      "title": "Turn the playbook into rules: position, fallback, walk-away",
+      "kind": "code",
+      "what": "The firm's written playbook became 8 rules, each with a position, a fallback, a walk-away and a machine-readable check.",
+      "code": "\"confidentiality_term\": {\n  \"position\": \"No more than 3 years after disclosure.\",\n  \"fallback\": \"3 years, trade secrets while they remain trade secrets.\",\n  \"walk_away\": \"Perpetual, or longer than 7 years.\",\n  \"check\": {\"param\": \"years\", \"ok_max\": 3, \"escalate_above\": 7}}",
+      "output": "Confidentiality term\n  position:  Confidentiality obligations last no more than 3 years after disclosure.\n  fallback:  3 years, with trade secrets protected for as long as they remain trade secrets.\n  walk-away: Perpetual obligations for all information, or a term longer than 7 years.\nLimitation of liability\n  position:  Total liability capped at the fees paid in the 12 months before the claim.\n  fallback:  Cap at fees paid in the prior 24 months, with carve-outs only for confidentiality breach and indemnity.\n  walk-away: Uncapped or unlimited liability for our client.\nIndemnification\n  position:  Mutual indemnities, each limited to third-party claims.\n  fallback:  Mutual indemnities for third-party IP and confidentiality claims, subject to the liability cap.\n  walk-away: One-sided indemnity from our client that is not subject to any cap.\nGoverning law\n  position:  Delaware or New York law.\n  fallback:  Any US state law, with venue in that state's courts.\n  walk-away: Non-US governing law.\n... and 4 more rules in playbook.json"
+    },
+    {
+      "n": 2,
+      "title": "Package rules, clause library and scripts as one Skill",
+      "kind": "code",
+      "what": "One folder holds the instructions, rules, approved fallback wording and the redline script; frontmatter has name and description, and 8/8 rules have library wording.",
+      "code": "skill/contract-review/\n  SKILL.md            # name + description frontmatter, review steps\n  playbook.json       # rules\n  clause_library.json # approved fallbacks\n  scripts/redline.py  # .docx redline + memo",
+      "output": "{\n  \"files\": [\n    \"contract-review/SKILL.md\",\n    \"contract-review/clause_library.json\",\n    \"contract-review/playbook.json\",\n    \"contract-review/scripts/redline.py\"\n  ],\n  \"frontmatter\": {\n    \"name\": \"contract-review\",\n    \"description\": \"Review NDAs and MSAs against the firm's negotiation playbook. Marks each clause OK, negotiate or escalate with a reason,...\"\n  },\n  \"rules_without_fallback\": []\n}"
+    },
+    {
+      "n": 3,
+      "title": "Mark each clause OK / negotiate / escalate with a reason",
+      "kind": "ai",
+      "what": "Claude, loaded with the Skill, reviewed 10 contracts (58 clauses): 20 OK, 18 negotiate, 20 escalate.",
+      "code": "system = SKILL.md + playbook.json + clause_library.json\nreviews = batch_structured(system=system, items=contracts,\n                           schema=ContractReview)\n# ClauseCall: clause_id, clause_type, extracted_value, decision, reason",
+      "output": "CT-05 (MSA, Evergreen Clinics):\n  CT-05-1  escalate  unreadable             Could not read the months with confidence; a partner should review.\n  CT-05-2  negotiate one sided capped       Indemnity runs only from our client; propose mutual indemnities.\n  CT-05-3  escalate  90 days                90 days is past the 60-day walk-away.\n  CT-05-4  OK        no auto-renewal        No auto-renewal, matching the position.\n  CT-05-5  escalate  perpetual              Hits walk-away: Perpetual obligations for all information, or a term longer than 7 years.\n  CT-05-6  escalate  England and Wales      Hits walk-away: Non-US governing law.\n  CT-05-7  OK        consent, not unreasonably withheld Consent not unreasonably withheld, matching the position.\n  not covered by playbook: ['CT-05-8']"
+    },
+    {
+      "n": 4,
+      "title": "Output a redlined .docx and a one-page issues memo",
+      "kind": "io",
+      "what": "Wrote 10 redlines and 10 memos; CT-05's redline has 1 struck clause(s) with library fallbacks inserted and a Word comment on every flagged clause.",
+      "code": "old = p.add_run(clause_text); old.font.strike = True\nnew = p.add_run(LIBRARY[clause_type]); new.font.underline = True\ndoc.add_comment([old, new], text=f\"Negotiate: {reason}\")\nwrite_memo(contract, review, RULES, LIBRARY, memo_path)",
+      "output": "# Issues memo - CT-05 (MSA)\n\n**Contract:** Master Services Agreement - Evergreen Clinics  \n**Counterparty:** Evergreen Clinics  \n**Clauses reviewed:** 7 | **OK:** 2 | **Negotiate:** 1 | **Escalate:** 4\n\n## Partner decisions needed\n\n- **1. Limitation of liability** (unreadable): Could not read the months with confidence; a partner should review.\n- **3. Payment terms** (90 days): 90 days is past the 60-day walk-away.\n- **5. Confidentiality term** (perpetual): Hits walk-away: Perpetual obligations for all information, or a term longer than 7 years.\n- **6. Governing law** (England and Wales): Hits walk-away: Non-US governing law.\n\n## Proposed changes\n\n| Clause | Found | Playbook position | Proposed fallback |\n|---|---|---|---|\n| 2. Indemnification | one sided capped | Mutual indemnities, each limited to third-party claims. | Mutual indemnities for third-party IP and confidentiality claims, subject to the liability cap. |\n\n_Generated by the contract-review Skill. Fallback wording is taken verbatim from clause_library.json._"
+    },
+    {
+      "n": 5,
+      "title": "Test on 10 past contracts against what partners changed",
+      "kind": "check",
+      "what": "Compared 58 clause calls with the partner's final decisions: 88% agreement, 95% of partner escalations caught.",
+      "code": "for clause in review.clauses:\n    pairs.append((clause.decision, key[clause.clause_id].partner_decision))\nagree = mean(skill == partner for skill, partner in pairs)",
+      "output": "{\n  \"agreement\": \"88%\",\n  \"partner_escalations_caught\": \"95%\",\n  \"confusion (rows = partner, cols = skill)\": {\n    \"OK\": {\n      \"OK\": 20,\n      \"negotiate\": 4,\n      \"escalate\": 0\n    },\n    \"negotiate\": {\n      \"OK\": 0,\n      \"negotiate\": 13,\n      \"escalate\": 2\n    },\n    \"escalate\": {\n      \"OK\": 0,\n      \"negotiate\": 1,\n      \"escalate\": 18\n    }\n  },\n  \"disagreements\": [\n    \"CT-03-1 confidentiality_term: skill negotiate, partner OK (Strategic client; partner accepted 5 years.)\",\n    \"CT-05-1 limitation_of_liability: skill escalate, partner negotiate (text: unreadable)\",\n    \"CT-05-2 indemnification: skill negotiate, partner OK (text: one sided capped)\",\n    \"CT-06-2 indemnification: skill negotiate, partner OK (text: one sided capped)\",\n    \"CT-07-3 payment_terms: skill negotiate, partner escalate (Client flagged cash-flow risk; partner wants to decide on 60 days.)\",\n    \"CT-08-2 indemnification: skill negotiate, partner OK (text: one sided capped)\",\n    \"CT-09-1 limitation_of_liability: skill escalate, partner negotiate (text: unreadable)\"\n  ]\n}"
+    },
+    {
+      "n": 6,
+      "title": "Compare with how associates reviewed the same contracts",
+      "kind": "check",
+      "what": "Three associates' past calls on the same clauses are the baseline for consistency and partner edits.",
+      "code": "consistency_before = share of clauses where all 3 associates agreed\nconsistency_after = share of clauses with the same call on a second run\npartner_edits = clauses per contract where the call differs from the partner",
+      "output": "{\n  \"associates_all_agree\": \"50%\",\n  \"skill_same_call_on_rerun\": \"100%\",\n  \"partner_edits_per_contract\": {\n    \"associates\": 1.5,\n    \"skill\": 0.7\n  },\n  \"review_minutes_per_contract\": {\n    \"associates\": 89,\n    \"skill + associate check (est.)\": 21\n  }\n}"
+    }
+  ],
+  "arch": [
+    {
+      "label": "Firm playbook",
+      "kind": "data",
+      "note": "position / fallback / walk-away"
+    },
+    {
+      "label": "contract-review Skill",
+      "kind": "system",
+      "note": "SKILL.md + rules + clause library + scripts"
+    },
+    {
+      "label": "Claude",
+      "kind": "ai",
+      "note": "OK / negotiate / escalate per clause"
+    },
+    {
+      "label": "redline.py",
+      "kind": "code",
+      "note": ".docx redline + issues memo"
+    },
+    {
+      "label": "Project per client",
+      "kind": "system",
+      "note": "client context and history"
+    },
+    {
+      "label": "Partner review",
+      "kind": "human",
+      "note": "answer key + escalations"
+    }
+  ],
+  "story": {
+    "situation": "A commercial team reviews dozens of NDAs and MSAs a month. Associates redline the same issues by hand, and each applies the playbook a little differently, so partners keep re-editing.",
+    "constraints": "Client documents are confidential and stay inside the firm's Claude workspace (a Project per client). Fallback wording must come from the approved clause library, never be drafted on the fly. Walk-away terms always go to a partner.",
+    "replay": "Reuse: playbook-as-Skill fits any team that applies written rules to documents (procurement terms, lease abstracts, policy checks). Next time: have partners label 20 contracts before writing the rules, and track why partners override the playbook so the rules improve.",
+    "problem_cost": "About 90 minutes of associate time per contract, plus partner time re-editing inconsistent redlines."
+  },
+  "metrics": {
+    "review_time_per_contract": "89 min -> 21 min (estimate: 10 min + 3 min per flagged clause)",
+    "consistency": "50% of clauses where 3 associates agree -> 100% same call on rerun",
+    "partner_edits_per_contract": "1.5 -> 0.7",
+    "agreement_with_partner": "88% (51/58 clauses)",
+    "partner_escalations_caught": "95%",
+    "outputs": "10 redlined .docx + 10 issues memos"
+  }
+}

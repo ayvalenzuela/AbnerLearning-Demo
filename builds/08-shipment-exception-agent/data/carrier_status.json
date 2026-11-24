@@ -1,0 +1,152 @@
+{
+  "TRK-310": {
+    "carrier": "Apex Freight",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-311": {
+    "carrier": "BlueRiver Carriers",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-312": {
+    "carrier": "Summit Haul",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-313": {
+    "carrier": "Keystone Express",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-314": {
+    "carrier": "Apex Freight",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-315": {
+    "carrier": "BlueRiver Carriers",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-316": {
+    "carrier": "Summit Haul",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-317": {
+    "carrier": "Keystone Express",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-318": {
+    "carrier": "Apex Freight",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-319": {
+    "carrier": "BlueRiver Carriers",
+    "status": "stopped",
+    "note": "driver out of hours, no relay driver",
+    "est_delay_min": 150
+  },
+  "TRK-320": {
+    "carrier": "Summit Haul",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-321": {
+    "carrier": "Keystone Express",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-322": {
+    "carrier": "Apex Freight",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-323": {
+    "carrier": "BlueRiver Carriers",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-324": {
+    "carrier": "Summit Haul",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-325": {
+    "carrier": "Keystone Express",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-326": {
+    "carrier": "Apex Freight",
+    "status": "rolling",
+    "note": "20-minute fuel stop, resumed at full speed",
+    "est_delay_min": 5
+  },
+  "TRK-327": {
+    "carrier": "BlueRiver Carriers",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-328": {
+    "carrier": "Summit Haul",
+    "status": "stopped",
+    "note": "tractor breakdown, awaiting road service",
+    "est_delay_min": 150
+  },
+  "TRK-329": {
+    "carrier": "Keystone Express",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-330": {
+    "carrier": "Apex Freight",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-331": {
+    "carrier": "BlueRiver Carriers",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-332": {
+    "carrier": "Summit Haul",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-333": {
+    "carrier": "Keystone Express",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  },
+  "TRK-334": {
+    "carrier": "Apex Freight",
+    "status": "rolling",
+    "note": "on schedule",
+    "est_delay_min": 0
+  }
+}

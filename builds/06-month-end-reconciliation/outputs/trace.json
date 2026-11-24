@@ -1,0 +1,116 @@
+{
+  "build": "06",
+  "title": "Month-end reconciliation",
+  "mode": "OFFLINE (rule-based stand-in, same schema)",
+  "model": "claude-opus-5-5",
+  "steps": [
+    {
+      "n": 1,
+      "title": "Load the bank and ledger exports",
+      "kind": "io",
+      "what": "197 bank lines and 194 ledger lines for 2026-11 (synthetic exports).",
+      "code": "bank = pd.read_csv(\"data/bank_export_2026-11.csv\")\nledger = pd.read_csv(\"data/ledger_export_2026-11.csv\")",
+      "output": "BANK\nline_id       date                  description   amount\nBK-0001 2026-11-02            DELTA AIR 0062341 -4631.72\nBK-0002 2026-11-02     DEPOSIT ACME CORP ACH CR  9953.87\nBK-0003 2026-11-02     DEPOSIT ACME CORP ACH CR  9456.89\nBK-0004 2026-11-02 AMAZON WEB SVCS AWS.COM BILL -1318.74\n\nLEDGER\nline_id       date           payee   amount                  account      memo\nGL-0049 2026-11-01 Delta Air Lines -2196.82              6500 Travel card 3308\nGL-0004 2026-11-02 Delta Air Lines -4631.72              6500 Travel INV 90683\nGL-0011 2026-11-02           Adobe -1922.70            6100 Software card 6519\nGL-0024 2026-11-02       Acme Corp  9953.87 1200 Accounts receivable INV 61329\n\nbank total -300,387.29 | ledger total -295,937.52 | difference -4,449.77"
+    },
+    {
+      "n": 2,
+      "title": "Match bank to ledger lines exactly (pandas)",
+      "kind": "code",
+      "what": "A pandas script, written with Claude Code, pairs lines with the same date and amount one-to-one: 167 of 197 bank lines matched.",
+      "code": "b = bank.assign(k=bank.groupby([\"date\", \"amount\"]).cumcount())\ng = ledger.assign(k=ledger.groupby([\"date\", \"amount\"]).cumcount())\nexact = b.merge(g, on=[\"date\", \"amount\", \"k\"], suffixes=(\"_bank\", \"_gl\"))",
+      "output": "line_id_bank line_id_gl       date   amount                  description               payee\n     BK-0001    GL-0004 2026-11-02 -4631.72            DELTA AIR 0062341     Delta Air Lines\n     BK-0002    GL-0024 2026-11-02  9953.87     DEPOSIT ACME CORP ACH CR           Acme Corp\n     BK-0003    GL-0031 2026-11-02  9456.89     DEPOSIT ACME CORP ACH CR           Acme Corp\n     BK-0004    GL-0121 2026-11-02 -1318.74 AMAZON WEB SVCS AWS.COM BILL Amazon Web Services\n     BK-0007    GL-0149 2026-11-02  -573.23          ADOBE *CREATIVE CLD               Adobe\n     BK-0008    GL-0150 2026-11-02 -2813.92 AMAZON WEB SVCS AWS.COM BILL Amazon Web Services\n... 167 exact matches"
+    },
+    {
+      "n": 3,
+      "title": "Add rules for near matches: dates, amounts, payee names",
+      "kind": "code",
+      "what": "Rules catch ACH lines that clear a few days late and card charges a few cents off, using difflib to match payee names: 24 more matched, 6 bank + 3 ledger lines left over.",
+      "code": "cands = cands[(cands.days <= 5) & (cands[\"diff\"].abs() <= 1.0)]\ncands[\"name\"] = [name_score(d, p) for d, p in zip(cands.description, cands.payee)]\ncands = cands[cands.name >= 0.45]   # SequenceMatcher ratio / word overlap",
+      "output": "line_id_bank line_id_gl                  description                    payee                          rule\n     BK-0080    GL-0009          SALESFORCE.COM SFDC               Salesforce near: date off 1d, payee 100%\n     BK-0083    GL-0124       GUSTO PAYROLL 8842 ACH            Gusto Payroll near: date off 1d, payee 100%\n     BK-0116    GL-0061         PACIFIC GAS ELEC PMT Pacific Gas and Electric  near: date off 1d, payee 80%\n     BK-0157    GL-0005 AMAZON WEB SVCS AWS.COM BILL      Amazon Web Services  near: date off 1d, payee 73%\n     BK-0042    GL-0137              FEDEX 781234556                    FedEx near: date off 2d, payee 100%\n     BK-0096    GL-0145           LYFT *RIDE TUE 8PM                     Lyft near: date off 2d, payee 100%\n     BK-0119    GL-0068          SALESFORCE.COM SFDC               Salesforce near: date off 2d, payee 100%\n     BK-0134    GL-0102     BRIGHTLINE HEALTH ACH CR        Brightline Health near: date off 2d, payee 100%\n... 24 near matches\n\nleft for Claude: BK-0081, BK-0109, BK-0127, BK-0161, BK-0178, BK-0196, GL-0192, GL-0193, GL-0194"
+    },
+    {
+      "n": 4,
+      "title": "Send only unmatched lines to Claude to explain",
+      "kind": "ai",
+      "what": "Claude saw 9 of 391 lines (2.3%), each with its nearby candidates, and returned a structured explanation and suggested entry.",
+      "code": "notes = batch_structured(system=SYSTEM, items=items,  # unmatched lines only\n                         schema=ExceptionNote,\n                         offline=lambda cid, txt: offline_explain(cid, contexts[cid]))",
+      "output": "BK-0081 bank   duplicate_payment  high   Same payee and amount (1,486.20) already cleared on 2026-11-10 and matched to GL\nBK-0109 bank   transposed_amount  high   Bank shows 2,351.40 and the ledger 2,315.40: the same digits in a different orde\nBK-0127 bank   bank_fee           high   'OUTGOING WIRE TRANSFER FEE' is a bank charge with no ledger entry; it was never\nBK-0161 bank   bank_fee           high   'INTL TRANSACTION FEE' is a bank charge with no ledger entry; it was never booke\nBK-0178 bank   unknown_vendor     medium 'SQ *KAIZEN COFFEE ROASTER' does not match any vendor in the master (best match \nBK-0196 bank   bank_fee           high   'MONTHLY SERVICE FEE' is a bank charge with no ledger entry; it was never booked\nGL-0192 ledger transposed_amount  high   Bank shows 2,351.40 and the ledger 2,315.40: the same digits in a different orde\nGL-0193 ledger timing_difference  high   Booked on 2026-11-30, at month end, and not yet through the bank: an outstanding\nGL-0194 ledger timing_difference  high   Booked on 2026-11-30, at month end, and not yet through the bank: a deposit in t\n\nexample:\n{\n \"line_id\": \"BK-0081\",\n \"side\": \"bank\",\n \"exception_type\": \"duplicate_payment\",\n \"related_line_id\": \"BK-0065\",\n \"explanation\": \"Same payee and amount (1,486.20) already cleared on 2026-11-10 and matched to GL-0191; this second debit looks like a duplicate payment.\",\n \"suggested_entry\": {\n  \"debit\": \"1250 Vendor refunds receivable\",\n  \"credit\": \"1010 Cash\",\n  \"amount\": 1486.2,\n  \"memo\": \"Duplicate payment to Uline\"\n },\n \"action\": \"Ask Uline for a refund or credit.\",\n \"confidence\": \"high\"\n}"
+    },
+    {
+      "n": 5,
+      "title": "Write the exceptions report for the controller",
+      "kind": "human",
+      "what": "8 exceptions go to a Sheets-ready CSV and an HTML page with an approve box per line; the controller approves 6 proposed entries.",
+      "code": "rep.to_csv(\"outputs/exceptions_report.csv\", index=False)   # import into Google Sheets\nexplained = matched.amount_diff.sum() + ub.amount.sum() - ug.amount.sum()\nassert round(diff - explained, 2) == 0   # every cent accounted for",
+      "output": "exception_id              type bank_line ledger_line   amount                suggested_debit suggested_amount\n       EX-01 duplicate_payment   BK-0081             -1486.20 1250 Vendor refunds receivable           1486.2\n       EX-02 transposed_amount   BK-0109     GL-0192 -2351.40                   6310 Telecom             36.0\n       EX-03          bank_fee   BK-0127               -35.00                 6450 Bank fees             35.0\n       EX-04          bank_fee   BK-0161                -4.12                 6450 Bank fees             4.12\n       EX-05    unknown_vendor   BK-0178              -312.80                  1999 Suspense            312.8\n       EX-06          bank_fee   BK-0196               -25.00                 6450 Bank fees             25.0\n       EX-07 timing_difference               GL-0193 -4200.00                                                \n       EX-08 timing_difference               GL-0194  6750.00                                                \n\nbank - ledger = -4,449.77 | explained by matches + exceptions = -4,449.77 | unexplained = 0.00"
+    },
+    {
+      "n": 6,
+      "title": "Schedule it nightly",
+      "kind": "code",
+      "what": "A cron job reruns the match every night, so exceptions surface daily instead of piling up for month end.",
+      "code": "30 2 * * * cd /opt/finance/recon && ./fetch_exports.sh && python3 pipeline.py >> logs/recon.log 2>&1",
+      "output": "# Nightly bank reconciliation, 02:30 server time (after the bank's SFTP drop at 01:00)\n30 2 * * * cd /opt/finance/recon && ./fetch_exports.sh && python3 pipeline.py >> logs/recon.log 2>&1\n\n{\n \"schedule\": \"30 2 * * *\",\n \"inputs\": {\n  \"bank\": \"sftp://bank/exports/{period}.csv\",\n  \"ledger\": \"netsuite saved search 'GL Cash 1010' -> CSV\"\n },\n \"outputs\": {\n  \"report\": \"Google Sheets 'Close {period}' tab Exceptions\",\n  \"html\": \"outputs/exceptions_report.html\"\n },\n \"rules\": {\n  \"date_window_days\": 5,\n  \"amount_tolerance\": 1.0,\n  \"name_threshold\": 0.45\n },\n \"alert_if\": \"unexplained difference != 0 or exceptions > 20\"\n}"
+    },
+    {
+      "n": 7,
+      "title": "Check against the planted exceptions",
+      "kind": "check",
+      "what": "The answer key lists 8 planted problems; the run found 8 with 0 false alarms.",
+      "code": "hit = next(e for e in exceptions if e[\"type\"] == k[\"type\"]\n           and set(k[\"lines\"]) & {e[\"bank_line\"], e[\"ledger_line\"]})",
+      "output": "bank_fee           BK-0196            -> EX-06\nbank_fee           BK-0127            -> EX-03\nbank_fee           BK-0161            -> EX-04\nduplicate_payment  BK-0081            -> EX-01\ntransposed_amount  GL-0192, BK-0109   -> EX-02\ntiming_difference  GL-0193            -> EX-07\ntiming_difference  GL-0194            -> EX-08\nunknown_vendor     BK-0178            -> EX-05\n\nfound 8/8 | false alarms 0\ncode matches that pair the right lines: 191/191\nrecon hours this account: 19.0 h by hand -> 1.2 h reviewing exceptions\n(assumes 2.5 min per line and 20 min per exception by hand; 5 min per exception review)"
+    }
+  ],
+  "arch": [
+    {
+      "label": "Bank export (CSV)",
+      "kind": "data",
+      "note": "statement lines"
+    },
+    {
+      "label": "QuickBooks / NetSuite",
+      "kind": "data",
+      "note": "GL cash ledger export"
+    },
+    {
+      "label": "pandas matcher",
+      "kind": "code",
+      "note": "exact + near-match rules"
+    },
+    {
+      "label": "Claude (unmatched only)",
+      "kind": "ai",
+      "note": "explain + suggest entries"
+    },
+    {
+      "label": "Exceptions report",
+      "kind": "system",
+      "note": "Sheets-ready CSV + HTML"
+    },
+    {
+      "label": "Controller approval",
+      "kind": "human",
+      "note": "approves entries"
+    },
+    {
+      "label": "Nightly schedule",
+      "kind": "system",
+      "note": "cron, 02:30"
+    }
+  ],
+  "story": {
+    "situation": "A 60-person company closes its books in about 6 working days. Two of those days go to ticking bank lines against the ledger in spreadsheets, and odd items are found late.",
+    "constraints": "The numbers must be exact and auditable, so matching is plain pandas code, never a model. Bank and ledger data stay inside the finance tenant. The controller approves every journal entry; nothing posts automatically.",
+    "replay": "Reuse: 'rules do the bulk, the model explains the leftovers' fits any matching job (invoices to POs, payouts to orders, claims to remits). Next time: feed the controller's decisions back as new rules, so the leftover pile shrinks every month."
+  },
+  "metrics": {
+    "lines_matched_by_code": "191/197 bank lines (167 exact + 24 near)",
+    "match_precision": "191/191 pairs correct",
+    "lines_sent_to_claude": "9 of 391 (2.3%)",
+    "exceptions_found": "8/8 planted, 0 false alarms",
+    "unexplained_difference": "0.00",
+    "recon_hours_per_month": "19.0 -> 1.2",
+    "hours_saved_per_month": 17.8,
+    "days_to_close_recon_step": "3.2 -> 0.2 working days (6 h/day)"
+  }
+}

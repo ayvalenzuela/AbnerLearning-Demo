@@ -1,0 +1,17 @@
+{
+  "Halvorsen Freight Group": [
+    "high_abandon",
+    "agent_ramp",
+    "multi_site"
+  ],
+  "Meridian Health Partners": [
+    "compliance_recording",
+    "high_abandon",
+    "crm_fragmentation"
+  ],
+  "Quarry Lane Credit Union": [
+    "legacy_pbx_eol",
+    "multi_site",
+    "compliance_recording"
+  ]
+}

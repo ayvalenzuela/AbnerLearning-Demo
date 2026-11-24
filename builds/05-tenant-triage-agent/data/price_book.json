@@ -1,0 +1,62 @@
+{
+  "clog": {
+    "keywords": [
+      "clog",
+      "drain"
+    ],
+    "trade": "plumbing",
+    "hours": 1.5,
+    "parts": 0
+  },
+  "dishwasher": {
+    "keywords": [
+      "dishwasher"
+    ],
+    "trade": "appliance",
+    "hours": 2.0,
+    "parts": 190
+  },
+  "heater": {
+    "keywords": [
+      "heater",
+      "furnace"
+    ],
+    "trade": "hvac",
+    "hours": 3.0,
+    "parts": 230
+  },
+  "exhaust fan": {
+    "keywords": [
+      "fan"
+    ],
+    "trade": "electrical",
+    "hours": 1.0,
+    "parts": 85
+  },
+  "refrigerator": {
+    "keywords": [
+      "refrigerator",
+      "fridge"
+    ],
+    "trade": "appliance",
+    "hours": 2.5,
+    "parts": 480
+  },
+  "ceiling leak": {
+    "keywords": [
+      "ceiling",
+      "pouring"
+    ],
+    "trade": "plumbing",
+    "hours": 6.0,
+    "parts": 350
+  },
+  "gas leak": {
+    "keywords": [
+      "gas"
+    ],
+    "trade": "gas",
+    "hours": 2.0,
+    "parts": 0
+  }
+}

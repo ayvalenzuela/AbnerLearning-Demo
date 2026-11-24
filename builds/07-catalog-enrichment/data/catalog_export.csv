@@ -1,0 +1,21 @@
+sku,product_type,style_name,supplier_title,supplier_color,specs,supplier_notes,image,price
+P01,tee,Everyday Tee,TEE-101 NVY,NVY,"100% org ctn 180gsm jersey, relaxed","Super soft, eco friendly fabric.",data/images/P01.png,47.99
+P02,tee,Crew Tee,TEE-102 HTR GRY,HTR GRY,"ctn/poly 60/40 jersey, slim",,data/images/P02.png,23.99
+P03,hoodie,Pullover Hoodie,HD-103 GRN,GRN,"80/20 ctn/poly fleece 320gsm, regular",Best hoodie ever!!,data/images/P03.png,63.99
+P04,hoodie,Zip Hoodie,HD-104 NVY,NVY,"80/20 ctn/poly fleece, oversized",,data/images/P04.png,23.99
+P05,joggers,Fleece Jogger,JGR-105 GRY,GRY,"ctn/poly fleece, tapered",,data/images/P05.png,37.99
+P06,dress,Midi Dress,DRS-106 RST,RST,"100% linen, relaxed",Breathable linen for hot days.,data/images/P06.png,87.99
+P07,dress,Wrap Dress,DRS-107,,"100% linen, regular",,data/images/P07.png,119.99
+P08,jacket,Rain Shell,JKT-108 OLV,OLV,"nylon ripstop, DWR finish, regular",100% water-proof in any storm.,data/images/P08.png,87.99
+P09,jacket,Coach Jacket,JKT-109 MSTD,MSTD,"rec poly shell, DWR, relaxed",Made from recycled bottles.,data/images/P09.png,37.99
+P10,vest,Women's Lightweight Packable Quilted Insulated Puffer Vest,VST-110 SND,SND,"rec poly, regular",,data/images/P10.png,63.99
+P11,sweater,Merino Crew,SWTR-111 BRG,BRG,"merino 18.5 micron, slim",Naturally anti-bacterial merino.,data/images/P11.png,23.99
+P12,sweater,Cable Knit,SWTR-112 CRM,CRM,"wool blend 70/30 wool/nylon, relaxed",,data/images/P12.png,37.99
+P13,beanie,Rib Beanie,BNE-113,,"acrylic rib knit, one size",,data/images/P13.png,119.99
+P14,beanie,Merino Beanie,BNE-114 CHR,CHR,"merino rib knit, one size",,data/images/P14.png,23.99
+P15,tote,Market Tote,TOTE-115 NAT,NAT,"12oz ctn canvas, one size",Eco-Friendly everyday tote.,data/images/P15.png,37.99
+P16,tote,Packable Tote,TOTE-116 BLK,BLK,"rec poly ripstop, one size",,data/images/P16.png,23.99
+P17,cap,Dad Cap,CAP-117 NVY,NVY,"adjustable strap, embroidered logo",,data/images/P17.png,63.99
+P18,shorts,Chino Short,SHRT-118 OLV,OLV,"ctn twill 7in inseam, regular",,data/images/P18.png,63.99
+P19,shorts,Run Short,SHRT-119 PNK,PNK,"rec poly, 5in, relaxed",Guaranteed to last.,data/images/P19.png,47.99
+P20,tee,Boxy Tee,TEE-120,,"100% org ctn, oversized",,data/images/P20.png,119.99

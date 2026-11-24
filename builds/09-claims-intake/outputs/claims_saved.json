@@ -1,0 +1,168 @@
+{
+  "CLM-5001": {
+    "policy_number": "PA-349573",
+    "claimant_name": "Jordan Reyes",
+    "phone": "555-0124",
+    "loss_date": "2026-11-16",
+    "loss_location": "Elm St & 4th Ave, Riverton",
+    "police_report_number": "RPD-26-27357",
+    "vin": "60UJMAY92PYC1L54L",
+    "vehicle_year": "2021",
+    "vehicle_make": "Toyota",
+    "vehicle_model": "Corolla",
+    "injuries": "no",
+    "estimated_amount_usd": "2400",
+    "damage_severity": "minor",
+    "coverage_issues": [],
+    "fraud_flags": [],
+    "route": "fast_track",
+    "reviewed_fields": []
+  },
+  "CLM-5002": {
+    "policy_number": "PA-245901",
+    "claimant_name": "Priya Natarajan",
+    "phone": "555-0140",
+    "loss_date": "2026-11-16",
+    "loss_location": "I-35 mile 112 southbound",
+    "police_report_number": "RPD-26-65669",
+    "vin": "GVPR3FUPXSYCNA3D1",
+    "vehicle_year": "2017",
+    "vehicle_make": "Honda",
+    "vehicle_model": "Civic",
+    "injuries": "no",
+    "estimated_amount_usd": "11800",
+    "damage_severity": "moderate",
+    "coverage_issues": [],
+    "fraud_flags": [
+      "estimate $11,800 is 94% of vehicle value"
+    ],
+    "route": "special_unit",
+    "reviewed_fields": []
+  },
+  "CLM-5003": {
+    "policy_number": "PA-738465",
+    "claimant_name": "Marcus Webb",
+    "phone": "555-0116",
+    "loss_date": "2026-11-16",
+    "loss_location": "Lakeview Mall parking lot, Riverton",
+    "police_report_number": "RPD-26-45388",
+    "vin": "NNYAFJB94PN3E2NFK",
+    "vehicle_year": "2022",
+    "vehicle_make": "Ford",
+    "vehicle_model": "Escape",
+    "injuries": "no",
+    "estimated_amount_usd": "1900",
+    "damage_severity": "minor",
+    "coverage_issues": [],
+    "fraud_flags": [],
+    "route": "fast_track",
+    "reviewed_fields": [
+      "vin"
+    ]
+  },
+  "CLM-5004": {
+    "policy_number": "PA-938200",
+    "claimant_name": "Hannah Kowalski",
+    "phone": "555-0110",
+    "loss_date": "2026-11-16",
+    "loss_location": "Hwy 9 at Miller Rd, Ashford",
+    "police_report_number": "RPD-26-66829",
+    "vin": "CH2SL9C02SH05P2NB",
+    "vehicle_year": "2019",
+    "vehicle_make": "Subaru",
+    "vehicle_model": "Outback",
+    "injuries": "no",
+    "estimated_amount_usd": "6200",
+    "damage_severity": "moderate",
+    "coverage_issues": [],
+    "fraud_flags": [],
+    "route": "adjuster",
+    "reviewed_fields": [
+      "loss_date"
+    ]
+  },
+  "CLM-5005": {
+    "policy_number": "PA-687688",
+    "claimant_name": "Diego Alvarez",
+    "phone": "555-0157",
+    "loss_date": "2026-11-16",
+    "loss_location": "Oak Blvd & Pine St, Riverton",
+    "police_report_number": "RPD-26-28236",
+    "vin": "XFWVGDB17RZSE4RG2",
+    "vehicle_year": "2020",
+    "vehicle_make": "Hyundai",
+    "vehicle_model": "Elantra",
+    "injuries": "no",
+    "estimated_amount_usd": "5400",
+    "damage_severity": "moderate",
+    "coverage_issues": [],
+    "fraud_flags": [
+      "loss 12 days after policy start"
+    ],
+    "route": "special_unit",
+    "reviewed_fields": []
+  },
+  "CLM-5006": {
+    "policy_number": "PA-689228",
+    "claimant_name": "Aisha Coleman",
+    "phone": "555-0127",
+    "loss_date": "2026-11-16",
+    "loss_location": "Grand Ave near Kroll Park, Ashford",
+    "police_report_number": "RPD-26-21349",
+    "vin": "DMTLHKAD3SP1VAZVK",
+    "vehicle_year": "2018",
+    "vehicle_make": "Mazda",
+    "vehicle_model": "CX-5",
+    "injuries": "no",
+    "estimated_amount_usd": "2100",
+    "damage_severity": "minor",
+    "coverage_issues": [],
+    "fraud_flags": [
+      "VIN already claimed in CLM-4112"
+    ],
+    "route": "special_unit",
+    "reviewed_fields": []
+  },
+  "CLM-5007": {
+    "policy_number": "PA-596643",
+    "claimant_name": "Tom Lindqvist",
+    "phone": "555-0185",
+    "loss_date": "2026-11-16",
+    "loss_location": "Route 30 at Cedar Creek bridge",
+    "police_report_number": "RPD-26-83301",
+    "vin": "5K1LU8ZG6PJMFLRAN",
+    "vehicle_year": "2023",
+    "vehicle_make": "Kia",
+    "vehicle_model": "Telluride",
+    "injuries": "yes",
+    "estimated_amount_usd": "14000",
+    "damage_severity": "severe",
+    "coverage_issues": [],
+    "fraud_flags": [],
+    "route": "adjuster",
+    "reviewed_fields": []
+  },
+  "CLM-5008": {
+    "policy_number": "PA-491268",
+    "claimant_name": "Grace Okafor",
+    "phone": "555-0168",
+    "loss_date": "2026-11-16",
+    "loss_location": "Maple Dr driveway, 1180 Maple Dr, Ashford",
+    "police_report_number": "RPD-26-40291",
+    "vin": "TEB4WEWE6NGG86D8D",
+    "vehicle_year": "2016",
+    "vehicle_make": "Chevrolet",
+    "vehicle_model": "Malibu",
+    "injuries": "no",
+    "estimated_amount_usd": "3100",
+    "damage_severity": "minor",
+    "coverage_issues": [
+      "policy not active on loss date (status lapsed, ends 2026-11-07)"
+    ],
+    "fraud_flags": [],
+    "route": "adjuster",
+    "reviewed_fields": [
+      "estimated_amount_usd"
+    ]
+  }
+}

@@ -1,0 +1,1132 @@
+[
+ {
+  "build": "01",
+  "title": "Call QA and coaching engine",
+  "mode": "OFFLINE (rule-based stand-in, same schema)",
+  "model": "claude-opus-5-5",
+  "steps": [
+   {
+    "n": 1,
+    "title": "Pull yesterday's recordings",
+    "kind": "io",
+    "what": "Loaded 12 transcribed calls (synthetic) from the VoIP export.",
+    "code": "calls = json.loads(Path(\"data/calls.json\").read_text())",
+    "output": "REP: Hi, this is Dana Ortiz from Voxly. Thanks for taking the call.\nPROSPECT: Sure. I'm the office manager at Harbor Credit Union.\nREP: Before I pitch anything, can you walk me through how calls get routed today?\nPROSPECT: Okay, that makes sense.\nREP: What happens when a call is missed after hours, and what does that cost you?\nPROSPECT: We already have a contract with our current provider.\nREP: So if I heard you right, the pain is dropped calls during the lunch rush. Did I get that right?\nPROSPECT: I'm not sure we have time to switch right now.\nREP: Who else needs to be part of this decision, "
+   },
+   {
+    "n": 2,
+    "title": "Write the rubric as a JSON schema",
+    "kind": "code",
+    "what": "Sales leaders' five criteria become a Pydantic schema, so every score is comparable.",
+    "code": "class CallScore(BaseModel):\n    call_id: str\n    criteria: list[Criterion]\n    total: int\n    compliance_flag: bool\n    coaching_tips: list[str]",
+    "output": "{\n  \"Discovery\": \"Asks open questions about the current process and its cost\",\n  \"Active listening\": \"Plays the pain back in the prospect's words\",\n  \"Value over features\": \"Links the product to the prospect's pain, not a feature list\",\n  \"Next step\": \"Books a dated next step with the right people\",\n  \"Compliance\": \"No misleading statements about recording, pricing or guarantees\"\n}"
+   },
+   {
+    "n": 3,
+    "title": "Score every call in one overnight batch",
+    "kind": "ai",
+    "what": "12 calls sent through the Message Batches API (50% cheaper, results by morning).",
+    "code": "scores = batch_structured(system=SYSTEM, items=items,\n                          schema=CallScore)  # client.messages.batches.create(...)",
+    "output": "{\n  \"call_id\": \"CALL-1001\",\n  \"criteria\": [\n    {\n      \"name\": \"Discovery\",\n      \"score\": 5,\n      \"evidence\": \"REP: Before I pitch anything, can you walk me through how calls get routed today?\"\n    },\n    {\n      \"name\": \"Active listening\",\n      \"score\": 5,\n      \"evidence\": \"REP: So if I heard you right, the pain is dropped calls during the lunch rush. Did I get that right?\"\n    },\n    {\n      \"name\": \"Value over features\",\n      \"score\": 4,\n      \"evidence\": \"REP: So if I heard you right, the pain is dropped calls during the lunch rush. Did I get that right?\"\n    },\n    {\n      \"name\": \"Next step\",\n      \"score\": 4,\n      \"evidence\": \"REP: Let's book thirty minutes Thursday with your IT lead to look at the number port. Does 2pm work?\"\n    },\n    {\n      \"name\": \"Compliance\",\n      \"score\": 5,\n      \"evidence\": \"No issues found\"\n    }\n  ],\n  \"total\": 92,\n  \"compliance_flag\": false,\n  \"coaching_tips\": [\n    \"Swap the feature list for one sentence tying Voxly to their pain.\",\n    \"End every call with a dated meeting and named attendees.\",\n    \"Open with two process questions before any product talk.\"\n  ]\n}"
+   },
+   {
+    "n": 4,
+    "title": "Post scores and three tips to the CRM",
+    "kind": "code",
+    "what": "An n8n webhook (simulated here) writes a note to each call's CRM record.",
+    "code": "requests.post(N8N_WEBHOOK, json={\"call_id\": id, \"note\": note})",
+    "output": "QA score 40/100\nCoaching:\n- Repeat the prospect's pain back in their words before pitching.\n- Swap the feature list for one sentence tying Voxly to their pain.\n- End every call with a dated meeting and named attendees.\n\nQA score 0/100 | COMPLIANCE FLAG\nCoaching:\n- Open with two process questions before any product talk.\n- Repeat the prospect's pain back in their words before pitching.\n- Swap the feature list for one sentence tying Voxly to their pain."
+   },
+   {
+    "n": 5,
+    "title": "Check calls by hand against Claude's scores",
+    "kind": "human",
+    "what": "A manager's hand scores are the answer key. Agreement = within 15 points.",
+    "code": "agree = mean(abs(model - manager) <= 15 for each call)",
+    "output": "{\n  \"calls_checked\": 12,\n  \"agreement\": \"33%\",\n  \"mean_abs_diff\": 20.3,\n  \"compliance_flags\": [\n    \"CALL-1003\",\n    \"CALL-1006\",\n    \"CALL-1009\",\n    \"CALL-1011\",\n    \"CALL-1012\"\n  ]\n}"
+   },
+   {
+    "n": 6,
+    "title": "Tune the prompt, then score again",
+    "kind": "check",
+    "what": "Added three manager-scored anchor calls to the prompt as calibration, then re-ran the batch.",
+    "code": "SYSTEM_V2 = SYSTEM + \"Calibration anchors (manager-scored):\\n\" + anchors",
+    "output": "{\n  \"agreement_before\": \"33%\",\n  \"agreement_after\": \"92%\",\n  \"mean_abs_diff_before\": 20.3,\n  \"mean_abs_diff_after\": 4.1\n}"
+   }
+  ],
+  "arch": [
+   {
+    "label": "VoIP recordings",
+    "kind": "data",
+    "note": "nightly export"
+   },
+   {
+    "label": "Speech-to-text",
+    "kind": "system",
+    "note": "transcripts"
+   },
+   {
+    "label": "Claude Batch API",
+    "kind": "ai",
+    "note": "rubric as JSON schema"
+   },
+   {
+    "label": "Validation",
+    "kind": "code",
+    "note": "schema-checked scores"
+   },
+   {
+    "label": "n8n -> CRM",
+    "kind": "system",
+    "note": "score + 3 tips"
+   },
+   {
+    "label": "Manager spot-check",
+    "kind": "human",
+    "note": "eval + tuning"
+   }
+  ],
+  "story": {
+   "situation": "A 40-rep UCaaS sales floor. Managers hear about 2% of calls, so coaching is random and compliance misses slip through.",
+   "constraints": "Recordings contain customer PII, so data stays in the company's tenant. Scores must be explainable to reps. Budget favours overnight batch over real-time.",
+   "replay": "Reuse: the rubric-as-schema + batch pattern works for any 'review every X' job (tickets, emails, chats). Next time: calibrate with anchor calls from day one, and track tip adoption per rep."
+  },
+  "metrics": {
+   "calls_scored": "12/12 (100%)",
+   "manager_agreement": "33% -> 92% after tuning",
+   "compliance_issues_caught": 5,
+   "avg_score_by_rep": {
+    "Dana Ortiz": 60,
+    "Marcus Lee": 60,
+    "Priya Shah": 56,
+    "Tom Becker": 60
+   },
+   "manager_hours_saved_per_week": 12.0
+  },
+  "dir": "builds/01-call-qa-coaching",
+  "industry": "Telecom / UCaaS",
+  "pattern": "Workflow + batch",
+  "why": "Batch is cheaper for work that can wait, and a schema makes every score comparable.",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/01-call-qa-coaching",
+  "video": "videos/build-01.mp4"
+ },
+ {
+  "build": "02",
+  "title": "Prior-auth packet assistant",
+  "mode": "OFFLINE (rule-based stand-in, same schema)",
+  "model": "claude-opus-5-5",
+  "steps": [
+   {
+    "n": 1,
+    "title": "Load payer policies, chunk by section, embed",
+    "kind": "io",
+    "what": "Split 3 payer policy manuals into 21 sections and embedded each one (TF-IDF stand-in for an embedding model + pgvector).",
+    "code": "for sec in re.split(r\"\\n(?=## )\", policy_md):\n    idx.add(chunk_id, sec, payer=payer, heading=heading)\nidx.build()  # prod: embed with a real model, INSERT INTO policy_chunks (embedding vector)",
+    "output": "{\n  \"payers\": {\n    \"LCA\": \"Lakeshore Care Alliance\",\n    \"CMM\": \"Cascade Mutual\",\n    \"RHP\": \"Ridgeway Health Plan\"\n  },\n  \"chunks\": 21,\n  \"vocabulary\": 192,\n  \"sample_chunk\": \"CMM:Section 4.2\\n## Section 4.2 - Total knee arthroplasty (knee replacement) (CPT 27447)\\nCascade Mutual considers total knee arthroplasty (knee replacement) medically necessary when ALL of the following are documented:\\n- [CMM-27447-1] Radiographic advanced osteoarthritis, Kellgren-Lawrence grade 3 or 4.\\n- [CMM-27447-2] At least 12 weeks of non-surgical treatment.\\n- [CMM-27447-3] Body mass index below 40.\\n\"\n}"
+   },
+   {
+    "n": 2,
+    "title": "Retrieve this payer's criteria for the procedure",
+    "kind": "code",
+    "what": "For each request, searched only that payer's sections; the top hit was the right procedure section for 6/6 requests.",
+    "code": "hits = idx.search(f\"{procedure} CPT {cpt} medically necessary criteria\",\n                  k=3, payer=req[\"payer\"])  # metadata filter = WHERE payer = $1\ncriteria = criteria_from_section(hits[0].text)",
+    "output": "REQ-102 (Cascade Mutual, CPT 72148) top hits:\n  0.610  Section 4.1 - Lumbar spine MRI without contrast (CPT 72148)\n  0.064  Section 1.1 - Eligibility and member verification\n  0.058  Section 4.2 - Total knee arthroplasty (knee replacement) (CPT 27447)\n\nCriteria retrieved:\n  [CMM-72148-1] Low back pain persisting for at least 4 weeks.\n  [CMM-72148-2] At least 4 weeks of supervised physical therapy.\n  [CMM-72148-3] Neurological deficit or radiculopathy documented on exam.\n  [CMM-72148-4] Plain radiographs (X-ray) of the lumbar spine completed."
+   },
+   {
+    "n": 3,
+    "title": "Map chart evidence to each criterion, with citations",
+    "kind": "ai",
+    "what": "Claude read each request's chart notes as cited documents and marked every criterion MET / NOT MET / MISSING; 0 MET claims lacked a citation.",
+    "code": "content = [{\"type\": \"document\", \"title\": note[\"title\"],\n            \"source\": {\"type\": \"text\", \"media_type\": \"text/plain\", \"data\": note[\"text\"]},\n            \"citations\": {\"enabled\": True}} for note in req[\"notes\"]]\nblocks = ask_cited(system=MAP_SYSTEM, documents=req[\"notes\"], prompt=criteria_list)\nfindings = parse_findings(blocks)  # block.citations -> cited_text, document_title",
+    "output": "REQ-102:\n  CMM-72148-1  MET      Chart shows 5 weeks; policy requires at least 4 weeks.\n      cites (Urgent care 2026-09-02): \"Acute low back pain after lifting, present for 5 weeks.\"\n  CMM-72148-2  NOT MET  Chart shows 3 weeks; policy requires at least 4 weeks.\n      cites (PT progress note 2026-10-03): \"Patient has attended 3 weeks of physical therapy, two visits per week.\"\n  CMM-72148-3  MET      Documented in the chart.\n      cites (Ortho visit 2026-10-06): \"Numbness over the right lateral foot and mild weakness of great toe extension.\"\n  CMM-72148-4  MET      Documented in the chart.\n      cites (Urgent care 2026-09-02): \"Lumbar x-ray shows mild degenerative change, no fracture.\""
+   },
+   {
+    "n": 4,
+    "title": "Flag missing evidence and draft the necessity letter",
+    "kind": "ai",
+    "what": "Packets for 2 requests are ready; 4 are flagged with the exact items staff must obtain first.",
+    "code": "class PacketDraft(BaseModel):\n    ready_to_submit: bool\n    missing_items: list[str]\n    letter: str\n\ndraft = ask_structured(system=LETTER_SYSTEM, content=findings_json, schema=PacketDraft)",
+    "output": "{\n  \"flagged\": {\n    \"REQ-102\": [\n      \"CMM-72148-2: At least 4 weeks of supervised physical therapy. (NOT MET - Chart shows 3 weeks; policy requires at least 4 weeks.)\"\n    ],\n    \"REQ-103\": [\n      \"LCA-27447-5: Documented tobacco-free status (non-smoker or quit at least 4 weeks prior). (MISSING - No supporting documentation found in the chart.)\"\n    ],\n    \"REQ-104\": [\n      \"RHP-95810-2: Witnessed apneas or loud habitual snoring. (MISSING - No supporting documentation found in the chart.)\"\n    ],\n    \"REQ-105\": [\n      \"CMM-95810-1: Epworth Sleepiness Scale score of 12 or higher. (NOT MET - Chart value 11; policy requires >= 12.)\"\n    ]\n  },\n  \"REQ-101 letter\": \"To: Ridgeway Health Plan Utilization Management\\nRe: Prior authorization for Lumbar spine MRI without contrast (CPT 72148) - Patient A (fictional, 52F)\\nDiagnosis: M54.16 Radiculopathy, lumbar region\\n\\nI am requesting authorization for lumbar spine mri without contrast. The chart documents each of your criteria:\\n- Low back pain persisting for at least 6 weeks. Chart (PCP visit 2026-08-04): \\\"Patient reports low back pain for 9 weeks radiating to the left leg.\\\"\\n- At least 6 weeks of conservative therapy (physical therapy or NSAIDs). Chart (PT discharge summary 2026-09-22): \\\"Completed 7 weeks of physical therapy with minimal relief.\\\"\\n- Neurological deficit or radiculopathy documented on exam. Chart (Spine clinic 2026-10-01): \\\"Exam shows positive straight leg raise on the left and diminished left ankle reflex.\\\"\\n\\nSincerely, Dr. Lena Ortiz (fictional)\"\n}"
+   },
+   {
+    "n": 5,
+    "title": "Staff review and submit; every edit becomes eval data",
+    "kind": "human",
+    "what": "Staff corrected 4 of 28 fields (14% edit rate); each edit was saved to eval_set.jsonl. Complete packets went out; the rest were held for documents.",
+    "code": "if model_status != staff_status:\n    eval_rows.append({\"request_id\": rid, \"field\": cid,\n                      \"model\": model_status, \"staff\": staff_status})\nsubmit if all(status == \"MET\") else hold_for_docs",
+    "output": "{\n  \"submitted\": [\n    \"REQ-101\",\n    \"REQ-104\",\n    \"REQ-106\"\n  ],\n  \"held_for_documents\": [\n    \"REQ-102\",\n    \"REQ-103\",\n    \"REQ-105\"\n  ],\n  \"edits\": [\n    \"REQ-101 letter: staff added a line (5% changed)\",\n    \"REQ-104 RHP-95810-2: MISSING -> MET\",\n    \"REQ-104 letter: staff added a line (11% changed)\",\n    \"REQ-106 letter: staff added a line (3% changed)\"\n  ],\n  \"review_minutes\": \"REQ-101=16 REQ-102=12 REQ-103=12 REQ-104=20 REQ-105=12 REQ-106=16\"\n}"
+   },
+   {
+    "n": 6,
+    "title": "Score against the nurse's answer key",
+    "kind": "check",
+    "what": "Compared every criterion decision with a prior-auth nurse's hand labels.",
+    "code": "pairs = [(findings[rid][cid].status, nurse) for rid, cid, nurse in answer_key]\nagree = mean(model == nurse for model, nurse in pairs)\ngaps = [c for c in answer_key if c.nurse != 'MET']\ngap_recall = mean(findings[c].status != 'MET' for c in gaps)",
+    "output": "{\n  \"criteria_checked\": 22,\n  \"agreement\": \"95%\",\n  \"gap_recall\": \"3/3\",\n  \"MET_claims_with_citation\": \"18/18\",\n  \"false_flags (model said gap, nurse said met)\": [\n    \"REQ-104 RHP-95810-2\"\n  ]\n}"
+   }
+  ],
+  "arch": [
+   {
+    "label": "Payer policy docs",
+    "kind": "data",
+    "note": "3 payers, chunked by section"
+   },
+   {
+    "label": "Embeddings + pgvector",
+    "kind": "system",
+    "note": "TF-IDF stand-in here"
+   },
+   {
+    "label": "EHR chart notes",
+    "kind": "data",
+    "note": "per request, under a BAA"
+   },
+   {
+    "label": "Claude + citations",
+    "kind": "ai",
+    "note": "criterion -> cited chart text"
+   },
+   {
+    "label": "Gap check + letter",
+    "kind": "code",
+    "note": "missing items, draft letter"
+   },
+   {
+    "label": "Staff review screen",
+    "kind": "human",
+    "note": "edits become eval data"
+   }
+  ],
+  "story": {
+   "situation": "A specialty clinic's prior-auth team spends hours per request matching each payer's rules to chart notes, and incomplete packets come back denied weeks later.",
+   "constraints": "Chart notes are PHI, so the whole system runs under a BAA with no data retention outside the tenant. Every claim in a packet must point to a chart sentence. Staff, not the model, submit.",
+   "replay": "Reuse: retrieve-the-rules, map-evidence-with-citations, human-submits works for any rules-vs-records check (claims, underwriting, audits). Next time: capture staff edits from day one so the eval set grows with real cases.",
+   "problem_cost": "About 2.4 staff hours per request, and roughly 3 in 10 first submissions denied for missing documentation."
+  },
+  "metrics": {
+   "hours_per_request": "2.4 -> 0.24 (staff review time, simulated)",
+   "first_pass_approvals": "50% if sent as-is -> 3/3 submitted packets complete",
+   "denials_avoided": "3 incomplete packets held before submission (REQ-102, REQ-103, REQ-105)",
+   "criterion_agreement_with_nurse": "95%",
+   "gap_recall": "3/3",
+   "staff_edit_rate": "14% (4 edits -> eval_set.jsonl)"
+  },
+  "dir": "builds/02-prior-auth-assistant",
+  "industry": "Healthcare",
+  "pattern": "RAG + human review",
+  "why": "RAG ties answers to the current policy, and citations let staff check fast. Health data needs a BAA-covered setup and a human who signs off.",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/02-prior-auth-assistant",
+  "video": "videos/build-02.mp4"
+ },
+ {
+  "build": "03",
+  "title": "Contract review Skill",
+  "mode": "OFFLINE (rule-based stand-in, same schema)",
+  "model": "claude-opus-5-5",
+  "steps": [
+   {
+    "n": 1,
+    "title": "Turn the playbook into rules: position, fallback, walk-away",
+    "kind": "code",
+    "what": "The firm's written playbook became 8 rules, each with a position, a fallback, a walk-away and a machine-readable check.",
+    "code": "\"confidentiality_term\": {\n  \"position\": \"No more than 3 years after disclosure.\",\n  \"fallback\": \"3 years, trade secrets while they remain trade secrets.\",\n  \"walk_away\": \"Perpetual, or longer than 7 years.\",\n  \"check\": {\"param\": \"years\", \"ok_max\": 3, \"escalate_above\": 7}}",
+    "output": "Confidentiality term\n  position:  Confidentiality obligations last no more than 3 years after disclosure.\n  fallback:  3 years, with trade secrets protected for as long as they remain trade secrets.\n  walk-away: Perpetual obligations for all information, or a term longer than 7 years.\nLimitation of liability\n  position:  Total liability capped at the fees paid in the 12 months before the claim.\n  fallback:  Cap at fees paid in the prior 24 months, with carve-outs only for confidentiality breach and indemnity.\n  walk-away: Uncapped or unlimited liability for our client.\nIndemnification\n  position:  Mutual indemnities, each limited to third-party claims.\n  fallback:  Mutual indemnities for third-party IP and confidentiality claims, subject to the liability cap.\n  walk-away: One-sided indemnity from our client that is not subject to any cap.\nGoverning law\n  position:  Delaware or New York law.\n  fallback:  Any US state law, with venue in that state's courts.\n  walk-away: Non-US governing law.\n... and 4 more rules in playbook.json"
+   },
+   {
+    "n": 2,
+    "title": "Package rules, clause library and scripts as one Skill",
+    "kind": "code",
+    "what": "One folder holds the instructions, rules, approved fallback wording and the redline script; frontmatter has name and description, and 8/8 rules have library wording.",
+    "code": "skill/contract-review/\n  SKILL.md            # name + description frontmatter, review steps\n  playbook.json       # rules\n  clause_library.json # approved fallbacks\n  scripts/redline.py  # .docx redline + memo",
+    "output": "{\n  \"files\": [\n    \"contract-review/SKILL.md\",\n    \"contract-review/clause_library.json\",\n    \"contract-review/playbook.json\",\n    \"contract-review/scripts/redline.py\"\n  ],\n  \"frontmatter\": {\n    \"name\": \"contract-review\",\n    \"description\": \"Review NDAs and MSAs against the firm's negotiation playbook. Marks each clause OK, negotiate or escalate with a reason,...\"\n  },\n  \"rules_without_fallback\": []\n}"
+   },
+   {
+    "n": 3,
+    "title": "Mark each clause OK / negotiate / escalate with a reason",
+    "kind": "ai",
+    "what": "Claude, loaded with the Skill, reviewed 10 contracts (58 clauses): 20 OK, 18 negotiate, 20 escalate.",
+    "code": "system = SKILL.md + playbook.json + clause_library.json\nreviews = batch_structured(system=system, items=contracts,\n                           schema=ContractReview)\n# ClauseCall: clause_id, clause_type, extracted_value, decision, reason",
+    "output": "CT-05 (MSA, Evergreen Clinics):\n  CT-05-1  escalate  unreadable             Could not read the months with confidence; a partner should review.\n  CT-05-2  negotiate one sided capped       Indemnity runs only from our client; propose mutual indemnities.\n  CT-05-3  escalate  90 days                90 days is past the 60-day walk-away.\n  CT-05-4  OK        no auto-renewal        No auto-renewal, matching the position.\n  CT-05-5  escalate  perpetual              Hits walk-away: Perpetual obligations for all information, or a term longer than 7 years.\n  CT-05-6  escalate  England and Wales      Hits walk-away: Non-US governing law.\n  CT-05-7  OK        consent, not unreasonably withheld Consent not unreasonably withheld, matching the position.\n  not covered by playbook: ['CT-05-8']"
+   },
+   {
+    "n": 4,
+    "title": "Output a redlined .docx and a one-page issues memo",
+    "kind": "io",
+    "what": "Wrote 10 redlines and 10 memos; CT-05's redline has 1 struck clause(s) with library fallbacks inserted and a Word comment on every flagged clause.",
+    "code": "old = p.add_run(clause_text); old.font.strike = True\nnew = p.add_run(LIBRARY[clause_type]); new.font.underline = True\ndoc.add_comment([old, new], text=f\"Negotiate: {reason}\")\nwrite_memo(contract, review, RULES, LIBRARY, memo_path)",
+    "output": "# Issues memo - CT-05 (MSA)\n\n**Contract:** Master Services Agreement - Evergreen Clinics  \n**Counterparty:** Evergreen Clinics  \n**Clauses reviewed:** 7 | **OK:** 2 | **Negotiate:** 1 | **Escalate:** 4\n\n## Partner decisions needed\n\n- **1. Limitation of liability** (unreadable): Could not read the months with confidence; a partner should review.\n- **3. Payment terms** (90 days): 90 days is past the 60-day walk-away.\n- **5. Confidentiality term** (perpetual): Hits walk-away: Perpetual obligations for all information, or a term longer than 7 years.\n- **6. Governing law** (England and Wales): Hits walk-away: Non-US governing law.\n\n## Proposed changes\n\n| Clause | Found | Playbook position | Proposed fallback |\n|---|---|---|---|\n| 2. Indemnification | one sided capped | Mutual indemnities, each limited to third-party claims. | Mutual indemnities for third-party IP and confidentiality claims, subject to the liability cap. |\n\n_Generated by the contract-review Skill. Fallback wording is taken verbatim from clause_library.json._"
+   },
+   {
+    "n": 5,
+    "title": "Test on 10 past contracts against what partners changed",
+    "kind": "check",
+    "what": "Compared 58 clause calls with the partner's final decisions: 88% agreement, 95% of partner escalations caught.",
+    "code": "for clause in review.clauses:\n    pairs.append((clause.decision, key[clause.clause_id].partner_decision))\nagree = mean(skill == partner for skill, partner in pairs)",
+    "output": "{\n  \"agreement\": \"88%\",\n  \"partner_escalations_caught\": \"95%\",\n  \"confusion (rows = partner, cols = skill)\": {\n    \"OK\": {\n      \"OK\": 20,\n      \"negotiate\": 4,\n      \"escalate\": 0\n    },\n    \"negotiate\": {\n      \"OK\": 0,\n      \"negotiate\": 13,\n      \"escalate\": 2\n    },\n    \"escalate\": {\n      \"OK\": 0,\n      \"negotiate\": 1,\n      \"escalate\": 18\n    }\n  },\n  \"disagreements\": [\n    \"CT-03-1 confidentiality_term: skill negotiate, partner OK (Strategic client; partner accepted 5 years.)\",\n    \"CT-05-1 limitation_of_liability: skill escalate, partner negotiate (text: unreadable)\",\n    \"CT-05-2 indemnification: skill negotiate, partner OK (text: one sided capped)\",\n    \"CT-06-2 indemnification: skill negotiate, partner OK (text: one sided capped)\",\n    \"CT-07-3 payment_terms: skill negotiate, partner escalate (Client flagged cash-flow risk; partner wants to decide on 60 days.)\",\n    \"CT-08-2 indemnification: skill negotiate, partner OK (text: one sided capped)\",\n    \"CT-09-1 limitation_of_liability: skill escalate, partner negotiate (text: unreadable)\"\n  ]\n}"
+   },
+   {
+    "n": 6,
+    "title": "Compare with how associates reviewed the same contracts",
+    "kind": "check",
+    "what": "Three associates' past calls on the same clauses are the baseline for consistency and partner edits.",
+    "code": "consistency_before = share of clauses where all 3 associates agreed\nconsistency_after = share of clauses with the same call on a second run\npartner_edits = clauses per contract where the call differs from the partner",
+    "output": "{\n  \"associates_all_agree\": \"50%\",\n  \"skill_same_call_on_rerun\": \"100%\",\n  \"partner_edits_per_contract\": {\n    \"associates\": 1.5,\n    \"skill\": 0.7\n  },\n  \"review_minutes_per_contract\": {\n    \"associates\": 89,\n    \"skill + associate check (est.)\": 21\n  }\n}"
+   }
+  ],
+  "arch": [
+   {
+    "label": "Firm playbook",
+    "kind": "data",
+    "note": "position / fallback / walk-away"
+   },
+   {
+    "label": "contract-review Skill",
+    "kind": "system",
+    "note": "SKILL.md + rules + clause library + scripts"
+   },
+   {
+    "label": "Claude",
+    "kind": "ai",
+    "note": "OK / negotiate / escalate per clause"
+   },
+   {
+    "label": "redline.py",
+    "kind": "code",
+    "note": ".docx redline + issues memo"
+   },
+   {
+    "label": "Project per client",
+    "kind": "system",
+    "note": "client context and history"
+   },
+   {
+    "label": "Partner review",
+    "kind": "human",
+    "note": "answer key + escalations"
+   }
+  ],
+  "story": {
+   "situation": "A commercial team reviews dozens of NDAs and MSAs a month. Associates redline the same issues by hand, and each applies the playbook a little differently, so partners keep re-editing.",
+   "constraints": "Client documents are confidential and stay inside the firm's Claude workspace (a Project per client). Fallback wording must come from the approved clause library, never be drafted on the fly. Walk-away terms always go to a partner.",
+   "replay": "Reuse: playbook-as-Skill fits any team that applies written rules to documents (procurement terms, lease abstracts, policy checks). Next time: have partners label 20 contracts before writing the rules, and track why partners override the playbook so the rules improve.",
+   "problem_cost": "About 90 minutes of associate time per contract, plus partner time re-editing inconsistent redlines."
+  },
+  "metrics": {
+   "review_time_per_contract": "89 min -> 21 min (estimate: 10 min + 3 min per flagged clause)",
+   "consistency": "50% of clauses where 3 associates agree -> 100% same call on rerun",
+   "partner_edits_per_contract": "1.5 -> 0.7",
+   "agreement_with_partner": "88% (51/58 clauses)",
+   "partner_escalations_caught": "95%",
+   "outputs": "10 redlined .docx + 10 issues memos"
+  },
+  "dir": "builds/03-contract-review-skill",
+  "industry": "Legal",
+  "pattern": "Skill",
+  "why": "A Skill bottles expertise once, and Claude loads it only when the task needs it. Same move for any playbook: underwriting, procurement, HR policy.",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/03-contract-review-skill",
+  "video": "videos/build-03.mp4"
+ },
+ {
+  "build": "04",
+  "title": "Maintenance copilot",
+  "mode": "OFFLINE (rule-based stand-in, same schema)",
+  "model": "claude-opus-5-5",
+  "steps": [
+   {
+    "n": 1,
+    "title": "Index manuals and SOPs, chunked by machine and fault code",
+    "kind": "io",
+    "what": "Split 3 service manuals and the SOP book into 7 chunks, each tagged with machine and fault code (TF-IDF stand-in for embeddings + a vector store).",
+    "code": "for sec in re.split(r\"\\n(?=## )\", manual_md):\n    mid, code = parse_heading(sec)\n    idx.add(f\"{mid}/{code}\", sec, machine=mid, fault_code=code, kind=\"manual\")\nidx.build()",
+    "output": "{\n  \"manual_chunks\": [\n    \"C-40/E31\",\n    \"C-40/E35\",\n    \"F-200/E14\",\n    \"F-200/E22\",\n    \"L-12/E41\"\n  ],\n  \"sop_chunks\": [\n    \"SOP-LOTO-01\",\n    \"SOP-SAN-03\"\n  ],\n  \"sample\": \"## C-40 / E31 - Cap torque low\\nAlarm E31 on the C-40 means: cap torque low.\\nLikely causes, in the order the manufacturer recommends checking them:\\n1. [C40-E31-C1] Clutch slip from worn magnets. Steps: Measure static torque with gauge; replace clutch magnet set. Sensor sign: torque_nm below 1.6.\\n2. [C40-E31-C2] Chuck insert worn. Steps: Inspect rubber chuck inserts; replace if glazed.\\n3. [C40-E31-C3] Wrong cap lot (li\"\n}"
+   },
+   {
+    "n": 2,
+    "title": "Build an MCP server for the CMMS: read history, create orders",
+    "kind": "code",
+    "what": "cmms_mcp_server.py exposes two tools over MCP, backed by SQLite seeded with 23 work orders; an MCP client listed the tools and called one.",
+    "code": "mcp = MCPServer(\"cmms\")  # FastMCP in mcp 1.x\n\n@mcp.tool()\ndef get_work_order_history(machine_id: str, fault_code: str, limit: int = 20) -> list[dict]:\n    return db.execute(\"SELECT * FROM work_orders WHERE machine_id=? AND fault_code=? ...\")\n\n@mcp.tool()\ndef create_work_order(machine_id, line, fault_code, symptom, root_cause, ...) -> dict",
+    "output": "{\n  \"tools\": {\n    \"get_work_order_history\": \"machine_id, fault_code, limit\",\n    \"create_work_order\": \"machine_id, line, fault_code, symptom, root_cause, fix_steps, minutes_down, first_time_fix, technician, root_cause_id, parts, opened\"\n  },\n  \"call get_work_order_history(F-200, E14, limit=3)\": [\n    \"WO-24020 2026-09-20 Line 1: Clogged nozzle screen (first-time fix: True)\",\n    \"WO-24019 2026-09-17 Line 1: Load cell calibration drift (first-time fix: True)\",\n    \"WO-24016 2026-08-21 Line 1: Product supply pressure low (first-time fix: False)\"\n  ]\n}"
+   },
+   {
+    "n": 3,
+    "title": "The technician describes the fault; pull docs and past fixes",
+    "kind": "io",
+    "what": "From the chat message and the live alarm, the copilot pulled the F-200/E14 manual section, 2 SOPs, 7 past work orders and the latest sensor readings.",
+    "code": "manual = idx.search(f\"{machine} {fault} {msg}\", k=1, machine=machine, kind=\"manual\")\nsops = idx.search(\"lockout ... \" + msg, k=2, kind=\"sop\")\nhistory = cmms.get_work_order_history(machine, fault)   # MCP tool\nsensors = latest reading per tag for (machine, line)",
+    "output": "{\n  \"tech_message\": \"Line 2 filler F-200 is down on E14. Fill weights running low on nozzle 3 and product is dripping from nozzle 3 after the fill.\",\n  \"active_alarm\": \"2026-11-24T06:08 F-200 Line 2 E14\",\n  \"parsed\": \"machine=F-200, line=Line 2, fault_code=E14\",\n  \"manual_section\": \"F-200/E14\",\n  \"sops\": \"SOP-LOTO-01, SOP-SAN-03\",\n  \"past_work_orders\": \"WO-24020, WO-24019, WO-24016, WO-24007, WO-24004, WO-24003, WO-24002\",\n  \"sensors\": \"inlet_valve_pct=60.0, loadcell_zero_g=0.2, supply_pressure_bar=2.38\"\n}"
+   },
+   {
+    "n": 4,
+    "title": "Rank likely causes and steps, with sources cited",
+    "kind": "ai",
+    "what": "Claude ranked 4 causes: past fixes that match the symptom move up, and the supply-pressure cause drops because the sensor reads normal.",
+    "code": "diag = ask_structured(system=SYSTEM, content=json.dumps(ctx), schema=Diagnosis)\n# RankedCause: rank, cause, likelihood, why, steps, sources\n# prod: Agent SDK agent with the CMMS MCP server attached, answering in Teams",
+    "output": "Safety first:\n  SOP-LOTO-01: Stop the machine from the HMI. Isolate electrical and pneumatic energy, apply personal lock and tag. Bleed res\n  SOP-SAN-03: After any nozzle, valve or bowl work: CIP rinse, sanitize with approved chemical, swab test before restart. Re\n\n#1 Clogged nozzle screen (46%)\n   why: manual #2; 4 past fix(es); closest symptom match WO-24020 (0.29)\n   sources: F-200/E14, WO-24002, WO-24003, WO-24020\n#2 Product supply pressure low (24%)\n   why: manual #1; 1 past fix(es); closest symptom match WO-24016 (0.37); sensor supply_pressure_bar=2.38 rules out (below 2)\n   sources: F-200/E14, WO-24016\n#3 Fill valve seat wear (15%)\n   why: manual #3; 1 past fix(es); closest symptom match WO-24004 (0.00)\n   sources: F-200/E14, WO-24004\n#4 Load cell calibration drift (15%)\n   why: manual #4; 1 past fix(es); closest symptom match WO-24019 (0.18); sensor loadcell_zero_g=0.2 rules out (above 5)\n   sources: F-200/E14, WO-24019"
+   },
+   {
+    "n": 5,
+    "title": "Log the fix to the CMMS so the next answer improves",
+    "kind": "human",
+    "what": "The technician tried the #1 suggestion (F200-E14-C2), then found a cause the manual does not cover and logged it through the MCP create_work_order tool as WO-24024.",
+    "code": "await client.call_tool(\"create_work_order\", {\n    \"machine_id\": \"F-200\", \"line\": \"Line 2\", \"fault_code\": \"E14\",\n    \"symptom\": ..., \"root_cause\": finding[\"root_cause\"],\n    \"fix_steps\": ..., \"minutes_down\": 95, \"first_time_fix\": False})",
+    "output": "{\n  \"created\": \"WO-24024\",\n  \"root_cause\": \"Nozzle valve O-ring swollen (EPDM O-rings attacked by the new peracetic sanitizer; FKM required)\",\n  \"fix_steps\": \"Lock out per SOP-LOTO-01. Replace nozzle valve O-rings with FKM part OR-22-FKM on all heads. Sanitize per SOP-SAN-03 and swab before restart.\",\n  \"minutes_down\": 95,\n  \"rank_in_first_answer\": \"not listed (not in manual or history yet)\"\n}"
+   },
+   {
+    "n": 6,
+    "title": "Ask again: the logged fix now ranks first",
+    "kind": "check",
+    "what": "A similar fault on Line 1 now returns the O-ring fix at #1, citing WO-24024.",
+    "code": "msg2 = \"Line 1 F-200 alarm E14. Nozzle 5 dripping after the fill ...\"\nctx2 = gather(idx, \"F-200\", \"Line 1\", \"E14\", msg2, sensors)\ndiag2 = diagnose(ctx2)  # history now includes the new work order",
+    "output": "Tech: Line 1 F-200 alarm E14. Nozzle 5 dripping after the fill and running underweight.\n\n#1 Nozzle valve O-ring swollen (EPDM O-rings attacked by the new peracetic sanitizer; FKM required) (41%)\n   why: not in manual; 1 past fix(es); closest symptom match WO-24024 (0.84)\n   sources: WO-24024\n#2 Clogged nozzle screen (30%)\n   why: manual #2; 4 past fix(es); closest symptom match WO-24020 (0.18)\n   sources: F-200/E14, WO-24002, WO-24003, WO-24020\n#3 Product supply pressure low (13%)\n   why: manual #1; 1 past fix(es); closest symptom match WO-24016 (0.22); sensor supply_pressure_bar=2.25 rules out (below 2)\n   sources: F-200/E14, WO-24016"
+   },
+   {
+    "n": 7,
+    "title": "Replay past incidents against technician-confirmed causes",
+    "kind": "check",
+    "what": "Re-ran 8 held-out incidents: the confirmed cause came first 3/8 times in manual order, 6/8 for the copilot before the write-back, 8/8 after.",
+    "code": "rank = position of the confirmed cause in each ordering\nmttr = search_min + rank * 20 min per cause checked + repair_min\nfirst_time_fix = rank == 1",
+    "output": "INC-01 F200-E14-C2  manual #2  copilot #1 -> #1  MTTR 110 -> 65 min\nINC-02 F200-E14-C1  manual #1  copilot #1 -> #1  MTTR 85 -> 60 min\nINC-03 NEW-ORING    manual #-  copilot #- -> #1  MTTR 215 -> 70 min\nINC-04 NEW-ORING    manual #-  copilot #- -> #1  MTTR 215 -> 70 min\nINC-05 C40-E31-C1   manual #1  copilot #1 -> #1  MTTR 100 -> 75 min\nINC-06 C40-E31-C3   manual #3  copilot #1 -> #1  MTTR 120 -> 55 min\nINC-07 L12-E41-C1   manual #1  copilot #1 -> #1  MTTR 80 -> 55 min\nINC-08 C40-E35-C2   manual #2  copilot #1 -> #1  MTTR 95 -> 50 min"
+   }
+  ],
+  "arch": [
+   {
+    "label": "Manuals + SOPs",
+    "kind": "data",
+    "note": "chunked by machine and fault code"
+   },
+   {
+    "label": "Sensors + alarms",
+    "kind": "data",
+    "note": "historian / PLC tags"
+   },
+   {
+    "label": "CMMS MCP server",
+    "kind": "system",
+    "note": "history + create work order"
+   },
+   {
+    "label": "Claude (Agent SDK)",
+    "kind": "ai",
+    "note": "ranked causes with sources"
+   },
+   {
+    "label": "Tablet / Teams chat",
+    "kind": "system",
+    "note": "technician's interface"
+   },
+   {
+    "label": "Technician",
+    "kind": "human",
+    "note": "fixes, confirms, logs"
+   }
+  ],
+  "story": {
+   "situation": "A bottling plant with two lines. When a filler or capper stops, a technician digs through PDFs and old work orders while the line loses about 300 bottles a minute.",
+   "constraints": "The CMMS is the system of record, so the copilot reads and writes it through a narrow MCP server (two tools, plant service account). Answers must cite the manual section or work order they come from. Lockout and sanitation SOPs always come first.",
+   "replay": "Reuse: docs-by-RAG plus system-of-record-by-MCP fits any field-service or IT-ops desk. Next time: get technicians to log the confirmed root cause in one tap, because that write-back is what makes the next answer better.",
+   "problem_cost": "Mean time to repair of about 1.5 hours on E14 faults, much of it searching and trying causes in manual order."
+  },
+  "metrics": {
+   "mean_time_to_repair": "128 min -> 62 min (replay of 8 incidents, estimate)",
+   "first_time_fixes": "3/8 in manual order -> 8/8 with the copilot",
+   "repeat_failures": "3 of 23 past work orders were repeats within 14 days; wrong first fix (repeat risk) 5/8 -> 0/8",
+   "write_back_effect": "top-1 6/8 before logging the O-ring fix -> 8/8 after",
+   "cmms_tools": "get_work_order_history, create_work_order (MCP)"
+  },
+  "dir": "builds/04-maintenance-copilot",
+  "industry": "Manufacturing",
+  "pattern": "RAG + MCP",
+  "why": "RAG covers the documents and MCP covers the live system. Knowledge plus action is the core enterprise pattern.",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/04-maintenance-copilot",
+  "video": "videos/build-04.mp4"
+ },
+ {
+  "build": "05",
+  "title": "Tenant request triage agent",
+  "mode": "OFFLINE (rule-based stand-in, same schema)",
+  "model": "claude-opus-5-5",
+  "steps": [
+   {
+    "n": 1,
+    "title": "Read the email and SMS inbox",
+    "kind": "io",
+    "what": "Loaded 15 synthetic tenant messages from one week; 10 arrived outside office hours.",
+    "code": "inbox = json.loads(Path(\"data/inbox.json\").read_text())\nah = [m for m in inbox if after_hours(datetime.fromisoformat(m[\"received_at\"]))]",
+    "output": "M01 sms   Sat 22:47 (after hours)  Water is pouring through the ceiling from the unit above, \nM02 email Mon 10:15                Hi, what day is rent due each month, and is there a grace \nM03 sms   Mon 19:30 (after hours)  Kitchen sink is clogged and draining really slowly.\nM04 email Tue 09:05                I was charged a $75 late fee but I paid rent on the 2nd. C\nM05 sms   Wed 02:10 (after hours)  I smell gas near the stove, it's strong. What do I do?\nM06 email Tue 13:40                Can I have a cat in my apartment? Is there a pet deposit?\nM07 email Tue 21:15 (after hours)  The dishwasher stopped working and leaks a little water on\nM08 sms   Wed 07:20 (after hours)  Where do I put recycling and what day is pickup?\nM09 email Wed 11:00                The heater makes a loud banging noise and the bedroom stay\nM10 sms   Wed 23:05 (after hours)  Can I get a receipt for my October rent payment? Need it f\nM11 email Thu 15:30                How much notice do I need to give before I move out?\nM12 sms   Thu 18:45 (after hours)  Bathroom exhaust fan is broken, it makes no sound at all.\nM13 email Fri 08:30 (after hours)  Is guest parking available overnight for a visitor this we\nM14 email Fri 20:10 (after hours)  The refrigerator isn't cooling anymore and food is going b\nM15 sms   Sun 12:00 (after hours)  My autopay didn't go through this month, how do I pay my b"
+   },
+   {
+    "n": 2,
+    "title": "Classify each message",
+    "kind": "ai",
+    "what": "Claude labels every message as question, repair, emergency or billing, with urgency and a reason.",
+    "code": "triage[m[\"id\"]] = ask_structured(system=CLASSIFY_SYSTEM,\n    content=f\"Message {m['id']}: {m['text']}\",\n    schema=Triage, offline=lambda: offline_classify(m))",
+    "output": "M01  emergency now     mentions 'pouring'\nM02  question  routine no repair, billing or safety cue; reads as a policy question\nM03  repair    today   mentions 'clogged'\nM04  billing   routine mentions 'late fee'\nM05  emergency now     mentions 'gas'\nM06  question  routine no repair, billing or safety cue; reads as a policy question\nM07  repair    today   mentions 'leak'\nM08  question  routine no repair, billing or safety cue; reads as a policy question\nM09  repair    today   mentions 'noise'\nM10  billing   routine mentions 'receipt'\nM11  question  routine no repair, billing or safety cue; reads as a policy question\nM12  repair    today   mentions 'broken'\nM13  question  routine no repair, billing or safety cue; reads as a policy question\nM14  repair    today   mentions 'isn't'\nM15  billing   routine mentions 'autopay'\n\ncounts: {'question': 5, 'repair': 5, 'emergency': 2, 'billing': 3}"
+   },
+   {
+    "n": 3,
+    "title": "Answer questions from the lease and FAQ, with the source",
+    "kind": "ai",
+    "what": "The agent searches the lease and FAQ (and the ledger for billing), then replies with a citation: 8/8 answers cite a source.",
+    "code": "run = run_agent(system=AGENT_SYSTEM, user=user, tools=TOOLS,\n                handlers=handlers, offline_planner=offline_planner)\n# LIVE: loop while resp.stop_reason == \"tool_use\";\n#       all tool_result blocks go back in ONE user message",
+    "output": "M02: \"Hi, what day is rent due each month, and is there a grace period?\"\n  -> search_policies({\"query\": \"Hi, what day is rent due each month, and is there a grace period?\"})\n     = [\"Lease \\u00a74.1 Rent due date (score 10)\", \"Lease \\u00a74.3 Payment methods (score 2)\"]\n  -> send_reply({\"message_id\": \"M02\", \"text\": \"Rent is due on the 1st day of each month. A grace)\n     = \"sent\"\n  REPLY: Rent is due on the 1st day of each month. A grace period runs through the 5th day of the month. Rent received after the 5th incurs a $75 late fee. (Source: Lease \u00a74.1 Rent due date)\n\nM04: \"I was charged a $75 late fee but I paid rent on the 2nd. Can you check\"\n  -> get_tenant_ledger({\"unit\": \"1D\"})\n     = [{\"date\": \"2026-11-02\", \"type\": \"payment\", \"amount\": 1850.0, \"ref\": \"ACH 88123\"}, {\"date\": \"2026-11-06\", \"type\n  -> search_policies({\"query\": \"I was charged a $75 late fee but I paid rent on the 2nd. Can you chec)\n     = [\"Lease \\u00a74.1 Rent due date (score 5)\", \"Lease \\u00a74.3 Payment methods (score 5)\"]\n  -> send_reply({\"message_id\": \"M04\", \"text\": \"Our ledger shows your payment of $1,850.00 on 202)\n     = \"sent\"\n  REPLY: Our ledger shows your payment of $1,850.00 on 2026-11-02, inside the grace period (through day 5). The $75 late fee should not apply; the office will confirm the reversal next business day. (Source: Lease \u00a74.1 Rent due d"
+   },
+   {
+    "n": 4,
+    "title": "Draft a work order and propose a vendor slot",
+    "kind": "ai",
+    "what": "5 repairs became draft work orders with a cost estimate and the vendor's earliest slot; 2 are over $500 and held for approval.",
+    "code": "wo = create_work_order(message_id, unit, issue, priority=\"standard\")\nslot = find_vendor_slot(wo[\"wo_id\"], wo[\"trade\"], emergency=False)\nif wo[\"needs_approval\"]:  # estimate > SPEND_LIMIT\n    request_spend_approval(wo[\"wo_id\"], reason)",
+    "output": "M09: \"The heater makes a loud banging noise and the bedroom stays cold at ni\"\n  -> create_work_order({\"message_id\": \"M09\", \"unit\": \"3A\", \"issue\": \"The heater makes a loud banging no)\n     = {\"wo_id\": \"WO-2405\", \"message_id\": \"M09\", \"unit\": \"3A\", \"issue\": \"heater\", \"trade\": \"hvac\", \"priority\": \"stand\n  -> find_vendor_slot({\"wo_id\": \"WO-2405\", \"trade\": \"hvac\", \"emergency\": false})\n     = {\"vendor\": \"Northside HVAC\", \"slot\": \"2026-11-19T08:00\", \"held\": true}\n  -> request_spend_approval({\"wo_id\": \"WO-2405\", \"reason\": \"estimate $650.00 > $500 limit\"})\n     = {\"queued\": true, \"wo_id\": \"WO-2405\", \"limit_usd\": 500.0}\n  -> send_reply({\"message_id\": \"M09\", \"text\": \"Thanks, we've opened work order WO-2405 for the h)\n     = \"sent\"\n  REPLY: Thanks, we've opened work order WO-2405 for the heater. Northside HVAC can come Thu 19 Nov at 08:00 once a manager approves the cost (usually within the hour). Reply here if that time doesn't work.\n\nWork orders:\n  WO-2403 unit 3C clog          BlueLine Plumbing      2026-11-17T08:00  $  180.00  scheduled\n  WO-2404 unit 4A dishwasher    Apex Appliance Repair  2026-11-19T13:00  $  380.00  scheduled\n  WO-2405 unit 3A heater        Northside HVAC         2026-11-19T08:00  $  650.00  awaiting_approval\n  WO-2406 unit 3D exhaust fan   Brightwire Electric    2026-11-20T10:00  $  195.00  scheduled\n  WO-2407 unit 4C refrigerator  Apex Appliance Repair  2026-11-23T11:00  $  717.50  awaiting_approval"
+   },
+   {
+    "n": 5,
+    "title": "Page on-call staff at once for any emergency",
+    "kind": "code",
+    "what": "Emergencies run first and the agent's first tool call is the pager: 2/2 paged within 1 minute, with a 24/7 vendor dispatched.",
+    "code": "order = sorted(inbox, key=lambda m: (triage[m[\"id\"]].category != \"emergency\", m[\"received_at\"]))\npage_on_call(message_id, unit, summary)   # first tool call for every emergency",
+    "output": "M05: \"I smell gas near the stove, it's strong. What do I do?\"\n  -> page_on_call({\"message_id\": \"M05\", \"unit\": \"5A\", \"summary\": \"I smell gas near the stove, it's)\n     = {\"to\": \"Rosa Imani\", \"phone\": \"+1-555-0142\", \"message_id\": \"M05\", \"unit\": \"5A\", \"summary\": \"I smell gas near t\n  -> create_work_order({\"message_id\": \"M05\", \"unit\": \"5A\", \"issue\": \"I smell gas near the stove, it's s)\n     = {\"wo_id\": \"WO-2401\", \"message_id\": \"M05\", \"unit\": \"5A\", \"issue\": \"gas leak\", \"trade\": \"gas\", \"priority\": \"emer\n  -> find_vendor_slot({\"wo_id\": \"WO-2401\", \"trade\": \"gas\", \"emergency\": true})\n     = {\"vendor\": \"Metro Gas Response\", \"slot\": \"2026-11-18T03:10\", \"note\": \"24/7 call-out, ETA 1 hour\"}\n  -> search_policies({\"query\": \"I smell gas near the stove, it's strong. What do I do?\"})\n     = [\"FAQ: Gas smell (score 6)\", \"Lease \\u00a74.1 Rent due date (score 0)\"]\n  -> send_reply({\"message_id\": \"M05\", \"text\": \"This is an emergency and the on-call manager has )\n     = \"sent\"\n  REPLY: This is an emergency and the on-call manager has been paged. Metro Gas Response is on the way (ETA 03:10). Right now: If you smell gas, leave the unit at once, do not switch lights or appliances on or off, and call 911 a\n\nPages sent:\n{\"to\": \"Rosa Imani\", \"phone\": \"+1-555-0142\", \"message_id\": \"M05\", \"unit\": \"5A\", \"summary\": \"I smell gas near the stove, it's strong. What do I do?\", \"paged_at\": \"2026-11-18T02:11\", \"requires_ack_within_min\": 10}\n{\"to\": \"Rosa Imani\", \"phone\": \"+1-555-0142\", \"message_id\": \"M01\", \"unit\": \"4B\", \"summary\": \"Water is pouring through the ceiling from the unit above, it's all over the kitchen floor!\", \"paged_at\": \"2026-11-21T22:48\", \"requires_ack_within_min\": 10}\nfirst tool per emergency: {'M01': 'page_on_call', 'M05': 'page_on_call'}"
+   },
+   {
+    "n": 6,
+    "title": "Manager approves vendor spend over the limit in Slack",
+    "kind": "human",
+    "what": "2 work orders over $500 were posted to #maintenance-approvals with Approve/Reject buttons; nothing was booked until a manager clicked. Emergency call-outs ($1,880.00) skip the queue by policy and are reviewed after.",
+    "code": "slack = {\"channel\": \"#maintenance-approvals\", \"blocks\": [header, fields,\n         {\"type\": \"actions\", \"elements\": [approve_btn, reject_btn]}]}\nwo[\"status\"] = \"scheduled\" if decision == \"approve\" else \"rejected\"",
+    "output": "{\n  \"channel\": \"#maintenance-approvals\",\n  \"text\": \"Approval needed: WO-2405 Northside HVAC $650.00\",\n  \"blocks\": [\n    {\"type\": \"header\", \"text\": {\"type\": \"plain_text\", \"text\": \"Vendor spend approval: $650.00\"}},\n    {\"type\": \"section\", \"fields\": [{\"type\": \"mrkdwn\", \"text\": \"*Work order:*\\nWO-2405 (unit 3A)\"}, {\"type\": \"mrkdwn\", \"text\": \"*Vendor:*\\nNorthside HVAC, 2026-11-19T08:00\"}, {\"type\": \"mrkdwn\", \"text\": \"*Issue:*\\nheater\"}, {\"type\": \"mrkdwn\", \"text\": \"*Why:*\\nestimate $650.00 > $500 limit\"}]},\n    {\"type\": \"actions\", \"elements\": [{\"type\": \"button\", \"text\": {\"type\": \"plain_text\", \"text\": \"Approve\"}, \"style\": \"primary\", \"action_id\": \"approve_spend\", \"value\": \"WO-2405\"}, {\"type\": \"button\", \"text\": {\"type\": \"plain_text\", \"text\": \"Reject\"}, \"style\": \"danger\", \"action_id\": \"reject_spend\", \"value\": \"WO-2405\"}]},\n  ],\n  \"response\": {\"action_id\": \"approve_spend\", \"user\": \"Jordan Wells (portfolio manager)\", \"at\": \"2026-11-18T11:22\"}\n}\n\nQueue:\n  Approval needed: WO-2405 Northside HVAC $650.00 -> approve_spend by Jordan Wells (portfolio manager) at 2026-11-18T11:22\n  Approval needed: WO-2407 Apex Appliance Repair $717.50 -> approve_spend by Jordan Wells (portfolio manager) at 2026-11-20T20:32"
+   },
+   {
+    "n": 7,
+    "title": "Check against the answer key and time every reply",
+    "kind": "check",
+    "what": "A property manager hand-labelled all 15 messages; we score the triage and compare first-response times with the old office-hours process.",
+    "code": "accuracy = mean(triage[k].category == key[k] for k in key)\nbefore = office_hours_queue(received)   # 9-5 Mon-Fri, ~3 working hours behind\nafter  = outbox[k][\"sent_at\"] - received",
+    "output": "{\n  \"category_accuracy\": \"15/15 (100%)\",\n  \"misclassified\": \"none\",\n  \"emergencies_paged\": \"2/2\",\n  \"median_first_response\": \"13.0 h before -> 1 min after\",\n  \"worst_first_response\": \"64.0 h before -> 1 min after\",\n  \"after_hours_answered_before_office_opens\": \"0/10 before -> 10/10 after\",\n  \"answers_with_source\": \"8/8\",\n  \"spend_over_limit_without_approval\": 0\n}"
+   }
+  ],
+  "arch": [
+   {
+    "label": "Email + SMS inbox",
+    "kind": "data",
+    "note": "tenant messages, 24/7"
+   },
+   {
+    "label": "Claude triage",
+    "kind": "ai",
+    "note": "question / repair / emergency / billing"
+   },
+   {
+    "label": "Agent with tools",
+    "kind": "ai",
+    "note": "lease + FAQ search, ledger, vendors"
+   },
+   {
+    "label": "Work-order API",
+    "kind": "system",
+    "note": "draft WO + vendor slot"
+   },
+   {
+    "label": "On-call pager",
+    "kind": "system",
+    "note": "emergencies, within 1 minute"
+   },
+   {
+    "label": "Slack approvals",
+    "kind": "human",
+    "note": "spend over $500"
+   }
+  ],
+  "story": {
+   "situation": "A 240-unit apartment portfolio with a two-person office. Tenant emails and texts pile up; simple questions wait days and an urgent leak can sit unread overnight.",
+   "constraints": "Emergencies must reach a human in minutes, not wait for the agent's judgement on spend. Answers must cite the lease or FAQ so staff can stand behind them. Any vendor spend over the limit needs a manager's click; the agent never spends on its own above it.",
+   "replay": "Reuse: classify -> agent with narrow tools -> human approval over a threshold fits any service inbox (IT helpdesk, facilities, field service). Next time: connect the real work-order API first, and log every tool call so the owner can audit what the agent did overnight."
+  },
+  "metrics": {
+   "median_first_response": "13.0 h -> 1 min",
+   "after_hours_coverage": "0/10 -> 10/10 answered before the office opens",
+   "emergencies_routed": "2/2 paged within 1 min (before: 37.2 h worst case)",
+   "triage_accuracy": "15/15 (100%)",
+   "answers_citing_lease_or_faq": "8/8",
+   "work_orders_drafted": 7,
+   "spend_approvals_in_slack": 2,
+   "tool_calls": 46
+  },
+  "dir": "builds/05-tenant-triage-agent",
+  "industry": "Property management",
+  "pattern": "Agent + approvals",
+  "why": "The next step depends on the message. Tools give it hands, and the approval step keeps money and safety decisions with people.",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/05-tenant-triage-agent",
+  "video": "videos/build-05.mp4"
+ },
+ {
+  "build": "06",
+  "title": "Month-end reconciliation",
+  "mode": "OFFLINE (rule-based stand-in, same schema)",
+  "model": "claude-opus-5-5",
+  "steps": [
+   {
+    "n": 1,
+    "title": "Load the bank and ledger exports",
+    "kind": "io",
+    "what": "197 bank lines and 194 ledger lines for 2026-11 (synthetic exports).",
+    "code": "bank = pd.read_csv(\"data/bank_export_2026-11.csv\")\nledger = pd.read_csv(\"data/ledger_export_2026-11.csv\")",
+    "output": "BANK\nline_id       date                  description   amount\nBK-0001 2026-11-02            DELTA AIR 0062341 -4631.72\nBK-0002 2026-11-02     DEPOSIT ACME CORP ACH CR  9953.87\nBK-0003 2026-11-02     DEPOSIT ACME CORP ACH CR  9456.89\nBK-0004 2026-11-02 AMAZON WEB SVCS AWS.COM BILL -1318.74\n\nLEDGER\nline_id       date           payee   amount                  account      memo\nGL-0049 2026-11-01 Delta Air Lines -2196.82              6500 Travel card 3308\nGL-0004 2026-11-02 Delta Air Lines -4631.72              6500 Travel INV 90683\nGL-0011 2026-11-02           Adobe -1922.70            6100 Software card 6519\nGL-0024 2026-11-02       Acme Corp  9953.87 1200 Accounts receivable INV 61329\n\nbank total -300,387.29 | ledger total -295,937.52 | difference -4,449.77"
+   },
+   {
+    "n": 2,
+    "title": "Match bank to ledger lines exactly (pandas)",
+    "kind": "code",
+    "what": "A pandas script, written with Claude Code, pairs lines with the same date and amount one-to-one: 167 of 197 bank lines matched.",
+    "code": "b = bank.assign(k=bank.groupby([\"date\", \"amount\"]).cumcount())\ng = ledger.assign(k=ledger.groupby([\"date\", \"amount\"]).cumcount())\nexact = b.merge(g, on=[\"date\", \"amount\", \"k\"], suffixes=(\"_bank\", \"_gl\"))",
+    "output": "line_id_bank line_id_gl       date   amount                  description               payee\n     BK-0001    GL-0004 2026-11-02 -4631.72            DELTA AIR 0062341     Delta Air Lines\n     BK-0002    GL-0024 2026-11-02  9953.87     DEPOSIT ACME CORP ACH CR           Acme Corp\n     BK-0003    GL-0031 2026-11-02  9456.89     DEPOSIT ACME CORP ACH CR           Acme Corp\n     BK-0004    GL-0121 2026-11-02 -1318.74 AMAZON WEB SVCS AWS.COM BILL Amazon Web Services\n     BK-0007    GL-0149 2026-11-02  -573.23          ADOBE *CREATIVE CLD               Adobe\n     BK-0008    GL-0150 2026-11-02 -2813.92 AMAZON WEB SVCS AWS.COM BILL Amazon Web Services\n... 167 exact matches"
+   },
+   {
+    "n": 3,
+    "title": "Add rules for near matches: dates, amounts, payee names",
+    "kind": "code",
+    "what": "Rules catch ACH lines that clear a few days late and card charges a few cents off, using difflib to match payee names: 24 more matched, 6 bank + 3 ledger lines left over.",
+    "code": "cands = cands[(cands.days <= 5) & (cands[\"diff\"].abs() <= 1.0)]\ncands[\"name\"] = [name_score(d, p) for d, p in zip(cands.description, cands.payee)]\ncands = cands[cands.name >= 0.45]   # SequenceMatcher ratio / word overlap",
+    "output": "line_id_bank line_id_gl                  description                    payee                          rule\n     BK-0080    GL-0009          SALESFORCE.COM SFDC               Salesforce near: date off 1d, payee 100%\n     BK-0083    GL-0124       GUSTO PAYROLL 8842 ACH            Gusto Payroll near: date off 1d, payee 100%\n     BK-0116    GL-0061         PACIFIC GAS ELEC PMT Pacific Gas and Electric  near: date off 1d, payee 80%\n     BK-0157    GL-0005 AMAZON WEB SVCS AWS.COM BILL      Amazon Web Services  near: date off 1d, payee 73%\n     BK-0042    GL-0137              FEDEX 781234556                    FedEx near: date off 2d, payee 100%\n     BK-0096    GL-0145           LYFT *RIDE TUE 8PM                     Lyft near: date off 2d, payee 100%\n     BK-0119    GL-0068          SALESFORCE.COM SFDC               Salesforce near: date off 2d, payee 100%\n     BK-0134    GL-0102     BRIGHTLINE HEALTH ACH CR        Brightline Health near: date off 2d, payee 100%\n... 24 near matches\n\nleft for Claude: BK-0081, BK-0109, BK-0127, BK-0161, BK-0178, BK-0196, GL-0192, GL-0193, GL-0194"
+   },
+   {
+    "n": 4,
+    "title": "Send only unmatched lines to Claude to explain",
+    "kind": "ai",
+    "what": "Claude saw 9 of 391 lines (2.3%), each with its nearby candidates, and returned a structured explanation and suggested entry.",
+    "code": "notes = batch_structured(system=SYSTEM, items=items,  # unmatched lines only\n                         schema=ExceptionNote,\n                         offline=lambda cid, txt: offline_explain(cid, contexts[cid]))",
+    "output": "BK-0081 bank   duplicate_payment  high   Same payee and amount (1,486.20) already cleared on 2026-11-10 and matched to GL\nBK-0109 bank   transposed_amount  high   Bank shows 2,351.40 and the ledger 2,315.40: the same digits in a different orde\nBK-0127 bank   bank_fee           high   'OUTGOING WIRE TRANSFER FEE' is a bank charge with no ledger entry; it was never\nBK-0161 bank   bank_fee           high   'INTL TRANSACTION FEE' is a bank charge with no ledger entry; it was never booke\nBK-0178 bank   unknown_vendor     medium 'SQ *KAIZEN COFFEE ROASTER' does not match any vendor in the master (best match \nBK-0196 bank   bank_fee           high   'MONTHLY SERVICE FEE' is a bank charge with no ledger entry; it was never booked\nGL-0192 ledger transposed_amount  high   Bank shows 2,351.40 and the ledger 2,315.40: the same digits in a different orde\nGL-0193 ledger timing_difference  high   Booked on 2026-11-30, at month end, and not yet through the bank: an outstanding\nGL-0194 ledger timing_difference  high   Booked on 2026-11-30, at month end, and not yet through the bank: a deposit in t\n\nexample:\n{\n \"line_id\": \"BK-0081\",\n \"side\": \"bank\",\n \"exception_type\": \"duplicate_payment\",\n \"related_line_id\": \"BK-0065\",\n \"explanation\": \"Same payee and amount (1,486.20) already cleared on 2026-11-10 and matched to GL-0191; this second debit looks like a duplicate payment.\",\n \"suggested_entry\": {\n  \"debit\": \"1250 Vendor refunds receivable\",\n  \"credit\": \"1010 Cash\",\n  \"amount\": 1486.2,\n  \"memo\": \"Duplicate payment to Uline\"\n },\n \"action\": \"Ask Uline for a refund or credit.\",\n \"confidence\": \"high\"\n}"
+   },
+   {
+    "n": 5,
+    "title": "Write the exceptions report for the controller",
+    "kind": "human",
+    "what": "8 exceptions go to a Sheets-ready CSV and an HTML page with an approve box per line; the controller approves 6 proposed entries.",
+    "code": "rep.to_csv(\"outputs/exceptions_report.csv\", index=False)   # import into Google Sheets\nexplained = matched.amount_diff.sum() + ub.amount.sum() - ug.amount.sum()\nassert round(diff - explained, 2) == 0   # every cent accounted for",
+    "output": "exception_id              type bank_line ledger_line   amount                suggested_debit suggested_amount\n       EX-01 duplicate_payment   BK-0081             -1486.20 1250 Vendor refunds receivable           1486.2\n       EX-02 transposed_amount   BK-0109     GL-0192 -2351.40                   6310 Telecom             36.0\n       EX-03          bank_fee   BK-0127               -35.00                 6450 Bank fees             35.0\n       EX-04          bank_fee   BK-0161                -4.12                 6450 Bank fees             4.12\n       EX-05    unknown_vendor   BK-0178              -312.80                  1999 Suspense            312.8\n       EX-06          bank_fee   BK-0196               -25.00                 6450 Bank fees             25.0\n       EX-07 timing_difference               GL-0193 -4200.00                                                \n       EX-08 timing_difference               GL-0194  6750.00                                                \n\nbank - ledger = -4,449.77 | explained by matches + exceptions = -4,449.77 | unexplained = 0.00"
+   },
+   {
+    "n": 6,
+    "title": "Schedule it nightly",
+    "kind": "code",
+    "what": "A cron job reruns the match every night, so exceptions surface daily instead of piling up for month end.",
+    "code": "30 2 * * * cd /opt/finance/recon && ./fetch_exports.sh && python3 pipeline.py >> logs/recon.log 2>&1",
+    "output": "# Nightly bank reconciliation, 02:30 server time (after the bank's SFTP drop at 01:00)\n30 2 * * * cd /opt/finance/recon && ./fetch_exports.sh && python3 pipeline.py >> logs/recon.log 2>&1\n\n{\n \"schedule\": \"30 2 * * *\",\n \"inputs\": {\n  \"bank\": \"sftp://bank/exports/{period}.csv\",\n  \"ledger\": \"netsuite saved search 'GL Cash 1010' -> CSV\"\n },\n \"outputs\": {\n  \"report\": \"Google Sheets 'Close {period}' tab Exceptions\",\n  \"html\": \"outputs/exceptions_report.html\"\n },\n \"rules\": {\n  \"date_window_days\": 5,\n  \"amount_tolerance\": 1.0,\n  \"name_threshold\": 0.45\n },\n \"alert_if\": \"unexplained difference != 0 or exceptions > 20\"\n}"
+   },
+   {
+    "n": 7,
+    "title": "Check against the planted exceptions",
+    "kind": "check",
+    "what": "The answer key lists 8 planted problems; the run found 8 with 0 false alarms.",
+    "code": "hit = next(e for e in exceptions if e[\"type\"] == k[\"type\"]\n           and set(k[\"lines\"]) & {e[\"bank_line\"], e[\"ledger_line\"]})",
+    "output": "bank_fee           BK-0196            -> EX-06\nbank_fee           BK-0127            -> EX-03\nbank_fee           BK-0161            -> EX-04\nduplicate_payment  BK-0081            -> EX-01\ntransposed_amount  GL-0192, BK-0109   -> EX-02\ntiming_difference  GL-0193            -> EX-07\ntiming_difference  GL-0194            -> EX-08\nunknown_vendor     BK-0178            -> EX-05\n\nfound 8/8 | false alarms 0\ncode matches that pair the right lines: 191/191\nrecon hours this account: 19.0 h by hand -> 1.2 h reviewing exceptions\n(assumes 2.5 min per line and 20 min per exception by hand; 5 min per exception review)"
+   }
+  ],
+  "arch": [
+   {
+    "label": "Bank export (CSV)",
+    "kind": "data",
+    "note": "statement lines"
+   },
+   {
+    "label": "QuickBooks / NetSuite",
+    "kind": "data",
+    "note": "GL cash ledger export"
+   },
+   {
+    "label": "pandas matcher",
+    "kind": "code",
+    "note": "exact + near-match rules"
+   },
+   {
+    "label": "Claude (unmatched only)",
+    "kind": "ai",
+    "note": "explain + suggest entries"
+   },
+   {
+    "label": "Exceptions report",
+    "kind": "system",
+    "note": "Sheets-ready CSV + HTML"
+   },
+   {
+    "label": "Controller approval",
+    "kind": "human",
+    "note": "approves entries"
+   },
+   {
+    "label": "Nightly schedule",
+    "kind": "system",
+    "note": "cron, 02:30"
+   }
+  ],
+  "story": {
+   "situation": "A 60-person company closes its books in about 6 working days. Two of those days go to ticking bank lines against the ledger in spreadsheets, and odd items are found late.",
+   "constraints": "The numbers must be exact and auditable, so matching is plain pandas code, never a model. Bank and ledger data stay inside the finance tenant. The controller approves every journal entry; nothing posts automatically.",
+   "replay": "Reuse: 'rules do the bulk, the model explains the leftovers' fits any matching job (invoices to POs, payouts to orders, claims to remits). Next time: feed the controller's decisions back as new rules, so the leftover pile shrinks every month."
+  },
+  "metrics": {
+   "lines_matched_by_code": "191/197 bank lines (167 exact + 24 near)",
+   "match_precision": "191/191 pairs correct",
+   "lines_sent_to_claude": "9 of 391 (2.3%)",
+   "exceptions_found": "8/8 planted, 0 false alarms",
+   "unexplained_difference": "0.00",
+   "recon_hours_per_month": "19.0 -> 1.2",
+   "hours_saved_per_month": 17.8,
+   "days_to_close_recon_step": "3.2 -> 0.2 working days (6 h/day)"
+  },
+  "dir": "builds/06-month-end-reconciliation",
+  "industry": "Accounting",
+  "pattern": "Claude Code + AI step",
+  "why": "Code does the exact math and Claude handles messy judgment. Using AI only where rules break keeps it cheap, fast and auditable.",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/06-month-end-reconciliation",
+  "video": "videos/build-06.mp4"
+ },
+ {
+  "build": "07",
+  "title": "Catalog enrichment pipeline",
+  "mode": "OFFLINE (rule-based stand-in, same schema)",
+  "model": "claude-opus-5-5",
+  "steps": [
+   {
+    "n": 1,
+    "title": "Export the catalog with each product's photo and specs",
+    "kind": "io",
+    "what": "Pulled 20 products from the store feed (synthetic): a supplier title, a spec line and one photo each.",
+    "code": "cat = pd.read_csv(\"data/catalog_export.csv\")   # GET /admin/api/products.json\nimg = Image.open(row[\"image\"])                # data/images/P01.png",
+    "output": "sku  supplier_title supplier_color                                 specs               image\nP01     TEE-101 NVY            NVY   100% org ctn 180gsm jersey, relaxed data/images/P01.png\nP02 TEE-102 HTR GRY        HTR GRY           ctn/poly 60/40 jersey, slim data/images/P02.png\nP03      HD-103 GRN            GRN 80/20 ctn/poly fleece 320gsm, regular data/images/P03.png\nP04      HD-104 NVY            NVY      80/20 ctn/poly fleece, oversized data/images/P04.png\nP05     JGR-105 GRY            GRY              ctn/poly fleece, tapered data/images/P05.png\nP06     DRS-106 RST            RST                   100% linen, relaxed data/images/P06.png\nP07         DRS-107                                  100% linen, regular data/images/P07.png\nP08     JKT-108 OLV            OLV    nylon ripstop, DWR finish, regular data/images/P08.png\nP09    JKT-109 MSTD           MSTD          rec poly shell, DWR, relaxed data/images/P09.png\nP10     VST-110 SND            SND                     rec poly, regular data/images/P10.png\nP11    SWTR-111 BRG            BRG              merino 18.5 micron, slim data/images/P11.png\nP12    SWTR-112 CRM            CRM  wool blend 70/30 wool/nylon, relaxed data/images/P12.png\nP13         BNE-113                           acrylic rib knit, one size data/images/P13.png\nP14     BNE-114 CHR            CHR             merino rib knit, one size data/images/P14.png\nP15    TOTE-115 NAT            NAT             12oz ctn canvas, one size data/images/P15.png\nP16    TOTE-116 BLK            BLK            rec poly ripstop, one size data/images/P16.png\nP17     CAP-117 NVY            NVY    adjustable strap, embroidered logo data/images/P17.png\nP18    SHRT-118 OLV            OLV         ctn twill 7in inseam, regular data/images/P18.png\nP19    SHRT-119 PNK            PNK                rec poly, 5in, relaxed data/images/P19.png\nP20         TEE-120                              100% org ctn, oversized data/images/P20.png"
+   },
+   {
+    "n": 2,
+    "title": "Define the attribute schema",
+    "kind": "code",
+    "what": "Material, fit, color and use case become a Pydantic schema; limits and 9 banned claims are read from the brand-voice SKILL.md.",
+    "code": "class Enrichment(BaseModel):\n    title: str; description: str\n    material: str\n    fit: Literal['relaxed','slim','regular','oversized','tapered','one size','unknown']\n    color: str          # one of the store's swatches\n    use_case: list[str]",
+    "output": "fields: sku, title, description, material, fit, color, use_case, search_keywords\nfit_values: relaxed, slim, regular, oversized, tapered, one size, unknown\ncolor_facet: black, charcoal, heather grey, cream, navy, sky blue, forest green, olive, burgundy, red, rust, mustard, sand, pink\nlimits_from_skill: {'title_max_chars': 70, 'description_min_words': 25, 'description_max_words': 70}\nbanned_from_skill: eco-friendly, sustainable, best, guaranteed, waterproof, antibacterial, hypoallergenic, miracle, cures"
+   },
+   {
+    "n": 3,
+    "title": "Batch-run Claude to fill attributes and write on-brand copy",
+    "kind": "ai",
+    "what": "20 products went through one Message Batch, each with its photo as a base64 image block. Offline, color comes from Pillow pixel analysis (P04's median pixel is (25, 25, 28), closest swatch 'black'; the supplier said 'navy').",
+    "code": "items = {sku: {\"text\": prompt(p), \"image\": p[\"image\"]} for sku, p in prods.items()}\nout = batch_vision_structured(system=SYSTEM + SKILL, items=items, schema=Enrichment)\n# content=[{\"type\":\"image\",\"source\":{\"type\":\"base64\",\"media_type\":\"image/png\",...}}, text]",
+    "output": "{\n \"sku\": \"P01\",\n \"title\": \"Everyday Tee in Navy | Organic Cotton\",\n \"description\": \"A relaxed tee made for everyday wear. It's made from organic cotton (180gsm), so you know what you're getting. The relaxed fit gives you room to move. Shown in navy, as photographed in natural light. Super soft, eco friendly fabric.\",\n \"material\": \"organic cotton\",\n \"fit\": \"relaxed\",\n \"color\": \"navy\",\n \"use_case\": [\n  \"everyday wear\"\n ],\n \"search_keywords\": [\n  \"everyday wear\",\n  \"navy\",\n  \"organic cotton\",\n  \"tee\"\n ]\n}\n\nP01  navy          organic cotton          relaxed   everyday wear\nP02  heather grey  cotton-polyester blend  slim      everyday wear\nP03  forest green  cotton-polyester blend  regular   lounging, weekends\nP04  black         cotton-polyester blend  oversized lounging, weekends\nP05  charcoal      cotton-polyester blend  tapered   lounging, weekends\nP06  rust          linen                   relaxed   warm days, travel\nP07  sky blue      linen                   regular   warm days, travel\nP08  olive         nylon                   regular   rain, commuting\nP09  mustard       recycled polyester      relaxed   rain, commuting\nP10  sand          recycled polyester      regular   layering\n..."
+   },
+   {
+    "n": 4,
+    "title": "Auto-check required fields, banned claims and length limits",
+    "kind": "check",
+    "what": "Plain code checks every product. 5 failed on the first pass; they were re-run once with the problems listed, and 1 still need a person.",
+    "code": "rx = r\"\\b\" + r\"[\\s-]?\".join(term)  + r\"\\b\"   # catches \"eco friendly\", \"water-proof\"\nprobs = check(e)   # required fields, title <= 70, 25-70 words, banned claims, \"!\"\nretry = {s: prompt + \"PROBLEMS:\\n\" + \"\\n\".join(p) for s, p in failed.items()}",
+    "output": "first pass:\n  P01 - banned 'eco-friendly' in: Super soft, eco friendly fabric.\n  P08 - banned 'waterproof' in: 100% water-proof in any storm.\n  P10 - title_too_long: 87 > 70 chars\n  P11 - banned 'antibacterial' in: Naturally anti-bacterial merino.\n  P17 - missing_required: material\n  P17 - missing_required: fit\n  P17 - description_length: 19 words\n\nafter one retry:\n  P17 - missing_required: material\n  P17 - missing_required: fit\n  P17 - description_length: 19 words"
+   },
+   {
+    "n": 5,
+    "title": "Merchandiser spot-checks a sample, then publish",
+    "kind": "human",
+    "what": "A merchandiser checks 5 random products plus every flagged one against her own labels, then publishes 19 and holds 1.",
+    "code": "sample = random.sample(passed, 5) + still        # plus everything the checks flagged\nok = e.color == key[s][\"color\"] and e.material == key[s][\"material\"]",
+    "output": "P03  color forest green  OK   material cotton-polyester blend  OK\nP04  color black         OK   material cotton-polyester blend  OK\nP05  color charcoal      OK   material cotton-polyester blend  OK\nP08  color olive         OK   material nylon                   OK\nP09  color mustard       OK   material recycled polyester      OK\nP17  color navy          OK   material unknown                 WRONG (key: cotton twill)  -> held for review\n\nfull answer key (20 products):\n  color facet correct: 13/20 supplier data -> 20/20 enriched\n  material correct:    19/20 (the miss has no material in its specs, so it was held)"
+   },
+   {
+    "n": 6,
+    "title": "Write the before/after catalog",
+    "kind": "io",
+    "what": "Published products go to the store feed; the before/after CSV shows what changed. Filterable fields filled: 17/80 -> 78/80.",
+    "code": "ba.to_csv(\"outputs/catalog_before_after.csv\", index=False)\nrequests.put(f\"{STORE}/products/{sku}.json\", json=payload)   # simulated publish",
+    "output": "sku    before_title                                              after_title    status\nP01     TEE-101 NVY                    Everyday Tee in Navy | Organic Cotton published\nP02 TEE-102 HTR GRY        Crew Tee in Heather Grey | Cotton-Polyester Blend published\nP03      HD-103 GRN Pullover Hoodie in Forest Green | Cotton-Polyester Blend published\nP04      HD-104 NVY             Zip Hoodie in Black | Cotton-Polyester Blend published\nP05     JGR-105 GRY       Fleece Jogger in Charcoal | Cotton-Polyester Blend published\nP06     DRS-106 RST                               Midi Dress in Rust | Linen published\nP07         DRS-107                           Wrap Dress in Sky Blue | Linen published\nP08     JKT-108 OLV                              Rain Shell in Olive | Nylon published\nP09    JKT-109 MSTD             Coach Jacket in Mustard | Recycled Polyester published\nP10     VST-110 SND                 Puffer Vest in Sand | Recycled Polyester published\nP11    SWTR-111 BRG                    Merino Crew in Burgundy | Merino Wool published\nP12    SWTR-112 CRM                         Cable Knit in Cream | Wool Blend published\n\nP08 after: A regular jacket made for rain and commuting. It's made from nylon, so you know what you're getting. The regular fit is true to size. Shown in olive, as photographed in natural light. A DWR finish makes it water-resistant in light rain."
+   }
+  ],
+  "arch": [
+   {
+    "label": "Store product feed",
+    "kind": "data",
+    "note": "specs + photo per SKU"
+   },
+   {
+    "label": "Attribute schema",
+    "kind": "code",
+    "note": "material, fit, color, use case"
+   },
+   {
+    "label": "Claude vision, Batch API",
+    "kind": "ai",
+    "note": "attributes + copy, brand-voice skill"
+   },
+   {
+    "label": "Auto-checks",
+    "kind": "code",
+    "note": "required fields, banned claims, lengths"
+   },
+   {
+    "label": "Merchandiser spot-check",
+    "kind": "human",
+    "note": "sample + flagged items"
+   },
+   {
+    "label": "Publish to store",
+    "kind": "system",
+    "note": "before/after feed"
+   }
+  ],
+  "story": {
+   "situation": "An apparel store with 4,000 SKUs from 30 suppliers. Titles look like 'TEE-101 NVY', and material, fit and color filters are mostly empty, so search misses products and shoppers return items that were not what they expected.",
+   "constraints": "Copy must not make claims the brand can't back (waterproof, eco-friendly, antibacterial). Colors must use the store's swatch list or the filters break. A merchandiser signs off before anything goes live. The job runs overnight, so the Batch API halves the cost.",
+   "replay": "Reuse: photo + spec sheet -> schema -> batch -> deterministic checks -> human sample is the same shape for any listing job (real estate, auto parts, marketplaces). Next time: put the banned-claims list in the checker and the skill from day one, and A/B test the new copy on search click-through before rolling out to all SKUs."
+  },
+  "metrics": {
+   "products_enriched_per_merchandiser_hour": "6 -> 52",
+   "filterable_fields_filled": "17/80 -> 78/80",
+   "color_facet_correct": "13/20 -> 20/20",
+   "material_correct": "19/20",
+   "banned_claims_caught_before_publish": 3,
+   "published": "19/20 (1 held for review)",
+   "copy_states_fit_and_material": "0/20 -> 19/19 published (proxy for 'not as described' returns)",
+   "search_clicks": "needs a live A/B test; not measurable offline"
+  },
+  "dir": "builds/07-catalog-enrichment",
+  "industry": "E-commerce",
+  "pattern": "Batch + structured output",
+  "why": "Batch plus a schema turns Claude into a data factory. Automated checks let people review a sample instead of every row.",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/07-catalog-enrichment",
+  "video": "videos/build-07.mp4"
+ },
+ {
+  "build": "08",
+  "title": "Shipment exception agent",
+  "mode": "OFFLINE (rule-based stand-in, same schema)",
+  "model": "claude-opus-5-5",
+  "steps": [
+   {
+    "n": 1,
+    "title": "Stream shipment events and flag at-risk ETAs",
+    "kind": "io",
+    "what": "Replayed 63 GPS/TMS events for 25 shipments in time order; the agent woke 10 times.",
+    "code": "for e in sorted(events, key=lambda e: e['ts']):\n    v = 0.75 * recent_mph + 0.25 * PLAN_MPH\n    eta = e.ts + miles_remaining / v\n    if eta > window_end and not flagged:\n        signals.append(wake_agent(shipment))",
+    "output": "06:54  SHP-2412  ETA 16:54 past window end 12:54 (speed now 27 mph)\n07:12  SHP-2421  dock appointment moved past window\n07:20  SHP-2415  ETA 18:12 past window end 12:56 (speed now 23 mph)\n07:21  SHP-2404  ETA 16:35 past window end 13:02 (speed now 28 mph)\n07:40  SHP-2413  dock appointment moved past window\n07:45  SHP-2410  ETA 01:16 (+1d) past window end 12:32 (speed now 12 mph)\n08:00  SHP-2417  ETA 14:37 past window end 11:51 (speed now 24 mph)\n08:19  SHP-2408  ETA 14:18 past window end 12:21 (speed now 28 mph)\n08:33  SHP-2406  ETA 18:34 past window end 13:56 (speed now 23 mph)\n08:37  SHP-2419  ETA 23:20 past window end 12:35 (speed now 12 mph)"
+   },
+   {
+    "n": 2,
+    "title": "Agent checks the cause with four tools",
+    "kind": "ai",
+    "what": "Each wake-up runs a tool loop: weather, traffic, carrier and dock are checked in one parallel turn, and the biggest explained delay wins.",
+    "code": "resp = client.messages.create(model=MODEL, max_tokens=16000,\n                              tools=TOOLS, messages=msgs)\nwhile resp.stop_reason == 'tool_use':\n    results = [run(b) for b in resp.content if b.type == 'tool_use']\n    msgs += [assistant(resp.content), user(results)]  # all results, one message",
+    "output": "Example SHP-2410, turn 1:\n  get_weather(Appalachia) -> 0 min\n  get_traffic(I-81 N) -> 5 min\n  get_carrier_status(TRK-319) -> 150 min\n  get_dock_schedule(DC-Roanoke, SHP-2410) -> 0 min\n\nAll wake-ups:\n  SHP-2412  cause=traffic  lane closures, chain law in effect on I-80 E, +70 min\n  SHP-2421  cause=dock     DC-Denver congestion 'high: 3 doors down for repair', appointment moved to 14:00\n  SHP-2415  cause=traffic  multi-vehicle crash, 2 lanes blocked on I-90 E, +65 min\n  SHP-2404  cause=weather  freezing rain in Twin Cities, severity 3, +55 min\n  SHP-2413  cause=dock     DC-Tulsa congestion 'high: 3 doors down for repair', appointment moved to 11:59\n  SHP-2410  cause=carrier  driver out of hours, no relay driver (truck TRK-319), +150 min\n  SHP-2417  cause=none     No source explains 20+ min: get_weather=0m; get_traffic=5m; get_carrier_status=5m; get_dock_schedule=0m\n  SHP-2408  cause=weather  freezing rain in Cascades, severity 3, +55 min\n  SHP-2406  cause=traffic  multi-vehicle crash, 2 lanes blocked on I-70 E, +65 min\n  SHP-2419  cause=carrier  tractor breakdown, awaiting road service (truck TRK-328), +150 min"
+   },
+   {
+    "n": 3,
+    "title": "Propose a fix: reroute, rebook or reset the appointment",
+    "kind": "ai",
+    "what": "In a second turn the agent prices one fix that matches the cause and checks it against the promised window.",
+    "code": "if cause == 'traffic': quote_reroute(sid)\nelif cause == 'carrier': quote_rebook(sid)\nelif cause in ('weather', 'dock'):\n    quote_appointment_reset(sid, earliest_arrival)\ncase = ask_structured(..., schema=ExceptionCase)",
+    "output": "SHP-2412  reset_appointment $0    new ETA 13:30  still late  | Rebook DC-Omaha dock for 13:30\nSHP-2421  reset_appointment $0    new ETA 14:30  still late  | Rebook DC-Denver dock for 14:30\nSHP-2415  reroute           $54   new ETA 12:35  keeps window  | Take I-90 E bypass via state route (+18 mi)\nSHP-2404  reset_appointment $0    new ETA 14:00  still late  | Rebook DC-Minneapolis dock for 14:00\nSHP-2413  reset_appointment $0    new ETA 10:14  keeps window  | Rebook DC-Tulsa dock for 10:14\nSHP-2410  rebook            $570  new ETA 12:52  still late  | Hand trailer to Keystone Express, tractor ready in 45 min\nSHP-2417  monitor           $0    new ETA 11:09  keeps window  | Keep watching; slowdown already cleared.\nSHP-2408  reset_appointment $0    new ETA 13:00  still late  | Rebook DC-Portland dock for 13:00\nSHP-2406  reroute           $54   new ETA 13:39  keeps window  | Take I-70 E bypass via state route (+18 mi)\nSHP-2419  rebook            $690  new ETA 13:12  still late  | Hand trailer to Apex Freight, tractor ready in 55 min"
+   },
+   {
+    "n": 4,
+    "title": "Draft the customer update in the account's tone",
+    "kind": "ai",
+    "what": "6 updates drafted, one per still-late shipment; recovered shipments need no email.",
+    "code": "profile = TONES[ACCOUNTS[s.account]['tone']]\nupdate = ask_structured(system=f'Tone profile: {profile}',\n                        content=case.model_dump_json(),\n                        schema=CustomerUpdate)",
+    "output": "--- FORMAL ---\nSubject: Shipment SHP-2412: revised delivery time 13:30\nDear Mr. Victor Hale,\n\nWe are writing to let you know that shipment SHP-2412 has been delayed by a major traffic incident. To limit the impact we have taken the following step: rebook DC-Omaha dock for 13:30. The revised arrival time is 13:30, which is 36 minutes after your agreed window closing at 12:54. We apologise for the inconvenience and will confirm on arrival.\n\nKind regards,\nOperations Desk, Tallgrass Logistics\n\n--- FRIENDLY ---\nSubject: Heads-up: SHP-2404 now arriving 14:00\nHi Sam,\n\nQuick heads-up on SHP-2404: it's been held up by severe weather on the route. We've already acted (rebook DC-Minneapolis dock for 14:00), and it's now due at 14:00, about 58 minutes past your 13:02 window. We'll ping you again when it's at the dock.\n\nThanks for bearing with us!\nThe Tallgrass ops team\n\n--- TERSE ---\nSubject: SHP-2421 new ETA 14:30\nSHP-2421 delayed: dock. New ETA 14:30 (window end 12:50, +100 min). Action: rebook DC-Denver dock for 14:30.\n-- Tallgrass Ops"
+   },
+   {
+    "n": 5,
+    "title": "Dispatcher approves in one click; outcome logged",
+    "kind": "human",
+    "what": "Each proposal is shown with its evidence; the dispatcher approves (simulated here) and the outcome goes to the ops log and dashboard.",
+    "code": "decision = 'approved' if case.cost_usd <= 500 else 'approved + manager notified'\nops_log.append({**case.model_dump(), 'decision': decision, 'clicks': 1})\nwrite_dashboard(ops_log)  # outputs/ops_dashboard.html",
+    "output": "06:54  SHP-2412  approved                                 email=yes\n07:12  SHP-2421  approved                                 email=yes\n07:20  SHP-2415  approved                                 email=no\n07:21  SHP-2404  approved                                 email=yes\n07:40  SHP-2413  approved                                 email=no\n07:45  SHP-2410  approved + manager notified (over $500)  email=yes\n08:00  SHP-2417  dismissed (no action)                    email=no\n08:19  SHP-2408  approved                                 email=yes\n08:33  SHP-2406  approved                                 email=no\n08:37  SHP-2419  approved + manager notified (over $500)  email=yes"
+   },
+   {
+    "n": 6,
+    "title": "Score causes and warning time against the answer key",
+    "kind": "check",
+    "what": "Ops leads hand-labelled the true cause of every flagged shipment; we score the agent and the warning time.",
+    "code": "acc = mean(case.cause == key[sid]['true_cause'] for sid, case in cases)\nwarning_new = window_end - flagged_at\nwarning_old = window_end - customer_called_at   # negative = after the fact",
+    "output": "{\n  \"truly_late\": 9,\n  \"caught_before_window\": \"9/9\",\n  \"false_alarms\": [\n    \"SHP-2417\"\n  ],\n  \"cause_accuracy\": \"9/10 (90%)\",\n  \"misses\": [\n    \"SHP-2412: agent said traffic, truth weather\"\n  ],\n  \"median_warning_min_new\": 323,\n  \"median_warning_min_old\": -61\n}"
+   }
+  ],
+  "arch": [
+   {
+    "label": "TMS + GPS webhooks",
+    "kind": "data",
+    "note": "event stream"
+   },
+   {
+    "label": "ETA watcher",
+    "kind": "code",
+    "note": "wakes agent on risk only"
+   },
+   {
+    "label": "Exception agent",
+    "kind": "ai",
+    "note": "tool loop: cause + fix"
+   },
+   {
+    "label": "Weather / traffic / carrier / dock",
+    "kind": "system",
+    "note": "tools (MCP in prod)"
+   },
+   {
+    "label": "Tone-matched update",
+    "kind": "ai",
+    "note": "per-account profile"
+   },
+   {
+    "label": "Dispatcher one-click",
+    "kind": "human",
+    "note": "approve, then log"
+   },
+   {
+    "label": "Ops dashboard",
+    "kind": "system",
+    "note": "ops_log + HTML"
+   }
+  ],
+  "story": {
+   "situation": "A regional 3PL runs about 400 loads a day. Dispatchers learn a load is late when the customer calls, then dig through four systems and type the same apology email by hand.",
+   "constraints": "The agent may not move freight on its own: every reroute, rebook or new appointment needs a dispatcher's click. Customer emails must match each account's agreed tone. The agent should only wake when a promise is at risk, to keep cost and noise down.",
+   "replay": "Reuse: 'watch a stream, wake an agent on a signal, human approves' fits any SLA desk (field service, claims, IT incidents). Next time: link traffic incidents to their cause (a storm-closed lane is a weather problem), and learn each dispatcher's edits back into the tone profiles."
+  },
+  "metrics": {
+   "exceptions_caught_early": "9/9 before the promised window",
+   "warning_minutes": "-61 -> +323 (median, vs window end)",
+   "cause_accuracy": "9/10 (90%)",
+   "windows_saved_by_fix": "3/9",
+   "customer_tickets": "9 -> 0 (proactive updates instead of inbound calls)",
+   "dispatcher_hours": "4.2 -> 0.25"
+  },
+  "dir": "builds/08-shipment-exception-agent",
+  "industry": "Logistics",
+  "pattern": "Event-driven agent",
+  "why": "The agent wakes on a signal instead of waiting to be asked. That is the jump from assistant to operator.",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/08-shipment-exception-agent",
+  "video": "videos/build-08.mp4"
+ },
+ {
+  "build": "09",
+  "title": "Claims intake and extraction",
+  "mode": "OFFLINE (rule-based stand-in, same schema)",
+  "model": "claude-opus-5-5",
+  "steps": [
+   {
+    "n": 1,
+    "title": "Gather the claim packet",
+    "kind": "io",
+    "what": "Collected 8 synthetic FNOL packets: police report (PNG + PDF), damage photo, phone note.",
+    "code": "for p in packets:\n    files = [p / 'police_report.pdf', p / 'damage_photo.png',\n             p / 'phone_note.txt']\n    content = packet_content(files, instructions)  # document + image blocks",
+    "output": "Packet CLM-5001:\n  police_report.png  (40 KB)\n  police_report.pdf  (62 KB)\n  police_report.txt  (1 KB)\n  damage_photo.png  (3 KB)\n  phone_note.txt  (1 KB)\n\nphone_note.txt:\nFNOL call 11/17 9:57am. Caller Jordan Reyes, policy PA-349573. Says it happened 11/16 at Elm St & 4th Ave. Vehicle 1 was struck while stopped at a red light. Driver cooperative. Body shop guessed about $2,400. Nobody hurt. Callback 555-0124. Police report RPD-26-27357 filed."
+   },
+   {
+    "n": 2,
+    "title": "Extract fields into the claims schema, with a confidence per field",
+    "kind": "ai",
+    "what": "One vision call per packet reads the report and photo together; offline, the stand-in parses the OCR text, the phone note, and measures the red damage area in the photo.",
+    "code": "ex = ask_structured(system=SYSTEM, content=content,\n                    schema=ClaimExtraction)\n# offline: regex on report + note; severity from red pixels\nshare = red_pixels / vehicle_pixels  # <4.5% minor, <14% moderate",
+    "output": "CLM-5003:\n  policy_number         PA-738465                             0.98  both\n  claimant_name         Marcus Webb                           0.98  both\n  phone                 555-0116                              0.90  phone_note\n  loss_date             2026-11-16                            0.98  both\n  loss_location         Lakeview Mall parking lot, Riverton   0.98  both\n  police_report_number  RPD-26-45388                          0.98  both\n  vin                   NNYAFJB94PN3EZNFK                     0.35  police_report\n  vehicle_year          2022                                  0.90  police_report\n  vehicle_make          Ford                                  0.90  police_report\n  vehicle_model         Escape                                0.90  police_report\n  injuries              no                                    0.98  both\n  estimated_amount_usd  1900                                  0.90  phone_note\n  damage_severity       minor                                 0.95  damage_photo\n  notes: vin NNYAFJB94PN3EZNFK fails the check-digit test; damage area 2.8% of vehicle"
+   },
+   {
+    "n": 3,
+    "title": "Check coverage and run fraud rules",
+    "kind": "check",
+    "what": "Plain-code rules: policy active on the loss date, VIN on the policy, claim soon after policy start, estimate vs vehicle value, VIN claimed before.",
+    "code": "if not pol.start <= loss <= pol.end: coverage.append('not active')\nif (loss - pol.start).days <= 30: flags.append('new policy')\nif amount > 0.8 * pol.vehicle_value: flags.append('amount')\nif vin in prior_claim_vins: flags.append('duplicate VIN')",
+    "output": "CLM-5001  coverage: ok  |  fraud: none\nCLM-5002  coverage: ok  |  fraud: estimate $11,800 is 94% of vehicle value\nCLM-5003  coverage: VIN does not match the insured vehicle  |  fraud: none\nCLM-5004  coverage: ok  |  fraud: none\nCLM-5005  coverage: ok  |  fraud: loss 12 days after policy start\nCLM-5006  coverage: ok  |  fraud: VIN already claimed in CLM-4112\nCLM-5007  coverage: ok  |  fraud: none\nCLM-5008  coverage: policy not active on loss date (status lapsed, ends 2026-11-07)  |  fraud: none"
+   },
+   {
+    "n": 4,
+    "title": "Route by severity: fast-track, adjuster or special unit",
+    "kind": "code",
+    "what": "Fraud flags go to the special investigations unit; coverage questions, injuries or moderate-plus damage go to an adjuster; the rest fast-track.",
+    "code": "route = ('special_unit' if flags else\n         'adjuster' if coverage or severity != 'minor'\n                    or injuries or amount >= 5000 else\n         'fast_track')",
+    "output": "CLM-5001  minor     injuries=no   $2400   -> fast_track\nCLM-5002  moderate  injuries=no   $11800  -> special_unit\nCLM-5003  minor     injuries=no   $1900   -> adjuster\nCLM-5004  moderate  injuries=no   $6200   -> adjuster\nCLM-5005  moderate  injuries=no   $5400   -> special_unit\nCLM-5006  minor     injuries=no   $2100   -> special_unit\nCLM-5007  severe    injuries=yes  $14000  -> adjuster\nCLM-5008  minor     injuries=no   $?      -> adjuster"
+   },
+   {
+    "n": 5,
+    "title": "Low-confidence fields go to a person before anything is saved",
+    "kind": "human",
+    "what": "3 fields on 3 claims fell under the 80% bar and were checked against the originals; the rest saved straight through.",
+    "code": "low = [f for f in ex.fields if f.confidence < 0.80]\nif low: review_queue.post(claim_id, low)   # n8n IF node, false branch\nelse:   claims_api.post(record)            # true branch\nroute = check_and_route(record_after_review)",
+    "output": "CLM-5003  vin                   extracted=NNYAFJB94PN3EZNFK    conf=0.35  reviewer=NNYAFJB94PN3E2NFK\nCLM-5004  loss_date             extracted=2026-11-16           conf=0.55  reviewer=2026-11-16\nCLM-5008  estimated_amount_usd  extracted=None                 conf=0.00  reviewer=3100\n\nRe-routed after review: CLM-5003: adjuster -> fast_track"
+   },
+   {
+    "n": 6,
+    "title": "Score field accuracy against the answer key",
+    "kind": "check",
+    "what": "A claims supervisor hand-keyed the true values for all 8 packets; we score extraction before and after review.",
+    "code": "acc = mean(record[c][f] == key[c][f]\n           for c in claims for f in FIELDS)\ncaught = wrong fields that were sent to review / all wrong fields",
+    "output": "{\n  \"fields_scored\": 104,\n  \"auto_accuracy\": \"98.1%\",\n  \"saved_accuracy\": \"100.0%\",\n  \"wrong_before_review\": [\n    \"CLM-5003.vin: got NNYAFJB94PN3EZNFK, truth NNYAFJB94PN3E2NFK\",\n    \"CLM-5008.estimated_amount_usd: got None, truth 3100\"\n  ],\n  \"wrong_fields_caught_by_confidence_bar\": \"2/2\",\n  \"route_accuracy_before_review\": \"7/8\",\n  \"route_accuracy_saved\": \"8/8\"\n}"
+   }
+  ],
+  "arch": [
+   {
+    "label": "FNOL packet",
+    "kind": "data",
+    "note": "report PDF, photo, phone note"
+   },
+   {
+    "label": "n8n webhook",
+    "kind": "system",
+    "note": "one run per claim"
+   },
+   {
+    "label": "Claude vision",
+    "kind": "ai",
+    "note": "schema + confidence per field"
+   },
+   {
+    "label": "Coverage + fraud rules",
+    "kind": "code",
+    "note": "auditable checks"
+   },
+   {
+    "label": "Severity routing",
+    "kind": "code",
+    "note": "fast-track / adjuster / SIU"
+   },
+   {
+    "label": "Review queue",
+    "kind": "human",
+    "note": "low-confidence fields"
+   },
+   {
+    "label": "Claims system API",
+    "kind": "system",
+    "note": "save only when clean"
+   }
+  ],
+  "story": {
+   "situation": "A regional auto insurer takes about 300 first notices of loss a week. Each arrives as photos, a police report and a phone note, and an adjuster retypes it all into the claims system before anyone triages it.",
+   "constraints": "Nothing reaches the claims system unless every field is confident or a person has checked it. Fraud and coverage rules stay in plain code so auditors can read them. Claimant data stays inside the insurer's tenant.",
+   "replay": "Reuse: 'extract with a confidence per field, check with plain rules, send only the doubtful fields to a person' fits any document intake (loan files, invoices, onboarding). Next time: measure reviewer edits per field and tune the confidence bar per field rather than one bar for all."
+  },
+  "metrics": {
+   "intake_minutes_per_claim": "32 -> 0.7 (average human minutes)",
+   "data_accuracy": "98.1% auto -> 100.0% saved after review",
+   "fields_sent_to_review": "3/104",
+   "time_to_first_contact_min": "122 -> 6 (average)",
+   "route_accuracy": "8/8",
+   "routes": {
+    "fast_track": 2,
+    "adjuster": 3,
+    "special_unit": 3
+   }
+  },
+  "dir": "builds/09-claims-intake",
+  "industry": "Insurance",
+  "pattern": "Vision + workflow",
+  "why": "Claude reads messy documents, and the workflow keeps every step fixed and auditable. Confidence decides where people step in.",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/09-claims-intake",
+  "video": "videos/build-09.mp4"
+ },
+ {
+  "build": "10",
+  "title": "Account research to proposal",
+  "mode": "OFFLINE (rule-based stand-in, same schema)",
+  "model": "claude-opus-5-5",
+  "steps": [
+   {
+    "n": 1,
+    "title": "Pull the account, contacts and open deals from the CRM",
+    "kind": "io",
+    "what": "The CRM MCP server exposes 4 read-only tools; the pipeline calls them for 3 fictional accounts.",
+    "code": "mcp = MCPServer('voxly-crm')   # crm_mcp_server.py\n@mcp.tool()\ndef list_open_deals(account_id: str) -> list[dict]: ...\n\nacct = crm.get_account(id); contacts = crm.list_contacts(id)",
+    "output": "MCP tools: list_accounts, get_account, list_contacts, list_open_deals\n\nHalvorsen Freight Group (Central, Logistics): 180 agents, 3 contacts, deal D-7781 Discovery $410,000\nMeridian Health Partners (East, Healthcare): 320 agents, 4 contacts, deal D-7802 Qualification $780,000\nQuarry Lane Credit Union (West, Financial services): 60 agents, 2 contacts, deal D-7815 Discovery $160,000"
+   },
+   {
+    "n": 2,
+    "title": "Research news, hiring and tech stack with web search",
+    "kind": "ai",
+    "what": "Three searches per account through the web search tool; results about look-alike companies are dropped.",
+    "code": "tools = [{'type': 'web_search_20260209', 'name': 'web_search',\n          'max_uses': 5}]\nresp = client.messages.create(model=MODEL, tools=tools, ...)\nresearch = ask_structured(..., schema=AccountResearch)",
+    "output": "Halvorsen Freight Group: 4 findings kept, 0 dropped\n  [news] 2026-10-02 Halvorsen Freight Group acquires Prairie Line Couriers\n  [job] 2026-11-10 Seasonal Customer Service Agent (60 openings) - Halvorsen Freight Group\n  [tech] 2026-08-15 Halvorsen Freight Group tech stack\n  [news] 2026-11-04 Halvorsen posts record Q3 volume\nMeridian Health Partners: 4 findings kept, 0 dropped\n  [news] 2026-09-22 Meridian Health Partners to open three clinics\n  [job] 2026-10-28 Compliance Analyst, Call Recording - Meridian Health Partners\n  [job] 2026-11-15 Patient Access Representative - Meridian Health Partners\n  [tech] 2026-07-30 Meridian Health Partners tech stack\nQuarry Lane Credit Union: 4 findings kept, 0 dropped\n  [news] 2026-10-12 Quarry Lane Credit Union completes merger with Foothill Federal\n  [job] 2026-11-09 IT Telecom Engineer - Quarry Lane Credit Union\n  [tech] 2026-06-11 Quarry Lane Credit Union tech stack\n  [news] 2026-11-02 Quarry Lane CU passes PCI audit with findings"
+   },
+   {
+    "n": 3,
+    "title": "Map their pains to your offers with the sales playbook",
+    "kind": "ai",
+    "what": "The proposal Skill (SKILL.md) is the system prompt; it scores each playbook pain by cited evidence and keeps the top three.",
+    "code": "skill = Path('skill/proposal-writer/SKILL.md').read_text()\npmap = ask_structured(system=skill + playbook,\n                      content=crm_record + research,\n                      schema=PainMap)",
+    "output": "Halvorsen Freight Group:\n  high_abandon          score 2.2  -> Voxly Contact Center       e.g. \"VP Ops said customers complain about hold times in peak seas\"\n  multi_site            score 2.2  -> Voxly Cloud Phone          e.g. \"Integrating the depots of a newly acquired courier is the to\"\n  agent_ramp            score 1.0  -> Voxly Agent Assist         e.g. \"New agents must ramp within two weeks; high turnover in the \"\nMeridian Health Partners:\n  crm_fragmentation     score 2.8  -> Voxly CRM Connect          e.g. \"Patient access center agents swivel between the scheduling s\"\n  compliance_recording  score 2.0  -> Voxly Compliance Recording e.g. \"Compliance flagged call recording retention gaps in the last\"\n  multi_site            score 1.2  -> Voxly Cloud Phone          e.g. \"Meridian Health Partners announced three new clinics in 2027\"\nQuarry Lane Credit Union:\n  legacy_pbx_eol        score 2.8  -> Voxly Cloud Phone          e.g. \"IT says the on-prem PBX reaches end of support in 2027.\"\n  compliance_recording  score 2.2  -> Voxly Compliance Recording e.g. \"PCI audit asks for call recording with pause-and-resume for \"\n  multi_site            score 2.2  -> Voxly Cloud Phone          e.g. \"Member services wants one phone system across branches after\""
+   },
+   {
+    "n": 4,
+    "title": "Generate a branded proposal and a first-call agenda",
+    "kind": "ai",
+    "what": "Claude drafts the words; code computes the ROI and renders the same seven sections for every account, filed by territory.",
+    "code": "roi = roi_for(acct, pmap)          # code, never the model\ndraft = ask_structured(system=skill, content=pmap + roi,\n                       schema=ProposalDraft)\nrender_proposal(folder / 'proposal.docx', ...)\nrender_agenda(folder / 'first_call_agenda.md', ...)",
+    "output": "outputs/territories/Central/halvorsen-freight-group/proposal.docx  ROI $1,129,688/yr, payback 2.2 mo\noutputs/territories/East/meridian-health-partners/proposal.docx  ROI $357,500/yr, payback 12.2 mo\noutputs/territories/West/quarry-lane-credit-union/proposal.docx  ROI $146,500/yr, payback 5.6 mo\n\nExecutive summary (Halvorsen Freight Group):\nThe biggest issue we found at Halvorsen Freight Group: callers hang up before they reach anyone. From our conversations: \"VP Ops said customers complain about hold times in peak season.\" We propose Voxly Contact Center, Voxly Cloud Phone and Voxly Agent Assist for 180 agents, rolled out in 18 weeks. Our model shows about $1,129,688 of annual value and payback in about 2 months at planning prices.\n\nROI lines (Halvorsen Freight Group):\n  Voxly Contact Center       $  842,688  42,000 calls/mo x 12 x 11% abandoned x 40% recovered x $38\n  Voxly Cloud Phone          $   91,000  14 new sites x $6,500 set-up avoided\n  Voxly Agent Assist         $  196,000  70 hires/yr x 10 days x $280/day"
+   },
+   {
+    "n": 5,
+    "title": "Rep edits and sends; track which sections win",
+    "kind": "human",
+    "what": "The rep edited each draft (22 min, 31 min, 18 min) and sent it. A simulated win/loss log of 80 past proposals shows which sections move the win rate.",
+    "code": "for s in sections:\n    lift = win_rate(with s) - win_rate(without s)\nkeep = [s for s in sections if lift[s] >= 10]   # points\ndrop = [s for s in sections if lift[s] <= -10]",
+    "output": "pains_solutions_table  win 56% with / 14% without  (+42 pts, n=59/21)\nroi                    win 52% with / 18% without  (+35 pts, n=63/17)\ntimeline               win 52% with / 22% without  (+29 pts, n=62/18)\nexec_summary           win 48% with / 29% without  (+20 pts, n=66/14)\nwhat_we_heard          win 48% with / 33% without  (+14 pts, n=65/15)\ncase_study             win 50% with / 39% without  (+11 pts, n=42/38)\ncompany_overview       win 30% with / 54% without  (-24 pts, n=30/50)\n\nfreeform  40 proposals  6.3 h each  meetings 50%  wins 30%\nskill     40 proposals  1.0 h each  meetings 70%  wins 60%\n\nKeep: case_study, exec_summary, pains_solutions_table, roi, timeline, what_we_heard   Drop: company_overview\nSkill update: add case_study (wins, not yet a Skill section)"
+   },
+   {
+    "n": 6,
+    "title": "Check the pain mapping against the rep's own read",
+    "kind": "check",
+    "what": "Before seeing the output, the rep wrote down each account's top three pains; we score the Skill's picks against them.",
+    "code": "hits = len(set(rep_pains) & set(agent_pains))\nmatch = sum(hits) / sum(len(rep_pains))",
+    "output": "pain_match: 8/9 (89%)\n\nHalvorsen Freight Group:\n  Skill: high_abandon, multi_site, agent_ramp\n  Rep:   high_abandon, agent_ramp, multi_site\n  missed: -   extra: -\nMeridian Health Partners:\n  Skill: crm_fragmentation, compliance_recording, multi_site\n  Rep:   compliance_recording, high_abandon, crm_fragmentation\n  missed: high_abandon   extra: multi_site\nQuarry Lane Credit Union:\n  Skill: legacy_pbx_eol, compliance_recording, multi_site\n  Rep:   legacy_pbx_eol, multi_site, compliance_recording\n  missed: -   extra: -"
+   }
+  ],
+  "arch": [
+   {
+    "label": "CRM",
+    "kind": "data",
+    "note": "via MCP server"
+   },
+   {
+    "label": "Web search",
+    "kind": "system",
+    "note": "news, hiring, tech stack"
+   },
+   {
+    "label": "Proposal Skill",
+    "kind": "ai",
+    "note": "pains -> offers, playbook"
+   },
+   {
+    "label": "ROI calculator",
+    "kind": "code",
+    "note": "numbers from code only"
+   },
+   {
+    "label": "Word proposal + agenda",
+    "kind": "system",
+    "note": "filed per territory"
+   },
+   {
+    "label": "Rep edits and sends",
+    "kind": "human",
+    "note": "final say"
+   },
+   {
+    "label": "Win/loss log",
+    "kind": "data",
+    "note": "which sections win"
+   }
+  ],
+  "story": {
+   "situation": "An enterprise UCaaS sales team. Reps spend most of a day researching each account and building a proposal from scratch, and no two proposals look alike, so nobody can tell which parts actually win deals.",
+   "constraints": "CRM access is read-only and goes through one MCP server, so IT can audit it. Every pain must cite a source the rep can check. ROI numbers come from a calculator, never from the model. The rep edits and sends; nothing goes to a buyer automatically.",
+   "replay": "Reuse: 'Skill holds the playbook, MCP holds the data, code holds the numbers' fits any repeatable document: QBRs, renewal briefs, RFP answers. Next time: weight the pain scoring with the win/loss log, and add a 'thin evidence' check that blocks a pain with a single tech-stack source."
+  },
+  "metrics": {
+   "hours_per_proposal": "6.3 -> 1.0 (log); this run: 24 min of rep edits",
+   "meetings_booked": "50% -> 70% of proposals",
+   "win_rate": "30% -> 60%",
+   "pain_match_vs_rep": "8/9 (89%)",
+   "proposals_generated": "3 (same 7 sections, same order)",
+   "top_section_by_lift": "pains_solutions_table"
+  },
+  "dir": "builds/10-account-research-proposal",
+  "industry": "B2B sales",
+  "pattern": "Skill + MCP",
+  "why": "This is a seller's own job, automated. It is the easiest first build to demo, and every sales leader will want it.",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/10-account-research-proposal",
+  "video": "videos/build-10.mp4"
+ }
+]

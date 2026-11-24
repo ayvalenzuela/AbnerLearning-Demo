@@ -1,0 +1,5 @@
+{
+  "manual_hours_per_request": 2.4,
+  "review_minutes_base": 12,
+  "review_minutes_per_edit": 4
+}

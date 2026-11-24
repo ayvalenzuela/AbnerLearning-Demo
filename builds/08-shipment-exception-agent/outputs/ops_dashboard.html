@@ -1,0 +1,28 @@
+<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Exception Ops Dashboard</title>
+<style>
+:root{--bg:#f7f7f5;--fg:#1d1d1b;--muted:#6b6b66;--card:#fff;--line:#e4e3de;--ok:#1f7a4d;--late:#b3402e}
+@media (prefers-color-scheme:dark){:root{--bg:#161615;--fg:#ecebe6;--muted:#9a9993;--card:#20201e;--line:#33322f;--ok:#5cc28d;--late:#ef8a76}}
+body{margin:0;padding:24px 16px;background:var(--bg);color:var(--fg);font:14px/1.4 system-ui,sans-serif}
+h1{font-size:20px;margin:0 0 4px} p{color:var(--muted);margin:0 0 16px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px}
+.tile b{display:block;font-size:26px} .tile span{color:var(--muted)}
+.wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:900px} th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-weight:600} .ok{color:var(--ok)} .late{color:var(--late)}
+.chip{border:1px solid var(--line);border-radius:999px;padding:1px 8px}
+</style></head><body><h1>Shipment exceptions - today</h1>
+<p>Offline run on synthetic data. Every action below was approved by a dispatcher.</p>
+<div class="tiles"><div class='tile'><b>10</b><span>Exceptions flagged</span></div><div class='tile'><b>3</b><span>Windows saved</span></div><div class='tile'><b>6</b><span>Customer updates</span></div><div class='tile'><b>10</b><span>Dispatcher clicks</span></div></div><div class="wrap"><table><thead><tr><th>Flagged</th><th>Shipment</th>
+<th>Account</th><th>Cause</th><th>Fix</th><th>Cost</th><th>ETA / window end</th><th>Result</th><th>Update</th>
+<th>Dispatcher</th></tr></thead><tbody><tr><td>06:54</td><td>SHP-2412</td><td>Silverline Pharma Distribution</td><td><span class='chip traffic'>traffic</span></td><td>Rebook DC-Omaha dock for 13:30</td><td>$0</td><td>13:30 / 12:54</td><td class='late'>late</td><td>sent</td><td>approved</td></tr>
+<tr><td>07:12</td><td>SHP-2421</td><td>Northpine Hardware</td><td><span class='chip dock'>dock</span></td><td>Rebook DC-Denver dock for 14:30</td><td>$0</td><td>14:30 / 12:50</td><td class='late'>late</td><td>sent</td><td>approved</td></tr>
+<tr><td>07:20</td><td>SHP-2415</td><td>Northpine Hardware</td><td><span class='chip traffic'>traffic</span></td><td>Take I-90 E bypass via state route (+18 mi)</td><td>$54</td><td>12:35 / 12:56</td><td class='ok'>on time</td><td>-</td><td>approved</td></tr>
+<tr><td>07:21</td><td>SHP-2404</td><td>Orbit Home Goods</td><td><span class='chip weather'>weather</span></td><td>Rebook DC-Minneapolis dock for 14:00</td><td>$0</td><td>14:00 / 13:02</td><td class='late'>late</td><td>sent</td><td>approved</td></tr>
+<tr><td>07:40</td><td>SHP-2413</td><td>Cedar Grove Grocers</td><td><span class='chip dock'>dock</span></td><td>Rebook DC-Tulsa dock for 10:14</td><td>$0</td><td>10:14 / 10:34</td><td class='ok'>on time</td><td>-</td><td>approved</td></tr>
+<tr><td>07:45</td><td>SHP-2410</td><td>Orbit Home Goods</td><td><span class='chip carrier'>carrier</span></td><td>Hand trailer to Keystone Express, tractor ready in 45 min</td><td>$570</td><td>12:52 / 12:32</td><td class='late'>late</td><td>sent</td><td>approved + manager notified (over $500)</td></tr>
+<tr><td>08:00</td><td>SHP-2417</td><td>Ridgeway Auto Parts</td><td><span class='chip none'>none</span></td><td>Keep watching; slowdown already cleared.</td><td>$0</td><td>11:09 / 11:51</td><td class='ok'>on time</td><td>-</td><td>dismissed (no action)</td></tr>
+<tr><td>08:19</td><td>SHP-2408</td><td>Halden Medical Supply</td><td><span class='chip weather'>weather</span></td><td>Rebook DC-Portland dock for 13:00</td><td>$0</td><td>13:00 / 12:21</td><td class='late'>late</td><td>sent</td><td>approved</td></tr>
+<tr><td>08:33</td><td>SHP-2406</td><td>Silverline Pharma Distribution</td><td><span class='chip traffic'>traffic</span></td><td>Take I-70 E bypass via state route (+18 mi)</td><td>$54</td><td>13:39 / 13:56</td><td class='ok'>on time</td><td>-</td><td>approved</td></tr>
+<tr><td>08:37</td><td>SHP-2419</td><td>Cedar Grove Grocers</td><td><span class='chip carrier'>carrier</span></td><td>Hand trailer to Apex Freight, tractor ready in 55 min</td><td>$690</td><td>13:12 / 12:35</td><td class='late'>late</td><td>sent</td><td>approved + manager notified (over $500)</td></tr></tbody></table></div></body></html>

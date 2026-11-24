@@ -1,0 +1,230 @@
+{
+  "name": "FNOL intake - Claude extraction",
+  "nodes": [
+    {
+      "name": "FNOL webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        300
+      ],
+      "webhookId": "76f1d10a-3e95-5847-9675-aee38eab58de",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fnol",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "c1afafd4-cfb1-5bc3-bb32-c597bc8cf886"
+    },
+    {
+      "name": "Build Claude request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        300
+      ],
+      "parameters": {
+        "jsCode": "const base = {\"model\": \"claude-opus-5-5\", \"max_tokens\": 16000, \"system\": \"You are a claims intake specialist. Extract every field of the claims schema from the packet: policy_number, claimant_name, phone, loss_date, loss_location, police_report_number, vin, vehicle_year, vehicle_make, vehicle_model, injuries, estimated_amount_usd, damage_severity. damage_severity is minor, moderate or severe, judged from the photo. injuries is yes or no. Give a confidence per field. Lower the confidence when documents disagree, when a value fails a format check (a VIN is 17 characters with a valid check digit), or when it is a guess. Prefer the police report over the phone note when they conflict, and say so in notes.\", \"output_config\": {\"format\": {\"type\": \"json_schema\", \"schema\": {\"$defs\": {\"ExtractedField\": {\"properties\": {\"name\": {\"description\": \"one of the claims-schema field names\", \"title\": \"Name\", \"type\": \"string\"}, \"value\": {\"anyOf\": [{\"type\": \"string\"}, {\"type\": \"null\"}], \"description\": \"normalised value; dates as YYYY-MM-DD; null if not found\", \"title\": \"Value\"}, \"confidence\": {\"description\": \"0-1: how sure you are this value is right\", \"title\": \"Confidence\", \"type\": \"number\"}, \"source\": {\"description\": \"police_report | phone_note | damage_photo | both\", \"title\": \"Source\", \"type\": \"string\"}}, \"required\": [\"name\", \"value\", \"confidence\", \"source\"], \"title\": \"ExtractedField\", \"type\": \"object\", \"additionalProperties\": false}}, \"properties\": {\"claim_id\": {\"title\": \"Claim Id\", \"type\": \"string\"}, \"fields\": {\"items\": {\"$ref\": \"#/$defs/ExtractedField\"}, \"title\": \"Fields\", \"type\": \"array\"}, \"notes\": {\"description\": \"conflicts between documents, unreadable parts\", \"title\": \"Notes\", \"type\": \"string\"}}, \"required\": [\"claim_id\", \"fields\", \"notes\"], \"title\": \"ClaimExtraction\", \"type\": \"object\", \"additionalProperties\": false}}}};\nconst p = $json.body;\nconst content = [\n  {type: 'document', source: {type: 'base64', media_type: 'application/pdf', data: p.police_report_pdf_b64}},\n  {type: 'image', source: {type: 'base64', media_type: 'image/png', data: p.damage_photo_b64}},\n  {type: 'text', text: 'Phone note:\\n' + p.phone_note + '\\nClaim id: ' + p.claim_id},\n];\nreturn [{json: {claim_id: p.claim_id, claude_request: {...base, messages: [{role: 'user', content}]}}}];"
+      },
+      "id": "2e52f0a2-fe01-58c3-ade7-e0eae00edf6e"
+    },
+    {
+      "name": "Claude extract",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "anthropic-api-key",
+          "name": "Anthropic x-api-key"
+        }
+      },
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.claude_request) }}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "2e42bb5b-ba77-5f95-a745-e09e65fce0aa"
+    },
+    {
+      "name": "Coverage + fraud rules",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        300
+      ],
+      "parameters": {
+        "jsCode": "const ex = JSON.parse($json.content.find(b => b.type === 'text').text);\nconst minConf = Math.min(...ex.fields.map(f => f.confidence));\nconst rec = Object.fromEntries(ex.fields.map(f => [f.name, f.value]));\n// same rules as check_and_route() in pipeline.py; policy + history lookups via the claims API\nreturn [{json: {...ex, record: rec, min_confidence: minConf,\n  low_fields: ex.fields.filter(f => f.confidence < 0.8).map(f => f.name)}}];"
+      },
+      "id": "30b47995-716c-53a6-b040-8686dcf01421"
+    },
+    {
+      "name": "All fields confident?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        960,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "7e51a7c8-74db-5e80-b3e3-6100576c3c6e",
+              "leftValue": "={{ $json.min_confidence }}",
+              "rightValue": 0.8,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "2780b1ec-349d-5ee2-ac82-14fd39bac1db"
+    },
+    {
+      "name": "Claims API: create claim",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1200,
+        200
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://claims.example.internal/api/v1/claims",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.record) }}",
+        "options": {}
+      },
+      "id": "58051e79-a8eb-5361-b5e7-f1a9ab083f9c"
+    },
+    {
+      "name": "Human review queue",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1200,
+        420
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://claims.example.internal/api/v1/review-queue",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({claim_id: $json.claim_id, fields: $json.low_fields, notes: $json.notes}) }}",
+        "options": {}
+      },
+      "id": "56d91bfa-a965-59ed-8e70-e27fc95bf6bc"
+    }
+  ],
+  "connections": {
+    "FNOL webhook": {
+      "main": [
+        [
+          {
+            "node": "Build Claude request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Claude request": {
+      "main": [
+        [
+          {
+            "node": "Claude extract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude extract": {
+      "main": [
+        [
+          {
+            "node": "Coverage + fraud rules",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Coverage + fraud rules": {
+      "main": [
+        [
+          {
+            "node": "All fields confident?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "All fields confident?": {
+      "main": [
+        [
+          {
+            "node": "Claims API: create claim",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Human review queue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "tags": [],
+  "meta": {
+    "templateCredsSetupCompleted": false
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "accounts": [
+    {
+      "account_id": "ACC-101",
+      "name": "Halvorsen Freight Group",
+      "industry": "Logistics",
+      "territory": "Central",
+      "hq": "Kansas City, MO",
+      "employees": 2400,
+      "contact_center_agents": 180,
+      "calls_per_month": 42000,
+      "abandon_rate": 0.11,
+      "value_per_answered_call_usd": 38,
+      "new_agent_hires_per_year": 70,
+      "pbx_maintenance_usd_per_year": 96000,
+      "current_provider": "on-prem PBX + a hosted IVR",
+      "contract_end": "2027-06-30",
+      "notes": [
+        "VP Ops said customers complain about hold times in peak season.",
+        "Phone contract with the current vendor ends June 2027.",
+        "Integrating the depots of a newly acquired courier is the top IT project this year."
+      ]
+    },
+    {
+      "account_id": "ACC-102",
+      "name": "Meridian Health Partners",
+      "industry": "Healthcare",
+      "territory": "East",
+      "hq": "Richmond, VA",
+      "employees": 5800,
+      "contact_center_agents": 320,
+      "calls_per_month": 95000,
+      "abandon_rate": 0.09,
+      "value_per_answered_call_usd": 22,
+      "new_agent_hires_per_year": 90,
+      "pbx_maintenance_usd_per_year": 140000,
+      "current_provider": "hosted contact center, contract ends 2027",
+      "contract_end": "2027-03-31",
+      "notes": [
+        "Compliance flagged call recording retention gaps in the last HIPAA audit.",
+        "Patient access center agents swivel between the scheduling system and a homegrown CRM."
+      ]
+    },
+    {
+      "account_id": "ACC-103",
+      "name": "Quarry Lane Credit Union",
+      "industry": "Financial services",
+      "territory": "West",
+      "hq": "Boise, ID",
+      "employees": 900,
+      "contact_center_agents": 60,
+      "calls_per_month": 18000,
+      "abandon_rate": 0.05,
+      "value_per_answered_call_usd": 30,
+      "new_agent_hires_per_year": 12,
+      "pbx_maintenance_usd_per_year": 54000,
+      "current_provider": "on-prem PBX (end of support 2027)",
+      "contract_end": "2027-01-31",
+      "notes": [
+        "IT says the on-prem PBX reaches end of support in 2027.",
+        "Member services wants one phone system across branches after the merger.",
+        "PCI audit asks for call recording with pause-and-resume for card numbers."
+      ]
+    }
+  ],
+  "contacts": [
+    {
+      "account_id": "ACC-101",
+      "name": "Dana Whitfield",
+      "title": "VP Operations",
+      "role": "economic buyer",
+      "last_touch": "2026-11-12"
+    },
+    {
+      "account_id": "ACC-101",
+      "name": "Luis Moreno",
+      "title": "Director, Customer Service",
+      "role": "champion",
+      "last_touch": "2026-11-18"
+    },
+    {
+      "account_id": "ACC-101",
+      "name": "Kira Jensen",
+      "title": "IT Infrastructure Manager",
+      "role": "technical evaluator",
+      "last_touch": "2026-10-30"
+    },
+    {
+      "account_id": "ACC-102",
+      "name": "Dr. Alan Pierce",
+      "title": "Chief Operating Officer",
+      "role": "economic buyer",
+      "last_touch": "2026-10-21"
+    },
+    {
+      "account_id": "ACC-102",
+      "name": "Renee Takahashi",
+      "title": "Director, Patient Access",
+      "role": "champion",
+      "last_touch": "2026-11-19"
+    },
+    {
+      "account_id": "ACC-102",
+      "name": "Omar Haddad",
+      "title": "Compliance Officer",
+      "role": "influencer",
+      "last_touch": "2026-11-05"
+    },
+    {
+      "account_id": "ACC-102",
+      "name": "Beth Lin",
+      "title": "Procurement Lead",
+      "role": "procurement",
+      "last_touch": "2026-09-14"
+    },
+    {
+      "account_id": "ACC-103",
+      "name": "Greg Sandoval",
+      "title": "CIO",
+      "role": "economic buyer",
+      "last_touch": "2026-11-10"
+    },
+    {
+      "account_id": "ACC-103",
+      "name": "Tess Albright",
+      "title": "VP Member Experience",
+      "role": "champion",
+      "last_touch": "2026-11-20"
+    }
+  ],
+  "deals": [
+    {
+      "account_id": "ACC-101",
+      "deal_id": "D-7781",
+      "name": "Contact center modernisation",
+      "stage": "Discovery",
+      "amount_usd": 410000,
+      "close_date": "2027-03-31",
+      "next_step": "First-call workshop with VP Ops"
+    },
+    {
+      "account_id": "ACC-102",
+      "deal_id": "D-7802",
+      "name": "Patient access platform",
+      "stage": "Qualification",
+      "amount_usd": 780000,
+      "close_date": "2027-02-28",
+      "next_step": "Proposal to COO"
+    },
+    {
+      "account_id": "ACC-103",
+      "deal_id": "D-7815",
+      "name": "Cloud phone migration",
+      "stage": "Discovery",
+      "amount_usd": 160000,
+      "close_date": "2027-01-15",
+      "next_step": "Present migration plan to CIO"
+    }
+  ]
+}

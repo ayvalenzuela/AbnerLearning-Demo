@@ -1,0 +1,402 @@
+[
+  {
+    "contract_id": "CT-01",
+    "type": "NDA",
+    "counterparty": "Alder Robotics",
+    "title": "Mutual Non-Disclosure Agreement - Alder Robotics",
+    "clauses": [
+      {
+        "clause_id": "CT-01-1",
+        "heading": "1. Confidentiality term",
+        "text": "The Receiving Party shall hold Confidential Information in confidence for five (5) years from the date of disclosure."
+      },
+      {
+        "clause_id": "CT-01-2",
+        "heading": "2. Non-solicitation of employees",
+        "text": "For thirty-six (36) months after termination, neither party shall solicit for employment any employee of the other party."
+      },
+      {
+        "clause_id": "CT-01-3",
+        "heading": "3. Governing law",
+        "text": "This Agreement is governed by the laws of the State of Texas, without regard to conflict-of-laws rules."
+      },
+      {
+        "clause_id": "CT-01-4",
+        "heading": "4. Assignment",
+        "text": "Neither party may assign this Agreement without the other party's written consent, not to be unreasonably withheld."
+      }
+    ]
+  },
+  {
+    "contract_id": "CT-02",
+    "type": "NDA",
+    "counterparty": "Brightwater Foods",
+    "title": "Mutual Non-Disclosure Agreement - Brightwater Foods",
+    "clauses": [
+      {
+        "clause_id": "CT-02-1",
+        "heading": "1. Confidentiality term",
+        "text": "The Receiving Party shall hold Confidential Information in confidence for three (3) years from the date of disclosure."
+      },
+      {
+        "clause_id": "CT-02-2",
+        "heading": "2. Non-solicitation of employees",
+        "text": "For thirty-six (36) months after termination, neither party shall solicit for employment any employee of the other party."
+      },
+      {
+        "clause_id": "CT-02-3",
+        "heading": "3. Governing law",
+        "text": "This Agreement is governed by the laws of England and Wales."
+      },
+      {
+        "clause_id": "CT-02-4",
+        "heading": "4. Assignment",
+        "text": "Neither party may assign this Agreement without the other party's written consent, not to be unreasonably withheld."
+      }
+    ]
+  },
+  {
+    "contract_id": "CT-03",
+    "type": "NDA",
+    "counterparty": "Corvid Analytics",
+    "title": "Mutual Non-Disclosure Agreement - Corvid Analytics",
+    "clauses": [
+      {
+        "clause_id": "CT-03-1",
+        "heading": "1. Confidentiality term",
+        "text": "The Receiving Party shall hold Confidential Information in confidence for five (5) years from the date of disclosure."
+      },
+      {
+        "clause_id": "CT-03-2",
+        "heading": "2. Non-solicitation of employees",
+        "text": "For thirty-six (36) months after termination, neither party shall solicit for employment any employee of the other party."
+      },
+      {
+        "clause_id": "CT-03-3",
+        "heading": "3. Governing law",
+        "text": "This Agreement is governed by the laws of the State of California, without regard to conflict-of-laws rules."
+      },
+      {
+        "clause_id": "CT-03-4",
+        "heading": "4. Assignment",
+        "text": "Neither party may assign this Agreement without the other party's written consent, not to be unreasonably withheld."
+      }
+    ]
+  },
+  {
+    "contract_id": "CT-04",
+    "type": "NDA",
+    "counterparty": "Delmar Freight",
+    "title": "Mutual Non-Disclosure Agreement - Delmar Freight",
+    "clauses": [
+      {
+        "clause_id": "CT-04-1",
+        "heading": "1. Confidentiality term",
+        "text": "The Receiving Party shall hold Confidential Information in confidence for 2 (2) years from the date of disclosure."
+      },
+      {
+        "clause_id": "CT-04-2",
+        "heading": "2. Non-solicitation of employees",
+        "text": "For twelve (12) months after termination, neither party shall solicit for employment any employee of the other party."
+      },
+      {
+        "clause_id": "CT-04-3",
+        "heading": "3. Governing law",
+        "text": "This Agreement is governed by the laws of England and Wales."
+      },
+      {
+        "clause_id": "CT-04-4",
+        "heading": "4. Assignment",
+        "text": "Customer may assign this Agreement without consent. Provider may not assign this Agreement without Customer's prior written consent."
+      }
+    ]
+  },
+  {
+    "contract_id": "CT-05",
+    "type": "MSA",
+    "counterparty": "Evergreen Clinics",
+    "title": "Master Services Agreement - Evergreen Clinics",
+    "clauses": [
+      {
+        "clause_id": "CT-05-1",
+        "heading": "1. Limitation of liability",
+        "text": "Provider's aggregate liability shall not exceed two times the annual fees payable under this Agreement."
+      },
+      {
+        "clause_id": "CT-05-2",
+        "heading": "2. Indemnification",
+        "text": "Provider shall indemnify Customer against third-party claims arising from Provider's breach. Customer shall likewise indemnify Provider against third-party claims arising from Customer's breach."
+      },
+      {
+        "clause_id": "CT-05-3",
+        "heading": "3. Payment terms",
+        "text": "Customer shall pay all undisputed invoices within ninety (90) days of the invoice date."
+      },
+      {
+        "clause_id": "CT-05-4",
+        "heading": "4. Auto-renewal",
+        "text": "This Agreement does not renew automatically. Any renewal requires a signed amendment."
+      },
+      {
+        "clause_id": "CT-05-5",
+        "heading": "5. Confidentiality term",
+        "text": "The Receiving Party's obligations under this Section survive in perpetuity."
+      },
+      {
+        "clause_id": "CT-05-6",
+        "heading": "6. Governing law",
+        "text": "This Agreement is governed by the laws of England and Wales."
+      },
+      {
+        "clause_id": "CT-05-7",
+        "heading": "7. Assignment",
+        "text": "Neither party may assign this Agreement without the other party's written consent, not to be unreasonably withheld."
+      },
+      {
+        "clause_id": "CT-05-8",
+        "heading": "8. Notices",
+        "text": "Notices must be in writing and sent to the addresses on the signature page."
+      }
+    ]
+  },
+  {
+    "contract_id": "CT-06",
+    "type": "MSA",
+    "counterparty": "Fathom Media",
+    "title": "Master Services Agreement - Fathom Media",
+    "clauses": [
+      {
+        "clause_id": "CT-06-1",
+        "heading": "1. Limitation of liability",
+        "text": "Each party's aggregate liability shall not exceed the fees paid in the twelve (12) months preceding the claim."
+      },
+      {
+        "clause_id": "CT-06-2",
+        "heading": "2. Indemnification",
+        "text": "Provider shall indemnify Customer against third-party claims arising from Provider's breach. Customer shall likewise indemnify Provider against third-party claims arising from Customer's breach."
+      },
+      {
+        "clause_id": "CT-06-3",
+        "heading": "3. Payment terms",
+        "text": "Customer shall pay all undisputed invoices within thirty (30) days of the invoice date."
+      },
+      {
+        "clause_id": "CT-06-4",
+        "heading": "4. Auto-renewal",
+        "text": "This Agreement automatically renews for successive one-year terms unless either party gives written notice of non-renewal at least thirty (30) days before the end of the then-current term."
+      },
+      {
+        "clause_id": "CT-06-5",
+        "heading": "5. Confidentiality term",
+        "text": "The Receiving Party shall hold Confidential Information in confidence for five (5) years from the date of disclosure."
+      },
+      {
+        "clause_id": "CT-06-6",
+        "heading": "6. Governing law",
+        "text": "This Agreement is governed by the laws of the State of Delaware, without regard to conflict-of-laws rules."
+      },
+      {
+        "clause_id": "CT-06-7",
+        "heading": "7. Assignment",
+        "text": "Customer may assign this Agreement without consent. Provider may not assign this Agreement without Customer's prior written consent."
+      },
+      {
+        "clause_id": "CT-06-8",
+        "heading": "8. Notices",
+        "text": "Notices must be in writing and sent to the addresses on the signature page."
+      }
+    ]
+  },
+  {
+    "contract_id": "CT-07",
+    "type": "MSA",
+    "counterparty": "Granite Payroll",
+    "title": "Master Services Agreement - Granite Payroll",
+    "clauses": [
+      {
+        "clause_id": "CT-07-1",
+        "heading": "1. Limitation of liability",
+        "text": "Each party's aggregate liability shall not exceed the fees paid in the twenty-four (24) months preceding the claim."
+      },
+      {
+        "clause_id": "CT-07-2",
+        "heading": "2. Indemnification",
+        "text": "Provider shall defend and indemnify Customer against all claims, without regard to any limitation of liability in this Agreement."
+      },
+      {
+        "clause_id": "CT-07-3",
+        "heading": "3. Payment terms",
+        "text": "Customer shall pay all undisputed invoices within sixty (60) days of the invoice date."
+      },
+      {
+        "clause_id": "CT-07-4",
+        "heading": "4. Auto-renewal",
+        "text": "This Agreement automatically renews for successive one-year terms unless either party gives written notice of non-renewal at least thirty (30) days before the end of the then-current term."
+      },
+      {
+        "clause_id": "CT-07-5",
+        "heading": "5. Confidentiality term",
+        "text": "The Receiving Party shall hold Confidential Information in confidence for five (5) years from the date of disclosure."
+      },
+      {
+        "clause_id": "CT-07-6",
+        "heading": "6. Governing law",
+        "text": "This Agreement is governed by the laws of the State of New York, without regard to conflict-of-laws rules."
+      },
+      {
+        "clause_id": "CT-07-7",
+        "heading": "7. Assignment",
+        "text": "Neither party may assign or transfer this Agreement, including by change of control, without the other party's prior written consent."
+      },
+      {
+        "clause_id": "CT-07-8",
+        "heading": "8. Notices",
+        "text": "Notices must be in writing and sent to the addresses on the signature page."
+      }
+    ]
+  },
+  {
+    "contract_id": "CT-08",
+    "type": "MSA",
+    "counterparty": "Helio Solar",
+    "title": "Master Services Agreement - Helio Solar",
+    "clauses": [
+      {
+        "clause_id": "CT-08-1",
+        "heading": "1. Limitation of liability",
+        "text": "Nothing in this Agreement limits or excludes either party's liability for any claim."
+      },
+      {
+        "clause_id": "CT-08-2",
+        "heading": "2. Indemnification",
+        "text": "Provider shall indemnify Customer against third-party claims arising from Provider's breach. Customer shall likewise indemnify Provider against third-party claims arising from Customer's breach."
+      },
+      {
+        "clause_id": "CT-08-3",
+        "heading": "3. Payment terms",
+        "text": "Customer shall pay all undisputed invoices within thirty (30) days of the invoice date."
+      },
+      {
+        "clause_id": "CT-08-4",
+        "heading": "4. Auto-renewal",
+        "text": "This Agreement automatically renews for successive one-year terms unless either party gives written notice of non-renewal at least one hundred twenty (120) days before the end of the then-current term."
+      },
+      {
+        "clause_id": "CT-08-5",
+        "heading": "5. Confidentiality term",
+        "text": "The Receiving Party shall hold Confidential Information in confidence for ten (10) years from the date of disclosure."
+      },
+      {
+        "clause_id": "CT-08-6",
+        "heading": "6. Governing law",
+        "text": "This Agreement is governed by the laws of the State of California, without regard to conflict-of-laws rules."
+      },
+      {
+        "clause_id": "CT-08-7",
+        "heading": "7. Assignment",
+        "text": "Customer may assign this Agreement without consent. Provider may not assign this Agreement without Customer's prior written consent."
+      },
+      {
+        "clause_id": "CT-08-8",
+        "heading": "8. Notices",
+        "text": "Notices must be in writing and sent to the addresses on the signature page."
+      }
+    ]
+  },
+  {
+    "contract_id": "CT-09",
+    "type": "MSA",
+    "counterparty": "Ironbark Insurance",
+    "title": "Master Services Agreement - Ironbark Insurance",
+    "clauses": [
+      {
+        "clause_id": "CT-09-1",
+        "heading": "1. Limitation of liability",
+        "text": "Provider's aggregate liability shall not exceed two times the annual fees payable under this Agreement."
+      },
+      {
+        "clause_id": "CT-09-2",
+        "heading": "2. Indemnification",
+        "text": "Each party shall defend and indemnify the other party against third-party claims arising from its breach of this Agreement."
+      },
+      {
+        "clause_id": "CT-09-3",
+        "heading": "3. Payment terms",
+        "text": "Customer shall pay all undisputed invoices within forty-five (45) days of the invoice date."
+      },
+      {
+        "clause_id": "CT-09-4",
+        "heading": "4. Auto-renewal",
+        "text": "This Agreement automatically renews for successive one-year terms unless either party gives written notice of non-renewal at least sixty (60) days before the end of the then-current term."
+      },
+      {
+        "clause_id": "CT-09-5",
+        "heading": "5. Confidentiality term",
+        "text": "The Receiving Party's obligations under this Section survive in perpetuity."
+      },
+      {
+        "clause_id": "CT-09-6",
+        "heading": "6. Governing law",
+        "text": "This Agreement is governed by the laws of England and Wales."
+      },
+      {
+        "clause_id": "CT-09-7",
+        "heading": "7. Assignment",
+        "text": "Neither party may assign or transfer this Agreement, including by change of control, without the other party's prior written consent."
+      },
+      {
+        "clause_id": "CT-09-8",
+        "heading": "8. Notices",
+        "text": "Notices must be in writing and sent to the addresses on the signature page."
+      }
+    ]
+  },
+  {
+    "contract_id": "CT-10",
+    "type": "MSA",
+    "counterparty": "Juniper Schools",
+    "title": "Master Services Agreement - Juniper Schools",
+    "clauses": [
+      {
+        "clause_id": "CT-10-1",
+        "heading": "1. Limitation of liability",
+        "text": "Each party's aggregate liability shall not exceed the fees paid in the twelve (12) months preceding the claim."
+      },
+      {
+        "clause_id": "CT-10-2",
+        "heading": "2. Indemnification",
+        "text": "Each party shall defend and indemnify the other party against third-party claims arising from its breach of this Agreement."
+      },
+      {
+        "clause_id": "CT-10-3",
+        "heading": "3. Payment terms",
+        "text": "Customer shall pay all undisputed invoices within ninety (90) days of the invoice date."
+      },
+      {
+        "clause_id": "CT-10-4",
+        "heading": "4. Auto-renewal",
+        "text": "This Agreement does not renew automatically. Any renewal requires a signed amendment."
+      },
+      {
+        "clause_id": "CT-10-5",
+        "heading": "5. Confidentiality term",
+        "text": "The Receiving Party shall hold Confidential Information in confidence for five (5) years from the date of disclosure."
+      },
+      {
+        "clause_id": "CT-10-6",
+        "heading": "6. Governing law",
+        "text": "This Agreement is governed by the laws of the State of Delaware, without regard to conflict-of-laws rules."
+      },
+      {
+        "clause_id": "CT-10-7",
+        "heading": "7. Assignment",
+        "text": "Neither party may assign or transfer this Agreement, including by change of control, without the other party's prior written consent."
+      },
+      {
+        "clause_id": "CT-10-8",
+        "heading": "8. Notices",
+        "text": "Notices must be in writing and sent to the addresses on the signature page."
+      }
+    ]
+  }
+]

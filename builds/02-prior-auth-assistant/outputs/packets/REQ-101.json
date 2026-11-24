@@ -1,0 +1,6 @@
+{
+  "request_id": "REQ-101",
+  "ready_to_submit": true,
+  "missing_items": [],
+  "letter": "To: Ridgeway Health Plan Utilization Management\nRe: Prior authorization for Lumbar spine MRI without contrast (CPT 72148) - Patient A (fictional, 52F)\nDiagnosis: M54.16 Radiculopathy, lumbar region\n\nI am requesting authorization for lumbar spine mri without contrast. The chart documents each of your criteria:\n- Low back pain persisting for at least 6 weeks. Chart (PCP visit 2026-08-04): \"Patient reports low back pain for 9 weeks radiating to the left leg.\"\n- At least 6 weeks of conservative therapy (physical therapy or NSAIDs). Chart (PT discharge summary 2026-09-22): \"Completed 7 weeks of physical therapy with minimal relief.\"\n- Neurological deficit or radiculopathy documented on exam. Chart (Spine clinic 2026-10-01): \"Exam shows positive straight leg raise on the left and diminished left ankle reflex.\"\n\nSincerely, Dr. Lena Ortiz (fictional)"
+}

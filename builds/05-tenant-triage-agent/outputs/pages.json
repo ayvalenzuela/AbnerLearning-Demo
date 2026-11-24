@@ -1,0 +1,20 @@
+[
+  {
+    "to": "Rosa Imani",
+    "phone": "+1-555-0142",
+    "message_id": "M05",
+    "unit": "5A",
+    "summary": "I smell gas near the stove, it's strong. What do I do?",
+    "paged_at": "2026-11-18T02:11",
+    "requires_ack_within_min": 10
+  },
+  {
+    "to": "Rosa Imani",
+    "phone": "+1-555-0142",
+    "message_id": "M01",
+    "unit": "4B",
+    "summary": "Water is pouring through the ceiling from the unit above, it's all over the kitchen floor!",
+    "paged_at": "2026-11-21T22:48",
+    "requires_ack_within_min": 10
+  }
+]

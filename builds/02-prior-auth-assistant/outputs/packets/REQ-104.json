@@ -1,0 +1,8 @@
+{
+  "request_id": "REQ-104",
+  "ready_to_submit": false,
+  "missing_items": [
+    "RHP-95810-2: Witnessed apneas or loud habitual snoring. (MISSING - No supporting documentation found in the chart.)"
+  ],
+  "letter": "To: Ridgeway Health Plan Utilization Management\nRe: Prior authorization for Attended polysomnography (in-lab sleep study) (CPT 95810) - Patient D (fictional, 58M)\nDiagnosis: G47.33 Obstructive sleep apnea (suspected)\n\nI am requesting authorization for attended polysomnography (in-lab sleep study). The chart documents each of your criteria:\n- Epworth Sleepiness Scale score of 10 or higher. Chart (Sleep clinic intake 2026-09-12): \"Epworth Sleepiness Scale 15.\"\n- Home sleep apnea test is non-diagnostic or clinically inappropriate. Chart (Cardiology note 2026-08-30): \"History of congestive heart failure, EF 35 percent.\"\n\nSincerely, Dr. Omar Haddad (fictional)"
+}

@@ -1,0 +1,9 @@
+{
+  "manual_retype_minutes_per_claim": 32,
+  "intake_clerks": 1,
+  "clerk_day_starts": "2026-11-17T08:00",
+  "review_minutes_per_field": 0.75,
+  "review_overhead_minutes_per_claim": 1.0,
+  "auto_acknowledgement_minutes": 5,
+  "note": "Retype minutes are an adjuster-team estimate; review minutes are a planning assumption."
+}

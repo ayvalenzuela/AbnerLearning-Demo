@@ -1,0 +1,90 @@
+[
+  {
+    "incident_id": "INC-01",
+    "machine_id": "F-200",
+    "line": "Line 1",
+    "fault_code": "E14",
+    "description": "nozzle 4 slow to fill and underweight",
+    "confirmed_cause_id": "F200-E14-C2",
+    "repair_minutes": 40,
+    "sensors_at_incident": {
+      "supply_pressure_bar": 2.3
+    }
+  },
+  {
+    "incident_id": "INC-02",
+    "machine_id": "F-200",
+    "line": "Line 2",
+    "fault_code": "E14",
+    "description": "every head underfilling, pump noisy",
+    "confirmed_cause_id": "F200-E14-C1",
+    "repair_minutes": 35,
+    "sensors_at_incident": {
+      "supply_pressure_bar": 1.7
+    }
+  },
+  {
+    "incident_id": "INC-03",
+    "machine_id": "F-200",
+    "line": "Line 1",
+    "fault_code": "E14",
+    "description": "nozzle 2 dripping after the fill, weight low",
+    "confirmed_cause_id": "NEW-ORING",
+    "repair_minutes": 45,
+    "sensors_at_incident": {}
+  },
+  {
+    "incident_id": "INC-04",
+    "machine_id": "F-200",
+    "line": "Line 2",
+    "fault_code": "E14",
+    "description": "product dripping from nozzle 7 after fill, underweight",
+    "confirmed_cause_id": "NEW-ORING",
+    "repair_minutes": 45,
+    "sensors_at_incident": {}
+  },
+  {
+    "incident_id": "INC-05",
+    "machine_id": "C-40",
+    "line": "Line 1",
+    "fault_code": "E31",
+    "description": "caps loose on all heads at torque audit",
+    "confirmed_cause_id": "C40-E31-C1",
+    "repair_minutes": 50,
+    "sensors_at_incident": {
+      "torque_nm": 1.3
+    }
+  },
+  {
+    "incident_id": "INC-06",
+    "machine_id": "C-40",
+    "line": "Line 2",
+    "fault_code": "E31",
+    "description": "loose caps on new cap lot only",
+    "confirmed_cause_id": "C40-E31-C3",
+    "repair_minutes": 30,
+    "sensors_at_incident": {}
+  },
+  {
+    "incident_id": "INC-07",
+    "machine_id": "L-12",
+    "line": "Line 1",
+    "fault_code": "E41",
+    "description": "labels skewed at leading edge, vacuum reading low",
+    "confirmed_cause_id": "L12-E41-C1",
+    "repair_minutes": 30,
+    "sensors_at_incident": {
+      "vacuum_bar": 0.45
+    }
+  },
+  {
+    "incident_id": "INC-08",
+    "machine_id": "C-40",
+    "line": "Line 2",
+    "fault_code": "E35",
+    "description": "caps flipping in chute and jamming",
+    "confirmed_cause_id": "C40-E35-C2",
+    "repair_minutes": 25,
+    "sensors_at_incident": {}
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "claim_id": "CLM-5003",
+    "field": "vin",
+    "extracted": "NNYAFJB94PN3EZNFK",
+    "confidence": 0.35,
+    "reviewer_value": "NNYAFJB94PN3E2NFK"
+  },
+  {
+    "claim_id": "CLM-5004",
+    "field": "loss_date",
+    "extracted": "2026-11-16",
+    "confidence": 0.55,
+    "reviewer_value": "2026-11-16"
+  },
+  {
+    "claim_id": "CLM-5008",
+    "field": "estimated_amount_usd",
+    "extracted": null,
+    "confidence": 0.0,
+    "reviewer_value": "3100"
+  }
+]

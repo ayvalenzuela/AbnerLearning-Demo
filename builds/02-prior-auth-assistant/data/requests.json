@@ -1,0 +1,122 @@
+[
+  {
+    "request_id": "REQ-101",
+    "payer": "RHP",
+    "cpt": "72148",
+    "patient": "Patient A (fictional, 52F)",
+    "diagnosis": "M54.16 Radiculopathy, lumbar region",
+    "clinician": "Dr. Lena Ortiz (fictional)",
+    "notes": [
+      {
+        "title": "PCP visit 2026-08-04",
+        "text": "Patient reports low back pain for 9 weeks radiating to the left leg. Started naproxen (NSAID) and referred to physical therapy."
+      },
+      {
+        "title": "PT discharge summary 2026-09-22",
+        "text": "Completed 7 weeks of physical therapy with minimal relief. Pain still 7/10 with sitting."
+      },
+      {
+        "title": "Spine clinic 2026-10-01",
+        "text": "Exam shows positive straight leg raise on the left and diminished left ankle reflex. Concern for L5-S1 disc herniation; MRI requested."
+      }
+    ]
+  },
+  {
+    "request_id": "REQ-102",
+    "payer": "CMM",
+    "cpt": "72148",
+    "patient": "Patient B (fictional, 44M)",
+    "diagnosis": "M54.50 Low back pain, unspecified",
+    "clinician": "Dr. Sam Whitfield (fictional)",
+    "notes": [
+      {
+        "title": "Urgent care 2026-09-02",
+        "text": "Acute low back pain after lifting, present for 5 weeks. Lumbar x-ray shows mild degenerative change, no fracture."
+      },
+      {
+        "title": "PT progress note 2026-10-03",
+        "text": "Patient has attended 3 weeks of physical therapy, two visits per week."
+      },
+      {
+        "title": "Ortho visit 2026-10-06",
+        "text": "Numbness over the right lateral foot and mild weakness of great toe extension."
+      }
+    ]
+  },
+  {
+    "request_id": "REQ-103",
+    "payer": "LCA",
+    "cpt": "27447",
+    "patient": "Patient C (fictional, 67F)",
+    "diagnosis": "M17.11 Primary osteoarthritis, right knee",
+    "clinician": "Dr. Priya Raman (fictional)",
+    "notes": [
+      {
+        "title": "Ortho consult 2026-07-15",
+        "text": "Standing films: Kellgren-Lawrence grade 4 changes, right knee, bone-on-bone medial compartment. BMI 33.8."
+      },
+      {
+        "title": "Ortho follow-up 2026-10-20",
+        "text": "Has tried 16 weeks of physical therapy, two steroid injection treatments and daily NSAID use. Has difficulty climbing stairs and is unable to walk more than one block."
+      }
+    ]
+  },
+  {
+    "request_id": "REQ-104",
+    "payer": "RHP",
+    "cpt": "95810",
+    "patient": "Patient D (fictional, 58M)",
+    "diagnosis": "G47.33 Obstructive sleep apnea (suspected)",
+    "clinician": "Dr. Omar Haddad (fictional)",
+    "notes": [
+      {
+        "title": "Sleep clinic intake 2026-09-12",
+        "text": "Epworth Sleepiness Scale 15. Bed partner reports he stops breathing during sleep several times a night."
+      },
+      {
+        "title": "Cardiology note 2026-08-30",
+        "text": "History of congestive heart failure, EF 35 percent. Home testing not advised."
+      }
+    ]
+  },
+  {
+    "request_id": "REQ-105",
+    "payer": "CMM",
+    "cpt": "95810",
+    "patient": "Patient E (fictional, 39F)",
+    "diagnosis": "R06.83 Snoring",
+    "clinician": "Dr. Grace Lin (fictional)",
+    "notes": [
+      {
+        "title": "PCP visit 2026-10-02",
+        "text": "Loud snoring for years, daytime fatigue. Epworth score 11."
+      },
+      {
+        "title": "Sleep medicine 2026-10-18",
+        "text": "Home sleep test was non-diagnostic due to poor signal quality."
+      }
+    ]
+  },
+  {
+    "request_id": "REQ-106",
+    "payer": "LCA",
+    "cpt": "43644",
+    "patient": "Patient F (fictional, 46F)",
+    "diagnosis": "E66.01 Morbid obesity due to excess calories",
+    "clinician": "Dr. Ben Adeyemi (fictional)",
+    "notes": [
+      {
+        "title": "Bariatric intake 2026-04-10",
+        "text": "BMI 43.1. Enrolled in a supervised weight management program."
+      },
+      {
+        "title": "Bariatric follow-up 2026-10-15",
+        "text": "Completed 7 months in the weight management program with monthly visits. Psychological evaluation completed 2026-09-30, cleared for surgery."
+      },
+      {
+        "title": "Dietitian note 2026-10-01",
+        "text": "Nutrition consult completed with registered dietitian; post-op diet reviewed."
+      }
+    ]
+  }
+]

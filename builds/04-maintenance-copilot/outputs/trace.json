@@ -1,0 +1,109 @@
+{
+  "build": "04",
+  "title": "Maintenance copilot",
+  "mode": "OFFLINE (rule-based stand-in, same schema)",
+  "model": "claude-opus-5-5",
+  "steps": [
+    {
+      "n": 1,
+      "title": "Index manuals and SOPs, chunked by machine and fault code",
+      "kind": "io",
+      "what": "Split 3 service manuals and the SOP book into 7 chunks, each tagged with machine and fault code (TF-IDF stand-in for embeddings + a vector store).",
+      "code": "for sec in re.split(r\"\\n(?=## )\", manual_md):\n    mid, code = parse_heading(sec)\n    idx.add(f\"{mid}/{code}\", sec, machine=mid, fault_code=code, kind=\"manual\")\nidx.build()",
+      "output": "{\n  \"manual_chunks\": [\n    \"C-40/E31\",\n    \"C-40/E35\",\n    \"F-200/E14\",\n    \"F-200/E22\",\n    \"L-12/E41\"\n  ],\n  \"sop_chunks\": [\n    \"SOP-LOTO-01\",\n    \"SOP-SAN-03\"\n  ],\n  \"sample\": \"## C-40 / E31 - Cap torque low\\nAlarm E31 on the C-40 means: cap torque low.\\nLikely causes, in the order the manufacturer recommends checking them:\\n1. [C40-E31-C1] Clutch slip from worn magnets. Steps: Measure static torque with gauge; replace clutch magnet set. Sensor sign: torque_nm below 1.6.\\n2. [C40-E31-C2] Chuck insert worn. Steps: Inspect rubber chuck inserts; replace if glazed.\\n3. [C40-E31-C3] Wrong cap lot (li\"\n}"
+    },
+    {
+      "n": 2,
+      "title": "Build an MCP server for the CMMS: read history, create orders",
+      "kind": "code",
+      "what": "cmms_mcp_server.py exposes two tools over MCP, backed by SQLite seeded with 23 work orders; an MCP client listed the tools and called one.",
+      "code": "mcp = MCPServer(\"cmms\")  # FastMCP in mcp 1.x\n\n@mcp.tool()\ndef get_work_order_history(machine_id: str, fault_code: str, limit: int = 20) -> list[dict]:\n    return db.execute(\"SELECT * FROM work_orders WHERE machine_id=? AND fault_code=? ...\")\n\n@mcp.tool()\ndef create_work_order(machine_id, line, fault_code, symptom, root_cause, ...) -> dict",
+      "output": "{\n  \"tools\": {\n    \"get_work_order_history\": \"machine_id, fault_code, limit\",\n    \"create_work_order\": \"machine_id, line, fault_code, symptom, root_cause, fix_steps, minutes_down, first_time_fix, technician, root_cause_id, parts, opened\"\n  },\n  \"call get_work_order_history(F-200, E14, limit=3)\": [\n    \"WO-24020 2026-09-20 Line 1: Clogged nozzle screen (first-time fix: True)\",\n    \"WO-24019 2026-09-17 Line 1: Load cell calibration drift (first-time fix: True)\",\n    \"WO-24016 2026-08-21 Line 1: Product supply pressure low (first-time fix: False)\"\n  ]\n}"
+    },
+    {
+      "n": 3,
+      "title": "The technician describes the fault; pull docs and past fixes",
+      "kind": "io",
+      "what": "From the chat message and the live alarm, the copilot pulled the F-200/E14 manual section, 2 SOPs, 7 past work orders and the latest sensor readings.",
+      "code": "manual = idx.search(f\"{machine} {fault} {msg}\", k=1, machine=machine, kind=\"manual\")\nsops = idx.search(\"lockout ... \" + msg, k=2, kind=\"sop\")\nhistory = cmms.get_work_order_history(machine, fault)   # MCP tool\nsensors = latest reading per tag for (machine, line)",
+      "output": "{\n  \"tech_message\": \"Line 2 filler F-200 is down on E14. Fill weights running low on nozzle 3 and product is dripping from nozzle 3 after the fill.\",\n  \"active_alarm\": \"2026-11-24T06:08 F-200 Line 2 E14\",\n  \"parsed\": \"machine=F-200, line=Line 2, fault_code=E14\",\n  \"manual_section\": \"F-200/E14\",\n  \"sops\": \"SOP-LOTO-01, SOP-SAN-03\",\n  \"past_work_orders\": \"WO-24020, WO-24019, WO-24016, WO-24007, WO-24004, WO-24003, WO-24002\",\n  \"sensors\": \"inlet_valve_pct=60.0, loadcell_zero_g=0.2, supply_pressure_bar=2.38\"\n}"
+    },
+    {
+      "n": 4,
+      "title": "Rank likely causes and steps, with sources cited",
+      "kind": "ai",
+      "what": "Claude ranked 4 causes: past fixes that match the symptom move up, and the supply-pressure cause drops because the sensor reads normal.",
+      "code": "diag = ask_structured(system=SYSTEM, content=json.dumps(ctx), schema=Diagnosis)\n# RankedCause: rank, cause, likelihood, why, steps, sources\n# prod: Agent SDK agent with the CMMS MCP server attached, answering in Teams",
+      "output": "Safety first:\n  SOP-LOTO-01: Stop the machine from the HMI. Isolate electrical and pneumatic energy, apply personal lock and tag. Bleed res\n  SOP-SAN-03: After any nozzle, valve or bowl work: CIP rinse, sanitize with approved chemical, swab test before restart. Re\n\n#1 Clogged nozzle screen (46%)\n   why: manual #2; 4 past fix(es); closest symptom match WO-24020 (0.29)\n   sources: F-200/E14, WO-24002, WO-24003, WO-24020\n#2 Product supply pressure low (24%)\n   why: manual #1; 1 past fix(es); closest symptom match WO-24016 (0.37); sensor supply_pressure_bar=2.38 rules out (below 2)\n   sources: F-200/E14, WO-24016\n#3 Fill valve seat wear (15%)\n   why: manual #3; 1 past fix(es); closest symptom match WO-24004 (0.00)\n   sources: F-200/E14, WO-24004\n#4 Load cell calibration drift (15%)\n   why: manual #4; 1 past fix(es); closest symptom match WO-24019 (0.18); sensor loadcell_zero_g=0.2 rules out (above 5)\n   sources: F-200/E14, WO-24019"
+    },
+    {
+      "n": 5,
+      "title": "Log the fix to the CMMS so the next answer improves",
+      "kind": "human",
+      "what": "The technician tried the #1 suggestion (F200-E14-C2), then found a cause the manual does not cover and logged it through the MCP create_work_order tool as WO-24024.",
+      "code": "await client.call_tool(\"create_work_order\", {\n    \"machine_id\": \"F-200\", \"line\": \"Line 2\", \"fault_code\": \"E14\",\n    \"symptom\": ..., \"root_cause\": finding[\"root_cause\"],\n    \"fix_steps\": ..., \"minutes_down\": 95, \"first_time_fix\": False})",
+      "output": "{\n  \"created\": \"WO-24024\",\n  \"root_cause\": \"Nozzle valve O-ring swollen (EPDM O-rings attacked by the new peracetic sanitizer; FKM required)\",\n  \"fix_steps\": \"Lock out per SOP-LOTO-01. Replace nozzle valve O-rings with FKM part OR-22-FKM on all heads. Sanitize per SOP-SAN-03 and swab before restart.\",\n  \"minutes_down\": 95,\n  \"rank_in_first_answer\": \"not listed (not in manual or history yet)\"\n}"
+    },
+    {
+      "n": 6,
+      "title": "Ask again: the logged fix now ranks first",
+      "kind": "check",
+      "what": "A similar fault on Line 1 now returns the O-ring fix at #1, citing WO-24024.",
+      "code": "msg2 = \"Line 1 F-200 alarm E14. Nozzle 5 dripping after the fill ...\"\nctx2 = gather(idx, \"F-200\", \"Line 1\", \"E14\", msg2, sensors)\ndiag2 = diagnose(ctx2)  # history now includes the new work order",
+      "output": "Tech: Line 1 F-200 alarm E14. Nozzle 5 dripping after the fill and running underweight.\n\n#1 Nozzle valve O-ring swollen (EPDM O-rings attacked by the new peracetic sanitizer; FKM required) (41%)\n   why: not in manual; 1 past fix(es); closest symptom match WO-24024 (0.84)\n   sources: WO-24024\n#2 Clogged nozzle screen (30%)\n   why: manual #2; 4 past fix(es); closest symptom match WO-24020 (0.18)\n   sources: F-200/E14, WO-24002, WO-24003, WO-24020\n#3 Product supply pressure low (13%)\n   why: manual #1; 1 past fix(es); closest symptom match WO-24016 (0.22); sensor supply_pressure_bar=2.25 rules out (below 2)\n   sources: F-200/E14, WO-24016"
+    },
+    {
+      "n": 7,
+      "title": "Replay past incidents against technician-confirmed causes",
+      "kind": "check",
+      "what": "Re-ran 8 held-out incidents: the confirmed cause came first 3/8 times in manual order, 6/8 for the copilot before the write-back, 8/8 after.",
+      "code": "rank = position of the confirmed cause in each ordering\nmttr = search_min + rank * 20 min per cause checked + repair_min\nfirst_time_fix = rank == 1",
+      "output": "INC-01 F200-E14-C2  manual #2  copilot #1 -> #1  MTTR 110 -> 65 min\nINC-02 F200-E14-C1  manual #1  copilot #1 -> #1  MTTR 85 -> 60 min\nINC-03 NEW-ORING    manual #-  copilot #- -> #1  MTTR 215 -> 70 min\nINC-04 NEW-ORING    manual #-  copilot #- -> #1  MTTR 215 -> 70 min\nINC-05 C40-E31-C1   manual #1  copilot #1 -> #1  MTTR 100 -> 75 min\nINC-06 C40-E31-C3   manual #3  copilot #1 -> #1  MTTR 120 -> 55 min\nINC-07 L12-E41-C1   manual #1  copilot #1 -> #1  MTTR 80 -> 55 min\nINC-08 C40-E35-C2   manual #2  copilot #1 -> #1  MTTR 95 -> 50 min"
+    }
+  ],
+  "arch": [
+    {
+      "label": "Manuals + SOPs",
+      "kind": "data",
+      "note": "chunked by machine and fault code"
+    },
+    {
+      "label": "Sensors + alarms",
+      "kind": "data",
+      "note": "historian / PLC tags"
+    },
+    {
+      "label": "CMMS MCP server",
+      "kind": "system",
+      "note": "history + create work order"
+    },
+    {
+      "label": "Claude (Agent SDK)",
+      "kind": "ai",
+      "note": "ranked causes with sources"
+    },
+    {
+      "label": "Tablet / Teams chat",
+      "kind": "system",
+      "note": "technician's interface"
+    },
+    {
+      "label": "Technician",
+      "kind": "human",
+      "note": "fixes, confirms, logs"
+    }
+  ],
+  "story": {
+    "situation": "A bottling plant with two lines. When a filler or capper stops, a technician digs through PDFs and old work orders while the line loses about 300 bottles a minute.",
+    "constraints": "The CMMS is the system of record, so the copilot reads and writes it through a narrow MCP server (two tools, plant service account). Answers must cite the manual section or work order they come from. Lockout and sanitation SOPs always come first.",
+    "replay": "Reuse: docs-by-RAG plus system-of-record-by-MCP fits any field-service or IT-ops desk. Next time: get technicians to log the confirmed root cause in one tap, because that write-back is what makes the next answer better.",
+    "problem_cost": "Mean time to repair of about 1.5 hours on E14 faults, much of it searching and trying causes in manual order."
+  },
+  "metrics": {
+    "mean_time_to_repair": "128 min -> 62 min (replay of 8 incidents, estimate)",
+    "first_time_fixes": "3/8 in manual order -> 8/8 with the copilot",
+    "repeat_failures": "3 of 23 past work orders were repeats within 14 days; wrong first fix (repeat risk) 5/8 -> 0/8",
+    "write_back_effect": "top-1 6/8 before logging the O-ring fix -> 8/8 after",
+    "cmms_tools": "get_work_order_history, create_work_order (MCP)"
+  }
+}

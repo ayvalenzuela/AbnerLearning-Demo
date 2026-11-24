@@ -1,0 +1,1137 @@
+[
+  {
+    "message": {
+      "id": "M01",
+      "channel": "sms",
+      "received_at": "2026-11-21T22:47",
+      "unit": "4B",
+      "text": "Water is pouring through the ceiling from the unit above, it's all over the kitchen floor!"
+    },
+    "triage": {
+      "message_id": "M01",
+      "category": "emergency",
+      "urgency": "now",
+      "reason": "mentions 'pouring'"
+    },
+    "tool_calls": [
+      {
+        "tool": "page_on_call",
+        "input": {
+          "message_id": "M01",
+          "unit": "4B",
+          "summary": "Water is pouring through the ceiling from the unit above, it's all over the kitchen floor!"
+        },
+        "result": {
+          "to": "Rosa Imani",
+          "phone": "+1-555-0142",
+          "message_id": "M01",
+          "unit": "4B",
+          "summary": "Water is pouring through the ceiling from the unit above, it's all over the kitchen floor!",
+          "paged_at": "2026-11-21T22:48",
+          "requires_ack_within_min": 10
+        }
+      },
+      {
+        "tool": "create_work_order",
+        "input": {
+          "message_id": "M01",
+          "unit": "4B",
+          "issue": "Water is pouring through the ceiling from the unit above, it's all over the kitchen floor!",
+          "priority": "emergency"
+        },
+        "result": {
+          "wo_id": "WO-2402",
+          "message_id": "M01",
+          "unit": "4B",
+          "issue": "ceiling leak",
+          "trade": "plumbing",
+          "priority": "emergency",
+          "estimate_usd": 1430.0,
+          "needs_approval": false,
+          "status": "dispatched",
+          "vendor": "BlueLine Plumbing",
+          "slot": "2026-11-21T23:47"
+        }
+      },
+      {
+        "tool": "find_vendor_slot",
+        "input": {
+          "wo_id": "WO-2402",
+          "trade": "plumbing",
+          "emergency": true
+        },
+        "result": {
+          "vendor": "BlueLine Plumbing",
+          "slot": "2026-11-21T23:47",
+          "note": "24/7 call-out, ETA 1 hour"
+        }
+      },
+      {
+        "tool": "search_policies",
+        "input": {
+          "query": "Water is pouring through the ceiling from the unit above, it's all over the kitchen floor!"
+        },
+        "result": [
+          {
+            "source": "FAQ: Water leak or flooding",
+            "heading": "Water leak or flooding",
+            "text": "For active water leaks, shut off the water valve under the sink or behind the toilet if safe, move valuables away, and call the emergency line. Maintenance responds within 1 hour.",
+            "score": 3
+          },
+          {
+            "source": "FAQ: Gas smell",
+            "heading": "Gas smell",
+            "text": "If you smell gas, leave the unit at once, do not switch lights or appliances on or off, and call 911 and the gas utility from outside. Then call the emergency line.",
+            "score": 2
+          }
+        ]
+      },
+      {
+        "tool": "send_reply",
+        "input": {
+          "message_id": "M01",
+          "text": "This is an emergency and the on-call manager has been paged. BlueLine Plumbing is on the way (ETA 23:47). Right now: For active water leaks, shut off the water valve under the sink or behind the toilet if safe, move valuables away, and call the emergency line. Maintenance responds within 1 hour.",
+          "sources": [
+            "FAQ: Water leak or flooding"
+          ]
+        },
+        "result": {
+          "sent": true
+        }
+      }
+    ],
+    "reply": {
+      "message_id": "M01",
+      "text": "This is an emergency and the on-call manager has been paged. BlueLine Plumbing is on the way (ETA 23:47). Right now: For active water leaks, shut off the water valve under the sink or behind the toilet if safe, move valuables away, and call the emergency line. Maintenance responds within 1 hour.",
+      "sources": [
+        "FAQ: Water leak or flooding"
+      ],
+      "sent_at": "2026-11-21T22:48"
+    }
+  },
+  {
+    "message": {
+      "id": "M02",
+      "channel": "email",
+      "received_at": "2026-11-16T10:15",
+      "unit": "2A",
+      "text": "Hi, what day is rent due each month, and is there a grace period?"
+    },
+    "triage": {
+      "message_id": "M02",
+      "category": "question",
+      "urgency": "routine",
+      "reason": "no repair, billing or safety cue; reads as a policy question"
+    },
+    "tool_calls": [
+      {
+        "tool": "search_policies",
+        "input": {
+          "query": "Hi, what day is rent due each month, and is there a grace period?"
+        },
+        "result": [
+          {
+            "source": "Lease \u00a74.1 Rent due date",
+            "heading": "4.1 Rent due date",
+            "text": "Rent is due on the 1st day of each month. A grace period runs through the 5th day of the month. Rent received after the 5th incurs a $75 late fee.",
+            "score": 10
+          },
+          {
+            "source": "Lease \u00a74.3 Payment methods",
+            "heading": "4.3 Payment methods",
+            "text": "Rent can be paid by autopay, one-time online payment in the resident portal, or certified check at the office. If an autopay fails, pay the balance online within 5 days to avoid a late fee.",
+            "score": 2
+          }
+        ]
+      },
+      {
+        "tool": "send_reply",
+        "input": {
+          "message_id": "M02",
+          "text": "Rent is due on the 1st day of each month. A grace period runs through the 5th day of the month. Rent received after the 5th incurs a $75 late fee. (Source: Lease \u00a74.1 Rent due date)",
+          "sources": [
+            "Lease \u00a74.1 Rent due date"
+          ]
+        },
+        "result": {
+          "sent": true
+        }
+      }
+    ],
+    "reply": {
+      "message_id": "M02",
+      "text": "Rent is due on the 1st day of each month. A grace period runs through the 5th day of the month. Rent received after the 5th incurs a $75 late fee. (Source: Lease \u00a74.1 Rent due date)",
+      "sources": [
+        "Lease \u00a74.1 Rent due date"
+      ],
+      "sent_at": "2026-11-16T10:16"
+    }
+  },
+  {
+    "message": {
+      "id": "M03",
+      "channel": "sms",
+      "received_at": "2026-11-16T19:30",
+      "unit": "3C",
+      "text": "Kitchen sink is clogged and draining really slowly."
+    },
+    "triage": {
+      "message_id": "M03",
+      "category": "repair",
+      "urgency": "today",
+      "reason": "mentions 'clogged'"
+    },
+    "tool_calls": [
+      {
+        "tool": "create_work_order",
+        "input": {
+          "message_id": "M03",
+          "unit": "3C",
+          "issue": "Kitchen sink is clogged and draining really slowly.",
+          "priority": "standard"
+        },
+        "result": {
+          "wo_id": "WO-2403",
+          "message_id": "M03",
+          "unit": "3C",
+          "issue": "clog",
+          "trade": "plumbing",
+          "priority": "standard",
+          "estimate_usd": 180.0,
+          "needs_approval": false,
+          "status": "scheduled",
+          "vendor": "BlueLine Plumbing",
+          "slot": "2026-11-17T08:00"
+        }
+      },
+      {
+        "tool": "find_vendor_slot",
+        "input": {
+          "wo_id": "WO-2403",
+          "trade": "plumbing",
+          "emergency": false
+        },
+        "result": {
+          "vendor": "BlueLine Plumbing",
+          "slot": "2026-11-17T08:00",
+          "held": false
+        }
+      },
+      {
+        "tool": "send_reply",
+        "input": {
+          "message_id": "M03",
+          "text": "Thanks, we've opened work order WO-2403 for the clog. BlueLine Plumbing can come Tue 17 Nov at 08:00. Reply here if that time doesn't work.",
+          "sources": [
+            "WO-2403"
+          ]
+        },
+        "result": {
+          "sent": true
+        }
+      }
+    ],
+    "reply": {
+      "message_id": "M03",
+      "text": "Thanks, we've opened work order WO-2403 for the clog. BlueLine Plumbing can come Tue 17 Nov at 08:00. Reply here if that time doesn't work.",
+      "sources": [
+        "WO-2403"
+      ],
+      "sent_at": "2026-11-16T19:31"
+    }
+  },
+  {
+    "message": {
+      "id": "M04",
+      "channel": "email",
+      "received_at": "2026-11-17T09:05",
+      "unit": "1D",
+      "text": "I was charged a $75 late fee but I paid rent on the 2nd. Can you check?"
+    },
+    "triage": {
+      "message_id": "M04",
+      "category": "billing",
+      "urgency": "routine",
+      "reason": "mentions 'late fee'"
+    },
+    "tool_calls": [
+      {
+        "tool": "get_tenant_ledger",
+        "input": {
+          "unit": "1D"
+        },
+        "result": [
+          {
+            "date": "2026-11-02",
+            "type": "payment",
+            "amount": 1850.0,
+            "ref": "ACH 88123"
+          },
+          {
+            "date": "2026-11-06",
+            "type": "late_fee",
+            "amount": 75.0,
+            "ref": "AUTO-LF"
+          }
+        ]
+      },
+      {
+        "tool": "search_policies",
+        "input": {
+          "query": "I was charged a $75 late fee but I paid rent on the 2nd. Can you check?"
+        },
+        "result": [
+          {
+            "source": "Lease \u00a74.1 Rent due date",
+            "heading": "4.1 Rent due date",
+            "text": "Rent is due on the 1st day of each month. A grace period runs through the 5th day of the month. Rent received after the 5th incurs a $75 late fee.",
+            "score": 5
+          },
+          {
+            "source": "Lease \u00a74.3 Payment methods",
+            "heading": "4.3 Payment methods",
+            "text": "Rent can be paid by autopay, one-time online payment in the resident portal, or certified check at the office. If an autopay fails, pay the balance online within 5 days to avoid a late fee.",
+            "score": 5
+          }
+        ]
+      },
+      {
+        "tool": "send_reply",
+        "input": {
+          "message_id": "M04",
+          "text": "Our ledger shows your payment of $1,850.00 on 2026-11-02, inside the grace period (through day 5). The $75 late fee should not apply; the office will confirm the reversal next business day. (Source: Lease \u00a74.1 Rent due date; tenant ledger)",
+          "sources": [
+            "Lease \u00a74.1 Rent due date",
+            "Tenant ledger"
+          ]
+        },
+        "result": {
+          "sent": true
+        }
+      }
+    ],
+    "reply": {
+      "message_id": "M04",
+      "text": "Our ledger shows your payment of $1,850.00 on 2026-11-02, inside the grace period (through day 5). The $75 late fee should not apply; the office will confirm the reversal next business day. (Source: Lease \u00a74.1 Rent due date; tenant ledger)",
+      "sources": [
+        "Lease \u00a74.1 Rent due date",
+        "Tenant ledger"
+      ],
+      "sent_at": "2026-11-17T09:06"
+    }
+  },
+  {
+    "message": {
+      "id": "M05",
+      "channel": "sms",
+      "received_at": "2026-11-18T02:10",
+      "unit": "5A",
+      "text": "I smell gas near the stove, it's strong. What do I do?"
+    },
+    "triage": {
+      "message_id": "M05",
+      "category": "emergency",
+      "urgency": "now",
+      "reason": "mentions 'gas'"
+    },
+    "tool_calls": [
+      {
+        "tool": "page_on_call",
+        "input": {
+          "message_id": "M05",
+          "unit": "5A",
+          "summary": "I smell gas near the stove, it's strong. What do I do?"
+        },
+        "result": {
+          "to": "Rosa Imani",
+          "phone": "+1-555-0142",
+          "message_id": "M05",
+          "unit": "5A",
+          "summary": "I smell gas near the stove, it's strong. What do I do?",
+          "paged_at": "2026-11-18T02:11",
+          "requires_ack_within_min": 10
+        }
+      },
+      {
+        "tool": "create_work_order",
+        "input": {
+          "message_id": "M05",
+          "unit": "5A",
+          "issue": "I smell gas near the stove, it's strong. What do I do?",
+          "priority": "emergency"
+        },
+        "result": {
+          "wo_id": "WO-2401",
+          "message_id": "M05",
+          "unit": "5A",
+          "issue": "gas leak",
+          "trade": "gas",
+          "priority": "emergency",
+          "estimate_usd": 450.0,
+          "needs_approval": false,
+          "status": "dispatched",
+          "vendor": "Metro Gas Response",
+          "slot": "2026-11-18T03:10"
+        }
+      },
+      {
+        "tool": "find_vendor_slot",
+        "input": {
+          "wo_id": "WO-2401",
+          "trade": "gas",
+          "emergency": true
+        },
+        "result": {
+          "vendor": "Metro Gas Response",
+          "slot": "2026-11-18T03:10",
+          "note": "24/7 call-out, ETA 1 hour"
+        }
+      },
+      {
+        "tool": "search_policies",
+        "input": {
+          "query": "I smell gas near the stove, it's strong. What do I do?"
+        },
+        "result": [
+          {
+            "source": "FAQ: Gas smell",
+            "heading": "Gas smell",
+            "text": "If you smell gas, leave the unit at once, do not switch lights or appliances on or off, and call 911 and the gas utility from outside. Then call the emergency line.",
+            "score": 6
+          },
+          {
+            "source": "Lease \u00a74.1 Rent due date",
+            "heading": "4.1 Rent due date",
+            "text": "Rent is due on the 1st day of each month. A grace period runs through the 5th day of the month. Rent received after the 5th incurs a $75 late fee.",
+            "score": 0
+          }
+        ]
+      },
+      {
+        "tool": "send_reply",
+        "input": {
+          "message_id": "M05",
+          "text": "This is an emergency and the on-call manager has been paged. Metro Gas Response is on the way (ETA 03:10). Right now: If you smell gas, leave the unit at once, do not switch lights or appliances on or off, and call 911 and the gas utility from outside. Then call the emergency line.",
+          "sources": [
+            "FAQ: Gas smell"
+          ]
+        },
+        "result": {
+          "sent": true
+        }
+      }
+    ],
+    "reply": {
+      "message_id": "M05",
+      "text": "This is an emergency and the on-call manager has been paged. Metro Gas Response is on the way (ETA 03:10). Right now: If you smell gas, leave the unit at once, do not switch lights or appliances on or off, and call 911 and the gas utility from outside. Then call the emergency line.",
+      "sources": [
+        "FAQ: Gas smell"
+      ],
+      "sent_at": "2026-11-18T02:11"
+    }
+  },
+  {
+    "message": {
+      "id": "M06",
+      "channel": "email",
+      "received_at": "2026-11-17T13:40",
+      "unit": "2C",
+      "text": "Can I have a cat in my apartment? Is there a pet deposit?"
+    },
+    "triage": {
+      "message_id": "M06",
+      "category": "question",
+      "urgency": "routine",
+      "reason": "no repair, billing or safety cue; reads as a policy question"
+    },
+    "tool_calls": [
+      {
+        "tool": "search_policies",
+        "input": {
+          "query": "Can I have a cat in my apartment? Is there a pet deposit?"
+        },
+        "result": [
+          {
+            "source": "Lease \u00a77.2 Pets",
+            "heading": "7.2 Pets",
+            "text": "Cats and dogs under 40 lb are allowed with written approval. A refundable pet deposit of $400 and pet rent of $35 per month apply.",
+            "score": 5
+          },
+          {
+            "source": "Lease \u00a74.1 Rent due date",
+            "heading": "4.1 Rent due date",
+            "text": "Rent is due on the 1st day of each month. A grace period runs through the 5th day of the month. Rent received after the 5th incurs a $75 late fee.",
+            "score": 0
+          }
+        ]
+      },
+      {
+        "tool": "send_reply",
+        "input": {
+          "message_id": "M06",
+          "text": "Cats and dogs under 40 lb are allowed with written approval. A refundable pet deposit of $400 and pet rent of $35 per month apply. (Source: Lease \u00a77.2 Pets)",
+          "sources": [
+            "Lease \u00a77.2 Pets"
+          ]
+        },
+        "result": {
+          "sent": true
+        }
+      }
+    ],
+    "reply": {
+      "message_id": "M06",
+      "text": "Cats and dogs under 40 lb are allowed with written approval. A refundable pet deposit of $400 and pet rent of $35 per month apply. (Source: Lease \u00a77.2 Pets)",
+      "sources": [
+        "Lease \u00a77.2 Pets"
+      ],
+      "sent_at": "2026-11-17T13:41"
+    }
+  },
+  {
+    "message": {
+      "id": "M07",
+      "channel": "email",
+      "received_at": "2026-11-17T21:15",
+      "unit": "4A",
+      "text": "The dishwasher stopped working and leaks a little water onto the floor when it runs."
+    },
+    "triage": {
+      "message_id": "M07",
+      "category": "repair",
+      "urgency": "today",
+      "reason": "mentions 'leak'"
+    },
+    "tool_calls": [
+      {
+        "tool": "create_work_order",
+        "input": {
+          "message_id": "M07",
+          "unit": "4A",
+          "issue": "The dishwasher stopped working and leaks a little water onto the floor when it runs.",
+          "priority": "standard"
+        },
+        "result": {
+          "wo_id": "WO-2404",
+          "message_id": "M07",
+          "unit": "4A",
+          "issue": "dishwasher",
+          "trade": "appliance",
+          "priority": "standard",
+          "estimate_usd": 380.0,
+          "needs_approval": false,
+          "status": "scheduled",
+          "vendor": "Apex Appliance Repair",
+          "slot": "2026-11-19T13:00"
+        }
+      },
+      {
+        "tool": "find_vendor_slot",
+        "input": {
+          "wo_id": "WO-2404",
+          "trade": "appliance",
+          "emergency": false
+        },
+        "result": {
+          "vendor": "Apex Appliance Repair",
+          "slot": "2026-11-19T13:00",
+          "held": false
+        }
+      },
+      {
+        "tool": "send_reply",
+        "input": {
+          "message_id": "M07",
+          "text": "Thanks, we've opened work order WO-2404 for the dishwasher. Apex Appliance Repair can come Thu 19 Nov at 13:00. Reply here if that time doesn't work.",
+          "sources": [
+            "WO-2404"
+          ]
+        },
+        "result": {
+          "sent": true
+        }
+      }
+    ],
+    "reply": {
+      "message_id": "M07",
+      "text": "Thanks, we've opened work order WO-2404 for the dishwasher. Apex Appliance Repair can come Thu 19 Nov at 13:00. Reply here if that time doesn't work.",
+      "sources": [
+        "WO-2404"
+      ],
+      "sent_at": "2026-11-17T21:16"
+    }
+  },
+  {
+    "message": {
+      "id": "M08",
+      "channel": "sms",
+      "received_at": "2026-11-18T07:20",
+      "unit": "1B",
+      "text": "Where do I put recycling and what day is pickup?"
+    },
+    "triage": {
+      "message_id": "M08",
+      "category": "question",
+      "urgency": "routine",
+      "reason": "no repair, billing or safety cue; reads as a policy question"
+    },
+    "tool_calls": [
+      {
+        "tool": "search_policies",
+        "input": {
+          "query": "Where do I put recycling and what day is pickup?"
+        },
+        "result": [
+          {
+            "source": "FAQ: Recycling and trash",
+            "heading": "Recycling and trash",
+            "text": "Recycling goes in the blue bins in the garage, level P1. Pickup is every Tuesday morning; bins must be out by 7am.",
+            "score": 4
+          },
+          {
+            "source": "Lease \u00a74.1 Rent due date",
+            "heading": "4.1 Rent due date",
+            "text": "Rent is due on the 1st day of each month. A grace period runs through the 5th day of the month. Rent received after the 5th incurs a $75 late fee.",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "tool": "send_reply",
+        "input": {
+          "message_id": "M08",
+          "text": "Recycling goes in the blue bins in the garage, level P1. Pickup is every Tuesday morning; bins must be out by 7am. (Source: FAQ: Recycling and trash)",
+          "sources": [
+            "FAQ: Recycling and trash"
+          ]
+        },
+        "result": {
+          "sent": true
+        }
+      }
+    ],
+    "reply": {
+      "message_id": "M08",
+      "text": "Recycling goes in the blue bins in the garage, level P1. Pickup is every Tuesday morning; bins must be out by 7am. (Source: FAQ: Recycling and trash)",
+      "sources": [
+        "FAQ: Recycling and trash"
+      ],
+      "sent_at": "2026-11-18T07:21"
+    }
+  },
+  {
+    "message": {
+      "id": "M09",
+      "channel": "email",
+      "received_at": "2026-11-18T11:00",
+      "unit": "3A",
+      "text": "The heater makes a loud banging noise and the bedroom stays cold at night."
+    },
+    "triage": {
+      "message_id": "M09",
+      "category": "repair",
+      "urgency": "today",
+      "reason": "mentions 'noise'"
+    },
+    "tool_calls": [
+      {
+        "tool": "create_work_order",
+        "input": {
+          "message_id": "M09",
+          "unit": "3A",
+          "issue": "The heater makes a loud banging noise and the bedroom stays cold at night.",
+          "priority": "standard"
+        },
+        "result": {
+          "wo_id": "WO-2405",
+          "message_id": "M09",
+          "unit": "3A",
+          "issue": "heater",
+          "trade": "hvac",
+          "priority": "standard",
+          "estimate_usd": 650.0,
+          "needs_approval": true,
+          "status": "scheduled",
+          "vendor": "Northside HVAC",
+          "slot": "2026-11-19T08:00",
+          "approved_by": "Jordan Wells (portfolio manager)"
+        }
+      },
+      {
+        "tool": "find_vendor_slot",
+        "input": {
+          "wo_id": "WO-2405",
+          "trade": "hvac",
+          "emergency": false
+        },
+        "result": {
+          "vendor": "Northside HVAC",
+          "slot": "2026-11-19T08:00",
+          "held": true
+        }
+      },
+      {
+        "tool": "request_spend_approval",
+        "input": {
+          "wo_id": "WO-2405",
+          "reason": "estimate $650.00 > $500 limit"
+        },
+        "result": {
+          "queued": true,
+          "wo_id": "WO-2405",
+          "limit_usd": 500.0
+        }
+      },
+      {
+        "tool": "send_reply",
+        "input": {
+          "message_id": "M09",
+          "text": "Thanks, we've opened work order WO-2405 for the heater. Northside HVAC can come Thu 19 Nov at 08:00 once a manager approves the cost (usually within the hour). Reply here if that time doesn't work.",
+          "sources": [
+            "WO-2405"
+          ]
+        },
+        "result": {
+          "sent": true
+        }
+      }
+    ],
+    "reply": {
+      "message_id": "M09",
+      "text": "Thanks, we've opened work order WO-2405 for the heater. Northside HVAC can come Thu 19 Nov at 08:00 once a manager approves the cost (usually within the hour). Reply here if that time doesn't work.",
+      "sources": [
+        "WO-2405"
+      ],
+      "sent_at": "2026-11-18T11:01"
+    }
+  },
+  {
+    "message": {
+      "id": "M10",
+      "channel": "sms",
+      "received_at": "2026-11-18T23:05",
+      "unit": "5C",
+      "text": "Can I get a receipt for my October rent payment? Need it for taxes."
+    },
+    "triage": {
+      "message_id": "M10",
+      "category": "billing",
+      "urgency": "routine",
+      "reason": "mentions 'receipt'"
+    },
+    "tool_calls": [
+      {
+        "tool": "get_tenant_ledger",
+        "input": {
+          "unit": "5C"
+        },
+        "result": [
+          {
+            "date": "2026-10-01",
+            "type": "payment",
+            "amount": 1725.0,
+            "ref": "ACH 77410"
+          },
+          {
+            "date": "2026-11-01",
+            "type": "payment",
+            "amount": 1725.0,
+            "ref": "ACH 80122"
+          }
+        ]
+      },
+      {
+        "tool": "search_policies",
+        "input": {
+          "query": "Can I get a receipt for my October rent payment? Need it for taxes."
+        },
+        "result": [
+          {
+            "source": "FAQ: Rent receipts",
+            "heading": "Rent receipts",
+            "text": "Receipts for every payment are in the resident portal under Payments > History. The office can email a signed copy on request.",
+            "score": 6
+          },
+          {
+            "source": "Lease \u00a74.3 Payment methods",
+            "heading": "4.3 Payment methods",
+            "text": "Rent can be paid by autopay, one-time online payment in the resident portal, or certified check at the office. If an autopay fails, pay the balance online within 5 days to avoid a late fee.",
+            "score": 4
+          }
+        ]
+      },
+      {
+        "tool": "send_reply",
+        "input": {
+          "message_id": "M10",
+          "text": "We have your October payment of $1,725.00 on 2026-10-01 (ref ACH 77410). Receipts for every payment are in the resident portal under Payments > History. The office can email a signed copy on request. (Source: FAQ: Rent receipts)",
+          "sources": [
+            "FAQ: Rent receipts",
+            "Tenant ledger"
+          ]
+        },
+        "result": {
+          "sent": true
+        }
+      }
+    ],
+    "reply": {
+      "message_id": "M10",
+      "text": "We have your October payment of $1,725.00 on 2026-10-01 (ref ACH 77410). Receipts for every payment are in the resident portal under Payments > History. The office can email a signed copy on request. (Source: FAQ: Rent receipts)",
+      "sources": [
+        "FAQ: Rent receipts",
+        "Tenant ledger"
+      ],
+      "sent_at": "2026-11-18T23:06"
+    }
+  },
+  {
+    "message": {
+      "id": "M11",
+      "channel": "email",
+      "received_at": "2026-11-19T15:30",
+      "unit": "2B",
+      "text": "How much notice do I need to give before I move out?"
+    },
+    "triage": {
+      "message_id": "M11",
+      "category": "question",
+      "urgency": "routine",
+      "reason": "no repair, billing or safety cue; reads as a policy question"
+    },
+    "tool_calls": [
+      {
+        "tool": "search_policies",
+        "input": {
+          "query": "How much notice do I need to give before I move out?"
+        },
+        "result": [
+          {
+            "source": "Lease \u00a79.1 Notice to vacate",
+            "heading": "9.1 Notice to vacate",
+            "text": "Residents must give written notice at least 60 days before moving out. Notice is submitted in the resident portal or by letter to the office.",
+            "score": 5
+          },
+          {
+            "source": "FAQ: Recycling and trash",
+            "heading": "Recycling and trash",
+            "text": "Recycling goes in the blue bins in the garage, level P1. Pickup is every Tuesday morning; bins must be out by 7am.",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "tool": "send_reply",
+        "input": {
+          "message_id": "M11",
+          "text": "Residents must give written notice at least 60 days before moving out. Notice is submitted in the resident portal or by letter to the office. (Source: Lease \u00a79.1 Notice to vacate)",
+          "sources": [
+            "Lease \u00a79.1 Notice to vacate"
+          ]
+        },
+        "result": {
+          "sent": true
+        }
+      }
+    ],
+    "reply": {
+      "message_id": "M11",
+      "text": "Residents must give written notice at least 60 days before moving out. Notice is submitted in the resident portal or by letter to the office. (Source: Lease \u00a79.1 Notice to vacate)",
+      "sources": [
+        "Lease \u00a79.1 Notice to vacate"
+      ],
+      "sent_at": "2026-11-19T15:31"
+    }
+  },
+  {
+    "message": {
+      "id": "M12",
+      "channel": "sms",
+      "received_at": "2026-11-19T18:45",
+      "unit": "3D",
+      "text": "Bathroom exhaust fan is broken, it makes no sound at all."
+    },
+    "triage": {
+      "message_id": "M12",
+      "category": "repair",
+      "urgency": "today",
+      "reason": "mentions 'broken'"
+    },
+    "tool_calls": [
+      {
+        "tool": "create_work_order",
+        "input": {
+          "message_id": "M12",
+          "unit": "3D",
+          "issue": "Bathroom exhaust fan is broken, it makes no sound at all.",
+          "priority": "standard"
+        },
+        "result": {
+          "wo_id": "WO-2406",
+          "message_id": "M12",
+          "unit": "3D",
+          "issue": "exhaust fan",
+          "trade": "electrical",
+          "priority": "standard",
+          "estimate_usd": 195.0,
+          "needs_approval": false,
+          "status": "scheduled",
+          "vendor": "Brightwire Electric",
+          "slot": "2026-11-20T10:00"
+        }
+      },
+      {
+        "tool": "find_vendor_slot",
+        "input": {
+          "wo_id": "WO-2406",
+          "trade": "electrical",
+          "emergency": false
+        },
+        "result": {
+          "vendor": "Brightwire Electric",
+          "slot": "2026-11-20T10:00",
+          "held": false
+        }
+      },
+      {
+        "tool": "send_reply",
+        "input": {
+          "message_id": "M12",
+          "text": "Thanks, we've opened work order WO-2406 for the exhaust fan. Brightwire Electric can come Fri 20 Nov at 10:00. Reply here if that time doesn't work.",
+          "sources": [
+            "WO-2406"
+          ]
+        },
+        "result": {
+          "sent": true
+        }
+      }
+    ],
+    "reply": {
+      "message_id": "M12",
+      "text": "Thanks, we've opened work order WO-2406 for the exhaust fan. Brightwire Electric can come Fri 20 Nov at 10:00. Reply here if that time doesn't work.",
+      "sources": [
+        "WO-2406"
+      ],
+      "sent_at": "2026-11-19T18:46"
+    }
+  },
+  {
+    "message": {
+      "id": "M13",
+      "channel": "email",
+      "received_at": "2026-11-20T08:30",
+      "unit": "1A",
+      "text": "Is guest parking available overnight for a visitor this weekend?"
+    },
+    "triage": {
+      "message_id": "M13",
+      "category": "question",
+      "urgency": "routine",
+      "reason": "no repair, billing or safety cue; reads as a policy question"
+    },
+    "tool_calls": [
+      {
+        "tool": "search_policies",
+        "input": {
+          "query": "Is guest parking available overnight for a visitor this weekend?"
+        },
+        "result": [
+          {
+            "source": "FAQ: Guest parking",
+            "heading": "Guest parking",
+            "text": "Guest parking is in the marked spaces on the north lot. Overnight guest parking needs a free permit from the resident portal, valid up to 3 nights.",
+            "score": 7
+          },
+          {
+            "source": "Lease \u00a74.1 Rent due date",
+            "heading": "4.1 Rent due date",
+            "text": "Rent is due on the 1st day of each month. A grace period runs through the 5th day of the month. Rent received after the 5th incurs a $75 late fee.",
+            "score": 0
+          }
+        ]
+      },
+      {
+        "tool": "send_reply",
+        "input": {
+          "message_id": "M13",
+          "text": "Guest parking is in the marked spaces on the north lot. Overnight guest parking needs a free permit from the resident portal, valid up to 3 nights. (Source: FAQ: Guest parking)",
+          "sources": [
+            "FAQ: Guest parking"
+          ]
+        },
+        "result": {
+          "sent": true
+        }
+      }
+    ],
+    "reply": {
+      "message_id": "M13",
+      "text": "Guest parking is in the marked spaces on the north lot. Overnight guest parking needs a free permit from the resident portal, valid up to 3 nights. (Source: FAQ: Guest parking)",
+      "sources": [
+        "FAQ: Guest parking"
+      ],
+      "sent_at": "2026-11-20T08:31"
+    }
+  },
+  {
+    "message": {
+      "id": "M14",
+      "channel": "email",
+      "received_at": "2026-11-20T20:10",
+      "unit": "4C",
+      "text": "The refrigerator isn't cooling anymore and food is going bad."
+    },
+    "triage": {
+      "message_id": "M14",
+      "category": "repair",
+      "urgency": "today",
+      "reason": "mentions 'isn't'"
+    },
+    "tool_calls": [
+      {
+        "tool": "create_work_order",
+        "input": {
+          "message_id": "M14",
+          "unit": "4C",
+          "issue": "The refrigerator isn't cooling anymore and food is going bad.",
+          "priority": "standard"
+        },
+        "result": {
+          "wo_id": "WO-2407",
+          "message_id": "M14",
+          "unit": "4C",
+          "issue": "refrigerator",
+          "trade": "appliance",
+          "priority": "standard",
+          "estimate_usd": 717.5,
+          "needs_approval": true,
+          "status": "scheduled",
+          "vendor": "Apex Appliance Repair",
+          "slot": "2026-11-23T11:00",
+          "approved_by": "Jordan Wells (portfolio manager)"
+        }
+      },
+      {
+        "tool": "find_vendor_slot",
+        "input": {
+          "wo_id": "WO-2407",
+          "trade": "appliance",
+          "emergency": false
+        },
+        "result": {
+          "vendor": "Apex Appliance Repair",
+          "slot": "2026-11-23T11:00",
+          "held": true
+        }
+      },
+      {
+        "tool": "request_spend_approval",
+        "input": {
+          "wo_id": "WO-2407",
+          "reason": "estimate $717.50 > $500 limit"
+        },
+        "result": {
+          "queued": true,
+          "wo_id": "WO-2407",
+          "limit_usd": 500.0
+        }
+      },
+      {
+        "tool": "send_reply",
+        "input": {
+          "message_id": "M14",
+          "text": "Thanks, we've opened work order WO-2407 for the refrigerator. Apex Appliance Repair can come Mon 23 Nov at 11:00 once a manager approves the cost (usually within the hour). Reply here if that time doesn't work.",
+          "sources": [
+            "WO-2407"
+          ]
+        },
+        "result": {
+          "sent": true
+        }
+      }
+    ],
+    "reply": {
+      "message_id": "M14",
+      "text": "Thanks, we've opened work order WO-2407 for the refrigerator. Apex Appliance Repair can come Mon 23 Nov at 11:00 once a manager approves the cost (usually within the hour). Reply here if that time doesn't work.",
+      "sources": [
+        "WO-2407"
+      ],
+      "sent_at": "2026-11-20T20:11"
+    }
+  },
+  {
+    "message": {
+      "id": "M15",
+      "channel": "sms",
+      "received_at": "2026-11-22T12:00",
+      "unit": "5B",
+      "text": "My autopay didn't go through this month, how do I pay my balance?"
+    },
+    "triage": {
+      "message_id": "M15",
+      "category": "billing",
+      "urgency": "routine",
+      "reason": "mentions 'autopay'"
+    },
+    "tool_calls": [
+      {
+        "tool": "get_tenant_ledger",
+        "input": {
+          "unit": "5B"
+        },
+        "result": [
+          {
+            "date": "2026-11-01",
+            "type": "autopay_failed",
+            "amount": 1640.0,
+            "ref": "NSF R01"
+          }
+        ]
+      },
+      {
+        "tool": "search_policies",
+        "input": {
+          "query": "My autopay didn't go through this month, how do I pay my balance?"
+        },
+        "result": [
+          {
+            "source": "Lease \u00a74.3 Payment methods",
+            "heading": "4.3 Payment methods",
+            "text": "Rent can be paid by autopay, one-time online payment in the resident portal, or certified check at the office. If an autopay fails, pay the balance online within 5 days to avoid a late fee.",
+            "score": 3
+          },
+          {
+            "source": "Lease \u00a74.1 Rent due date",
+            "heading": "4.1 Rent due date",
+            "text": "Rent is due on the 1st day of each month. A grace period runs through the 5th day of the month. Rent received after the 5th incurs a $75 late fee.",
+            "score": 2
+          }
+        ]
+      },
+      {
+        "tool": "send_reply",
+        "input": {
+          "message_id": "M15",
+          "text": "Your autopay of $1,640.00 on 2026-11-01 was returned (NSF R01). Rent can be paid by autopay, one-time online payment in the resident portal, or certified check at the office. If an autopay fails, pay the balance online within 5 days to avoid a late fee. (Source: Lease \u00a74.3 Payment methods)",
+          "sources": [
+            "Lease \u00a74.3 Payment methods",
+            "Tenant ledger"
+          ]
+        },
+        "result": {
+          "sent": true
+        }
+      }
+    ],
+    "reply": {
+      "message_id": "M15",
+      "text": "Your autopay of $1,640.00 on 2026-11-01 was returned (NSF R01). Rent can be paid by autopay, one-time online payment in the resident portal, or certified check at the office. If an autopay fails, pay the balance online within 5 days to avoid a late fee. (Source: Lease \u00a74.3 Payment methods)",
+      "sources": [
+        "Lease \u00a74.3 Payment methods",
+        "Tenant ledger"
+      ],
+      "sent_at": "2026-11-22T12:01"
+    }
+  }
+]

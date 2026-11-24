@@ -1,0 +1,72 @@
+{
+  "I-25 N": {
+    "incident": "none",
+    "incident_type": "none",
+    "est_delay_min": 10,
+    "alt_route": null,
+    "alt_saving_min": 0
+  },
+  "I-80 E": {
+    "incident": "lane closures, chain law in effect",
+    "incident_type": "weather",
+    "est_delay_min": 70,
+    "alt_route": null,
+    "alt_saving_min": 0
+  },
+  "I-44 W": {
+    "incident": "none",
+    "incident_type": "none",
+    "est_delay_min": 5,
+    "alt_route": null,
+    "alt_saving_min": 0
+  },
+  "I-94 W": {
+    "incident": "none",
+    "incident_type": "none",
+    "est_delay_min": 10,
+    "alt_route": null,
+    "alt_saving_min": 0
+  },
+  "I-90 E": {
+    "incident": "multi-vehicle crash, 2 lanes blocked",
+    "incident_type": "crash",
+    "est_delay_min": 65,
+    "alt_route": "I-90 E bypass via state route",
+    "alt_saving_min": 50
+  },
+  "I-70 E": {
+    "incident": "multi-vehicle crash, 2 lanes blocked",
+    "incident_type": "crash",
+    "est_delay_min": 65,
+    "alt_route": "I-70 E bypass via state route",
+    "alt_saving_min": 35
+  },
+  "I-10 W": {
+    "incident": "none",
+    "incident_type": "none",
+    "est_delay_min": 5,
+    "alt_route": null,
+    "alt_saving_min": 0
+  },
+  "I-5 N": {
+    "incident": "none",
+    "incident_type": "none",
+    "est_delay_min": 5,
+    "alt_route": null,
+    "alt_saving_min": 0
+  },
+  "I-15 S": {
+    "incident": "none",
+    "incident_type": "none",
+    "est_delay_min": 5,
+    "alt_route": null,
+    "alt_saving_min": 0
+  },
+  "I-81 N": {
+    "incident": "none",
+    "incident_type": "none",
+    "est_delay_min": 5,
+    "alt_route": null,
+    "alt_saving_min": 0
+  }
+}

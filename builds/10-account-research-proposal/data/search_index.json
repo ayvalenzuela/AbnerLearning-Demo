@@ -1,0 +1,100 @@
+[
+  {
+    "type": "news",
+    "url": "https://news.example.org/halvorsen-acquires-prairie-line",
+    "date": "2026-10-02",
+    "title": "Halvorsen Freight Group acquires Prairie Line Couriers",
+    "text": "Halvorsen Freight Group has acquired Prairie Line Couriers, adding 14 new sites across Nebraska and Iowa. The company plans to integrate dispatch and customer service by mid-2027."
+  },
+  {
+    "type": "news",
+    "url": "https://news.example.org/halvorsen-q3-volume",
+    "date": "2026-11-04",
+    "title": "Halvorsen posts record Q3 volume",
+    "text": "Halvorsen Freight Group shipped record volume in Q3, but customers reported long hold times and missed calls at its service desk during the September peak."
+  },
+  {
+    "type": "job",
+    "url": "https://jobs.example.org/halvorsen-seasonal-agents",
+    "date": "2026-11-10",
+    "title": "Seasonal Customer Service Agent (60 openings) - Halvorsen Freight Group",
+    "text": "Halvorsen Freight Group is hiring 60 seasonal customer service agents for peak. New agents must ramp within two weeks; high turnover in the role."
+  },
+  {
+    "type": "tech",
+    "url": "https://stackwatch.example.org/halvorsen-freight-group",
+    "date": "2026-08-15",
+    "title": "Halvorsen Freight Group tech stack",
+    "text": "Halvorsen Freight Group runs Northstar CRM for service cases and a legacy on-prem PBX at each depot."
+  },
+  {
+    "type": "news",
+    "url": "https://news.example.org/halvorsen-marine-new-store",
+    "date": "2026-11-01",
+    "title": "Halvorsen Marine Supply opens new store",
+    "text": "Halvorsen Marine Supply, a boating retailer, opened its fifth store and is hiring sales associates. Expansion continues in 2027."
+  },
+  {
+    "type": "news",
+    "url": "https://news.example.org/meridian-new-clinics",
+    "date": "2026-09-22",
+    "title": "Meridian Health Partners to open three clinics",
+    "text": "Meridian Health Partners announced three new clinics in 2027 as part of its expansion in central Virginia."
+  },
+  {
+    "type": "news",
+    "url": "https://news.example.org/meridian-hold-times",
+    "date": "2026-11-08",
+    "title": "Patients report long waits on Meridian scheduling line",
+    "text": "Patients say hold times on the Meridian Health Partners scheduling line often exceed 15 minutes, and many hang up; the abandon rate worries the board."
+  },
+  {
+    "type": "job",
+    "url": "https://jobs.example.org/meridian-compliance-analyst",
+    "date": "2026-10-28",
+    "title": "Compliance Analyst, Call Recording - Meridian Health Partners",
+    "text": "Meridian Health Partners seeks a compliance analyst to run HIPAA audit readiness for call recording retention and QA sampling."
+  },
+  {
+    "type": "job",
+    "url": "https://jobs.example.org/meridian-patient-access-rep",
+    "date": "2026-11-15",
+    "title": "Patient Access Representative - Meridian Health Partners",
+    "text": "Meridian Health Partners is hiring patient access representatives. Agents use the scheduling system and CRM side by side; screen pop integration is planned."
+  },
+  {
+    "type": "tech",
+    "url": "https://stackwatch.example.org/meridian-health-partners",
+    "date": "2026-07-30",
+    "title": "Meridian Health Partners tech stack",
+    "text": "Meridian Health Partners: hosted contact center, EHR scheduling module, homegrown CRM with no integration to telephony."
+  },
+  {
+    "type": "news",
+    "url": "https://news.example.org/quarry-lane-foothill-merger",
+    "date": "2026-10-12",
+    "title": "Quarry Lane Credit Union completes merger with Foothill Federal",
+    "text": "Quarry Lane Credit Union completed its merger with Foothill Federal, adding 9 branches. Members will move to one set of systems in 2027."
+  },
+  {
+    "type": "news",
+    "url": "https://news.example.org/quarry-lane-pci",
+    "date": "2026-11-02",
+    "title": "Quarry Lane CU passes PCI audit with findings",
+    "text": "Quarry Lane Credit Union passed its PCI audit with two findings, including call recording controls for card data. Compliance fixes are due by Q2."
+  },
+  {
+    "type": "job",
+    "url": "https://jobs.example.org/quarry-lane-telecom-engineer",
+    "date": "2026-11-09",
+    "title": "IT Telecom Engineer - Quarry Lane Credit Union",
+    "text": "Quarry Lane Credit Union is hiring a telecom engineer to migrate the legacy PBX to the cloud before end of support."
+  },
+  {
+    "type": "tech",
+    "url": "https://stackwatch.example.org/quarry-lane-credit-union",
+    "date": "2026-06-11",
+    "title": "Quarry Lane Credit Union tech stack",
+    "text": "Quarry Lane Credit Union uses Northstar CRM for members, an on-prem PBX, and a core banking platform. CRM integration with phones is listed as a 2027 project."
+  }
+]

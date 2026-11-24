@@ -1,0 +1,310 @@
+{
+  "RHP-72148-1": {
+    "type": "weeks",
+    "terms": [
+      "back pain"
+    ],
+    "min": 6
+  },
+  "RHP-72148-2": {
+    "type": "weeks",
+    "terms": [
+      "physical therapy",
+      "nsaid",
+      "conservative"
+    ],
+    "min": 6
+  },
+  "RHP-72148-3": {
+    "type": "any",
+    "terms": [
+      "radiculopathy",
+      "straight leg raise",
+      "diminished",
+      "weakness",
+      "numbness"
+    ]
+  },
+  "RHP-27447-1": {
+    "type": "value",
+    "label": "kellgren-lawrence grade",
+    "op": ">=",
+    "bound": 3
+  },
+  "RHP-27447-2": {
+    "type": "weeks",
+    "terms": [
+      "physical therapy",
+      "injection",
+      "nsaid"
+    ],
+    "min": 12
+  },
+  "RHP-27447-3": {
+    "type": "any",
+    "terms": [
+      "difficulty",
+      "unable to",
+      "limits"
+    ]
+  },
+  "RHP-27447-4": {
+    "type": "value",
+    "label": "bmi",
+    "op": "<",
+    "bound": 40
+  },
+  "RHP-95810-1": {
+    "type": "value",
+    "label": "epworth",
+    "op": ">=",
+    "bound": 10
+  },
+  "RHP-95810-2": {
+    "type": "any",
+    "terms": [
+      "witnessed apnea",
+      "snoring",
+      "apneic episodes"
+    ]
+  },
+  "RHP-95810-3": {
+    "type": "any",
+    "terms": [
+      "home sleep test was non-diagnostic",
+      "not a candidate for home",
+      "copd",
+      "heart failure"
+    ]
+  },
+  "RHP-43644-1": {
+    "type": "value",
+    "label": "bmi",
+    "op": ">=",
+    "bound": 40
+  },
+  "RHP-43644-2": {
+    "type": "weeks",
+    "terms": [
+      "weight management program",
+      "weight loss program"
+    ],
+    "min": 26
+  },
+  "RHP-43644-3": {
+    "type": "any",
+    "terms": [
+      "psychological evaluation",
+      "psych eval"
+    ]
+  },
+  "RHP-43644-4": {
+    "type": "any",
+    "terms": [
+      "dietitian",
+      "nutrition consult"
+    ]
+  },
+  "CMM-72148-1": {
+    "type": "weeks",
+    "terms": [
+      "back pain"
+    ],
+    "min": 4
+  },
+  "CMM-72148-2": {
+    "type": "weeks",
+    "terms": [
+      "physical therapy"
+    ],
+    "min": 4
+  },
+  "CMM-72148-3": {
+    "type": "any",
+    "terms": [
+      "radiculopathy",
+      "straight leg raise",
+      "diminished",
+      "weakness",
+      "numbness"
+    ]
+  },
+  "CMM-72148-4": {
+    "type": "any",
+    "terms": [
+      "x-ray",
+      "radiograph"
+    ]
+  },
+  "CMM-27447-1": {
+    "type": "value",
+    "label": "kellgren-lawrence grade",
+    "op": ">=",
+    "bound": 3
+  },
+  "CMM-27447-2": {
+    "type": "weeks",
+    "terms": [
+      "physical therapy",
+      "injection",
+      "nsaid"
+    ],
+    "min": 12
+  },
+  "CMM-27447-3": {
+    "type": "value",
+    "label": "bmi",
+    "op": "<",
+    "bound": 40
+  },
+  "CMM-95810-1": {
+    "type": "value",
+    "label": "epworth",
+    "op": ">=",
+    "bound": 12
+  },
+  "CMM-95810-2": {
+    "type": "any",
+    "terms": [
+      "witnessed apnea",
+      "snoring",
+      "apneic episodes"
+    ]
+  },
+  "CMM-95810-3": {
+    "type": "any",
+    "terms": [
+      "home sleep test was non-diagnostic",
+      "not a candidate for home",
+      "copd",
+      "heart failure"
+    ]
+  },
+  "CMM-43644-1": {
+    "type": "value",
+    "label": "bmi",
+    "op": ">=",
+    "bound": 40
+  },
+  "CMM-43644-2": {
+    "type": "weeks",
+    "terms": [
+      "weight management program",
+      "weight loss program"
+    ],
+    "min": 26
+  },
+  "CMM-43644-3": {
+    "type": "any",
+    "terms": [
+      "psychological evaluation",
+      "psych eval"
+    ]
+  },
+  "LCA-72148-1": {
+    "type": "weeks",
+    "terms": [
+      "back pain"
+    ],
+    "min": 6
+  },
+  "LCA-72148-2": {
+    "type": "weeks",
+    "terms": [
+      "physical therapy",
+      "nsaid",
+      "conservative"
+    ],
+    "min": 6
+  },
+  "LCA-72148-3": {
+    "type": "any",
+    "terms": [
+      "radiculopathy",
+      "straight leg raise",
+      "diminished",
+      "weakness",
+      "numbness"
+    ]
+  },
+  "LCA-27447-1": {
+    "type": "value",
+    "label": "kellgren-lawrence grade",
+    "op": ">=",
+    "bound": 3
+  },
+  "LCA-27447-2": {
+    "type": "weeks",
+    "terms": [
+      "physical therapy",
+      "injection",
+      "nsaid"
+    ],
+    "min": 12
+  },
+  "LCA-27447-3": {
+    "type": "any",
+    "terms": [
+      "difficulty",
+      "unable to",
+      "limits"
+    ]
+  },
+  "LCA-27447-4": {
+    "type": "value",
+    "label": "bmi",
+    "op": "<",
+    "bound": 40
+  },
+  "LCA-27447-5": {
+    "type": "any",
+    "terms": [
+      "non-smoker",
+      "never smoker",
+      "quit smoking",
+      "does not smoke"
+    ]
+  },
+  "LCA-95810-1": {
+    "type": "value",
+    "label": "epworth",
+    "op": ">=",
+    "bound": 10
+  },
+  "LCA-95810-2": {
+    "type": "any",
+    "terms": [
+      "witnessed apnea",
+      "snoring",
+      "apneic episodes"
+    ]
+  },
+  "LCA-43644-1": {
+    "type": "value",
+    "label": "bmi",
+    "op": ">=",
+    "bound": 40
+  },
+  "LCA-43644-2": {
+    "type": "weeks",
+    "terms": [
+      "weight management program",
+      "weight loss program"
+    ],
+    "min": 26
+  },
+  "LCA-43644-3": {
+    "type": "any",
+    "terms": [
+      "psychological evaluation",
+      "psych eval"
+    ]
+  },
+  "LCA-43644-4": {
+    "type": "any",
+    "terms": [
+      "dietitian",
+      "nutrition consult"
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+[
+  {
+    "claim_id": "CLM-4112",
+    "vin": "DMTLHKAD3SP1VAZVK",
+    "loss_date": "2026-07-18",
+    "amount_usd": 2300,
+    "status": "paid"
+  }
+]

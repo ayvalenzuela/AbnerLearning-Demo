@@ -1,0 +1,25 @@
+{
+  "P17": {
+    "enrichment": {
+      "sku": "P17",
+      "title": "Dad Cap in Navy | Cap",
+      "description": "A cap made for sunny days. Fabric details are being confirmed. Shown in navy, as photographed in natural light.",
+      "material": "unknown",
+      "fit": "unknown",
+      "color": "navy",
+      "use_case": [
+        "sunny days"
+      ],
+      "search_keywords": [
+        "cap",
+        "navy",
+        "sunny days"
+      ]
+    },
+    "problems": [
+      "- missing_required: material",
+      "- missing_required: fit",
+      "- description_length: 19 words"
+    ]
+  }
+}

@@ -1,0 +1,90 @@
+[
+  {
+    "claim_id": "CLM-5001",
+    "received_at": "2026-11-17T07:00",
+    "files": [
+      "police_report.png",
+      "police_report.pdf",
+      "police_report.txt",
+      "damage_photo.png",
+      "phone_note.txt"
+    ]
+  },
+  {
+    "claim_id": "CLM-5002",
+    "received_at": "2026-11-17T07:17",
+    "files": [
+      "police_report.png",
+      "police_report.pdf",
+      "police_report.txt",
+      "damage_photo.png",
+      "phone_note.txt"
+    ]
+  },
+  {
+    "claim_id": "CLM-5003",
+    "received_at": "2026-11-17T07:34",
+    "files": [
+      "police_report.png",
+      "police_report.pdf",
+      "police_report.txt",
+      "damage_photo.png",
+      "phone_note.txt"
+    ]
+  },
+  {
+    "claim_id": "CLM-5004",
+    "received_at": "2026-11-17T08:51",
+    "files": [
+      "police_report.png",
+      "police_report.pdf",
+      "police_report.txt",
+      "damage_photo.png",
+      "phone_note.txt"
+    ]
+  },
+  {
+    "claim_id": "CLM-5005",
+    "received_at": "2026-11-17T08:08",
+    "files": [
+      "police_report.png",
+      "police_report.pdf",
+      "police_report.txt",
+      "damage_photo.png",
+      "phone_note.txt"
+    ]
+  },
+  {
+    "claim_id": "CLM-5006",
+    "received_at": "2026-11-17T08:25",
+    "files": [
+      "police_report.png",
+      "police_report.pdf",
+      "police_report.txt",
+      "damage_photo.png",
+      "phone_note.txt"
+    ]
+  },
+  {
+    "claim_id": "CLM-5007",
+    "received_at": "2026-11-17T09:42",
+    "files": [
+      "police_report.png",
+      "police_report.pdf",
+      "police_report.txt",
+      "damage_photo.png",
+      "phone_note.txt"
+    ]
+  },
+  {
+    "claim_id": "CLM-5008",
+    "received_at": "2026-11-17T09:59",
+    "files": [
+      "police_report.png",
+      "police_report.pdf",
+      "police_report.txt",
+      "damage_photo.png",
+      "phone_note.txt"
+    ]
+  }
+]

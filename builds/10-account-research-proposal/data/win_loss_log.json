@@ -1,0 +1,1189 @@
+[
+  {
+    "proposal_id": "P-3000",
+    "template": "freeform",
+    "sections": [
+      "what_we_heard",
+      "roi",
+      "pricing",
+      "company_overview"
+    ],
+    "hours_spent": 5.6,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3001",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "roi",
+      "pricing",
+      "case_study",
+      "company_overview"
+    ],
+    "hours_spent": 6.1,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3002",
+    "template": "freeform",
+    "sections": [
+      "pains_solutions_table",
+      "pricing",
+      "company_overview"
+    ],
+    "hours_spent": 5.0,
+    "meeting_booked": true,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3003",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 5.0,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3004",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 6.5,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3005",
+    "template": "freeform",
+    "sections": [
+      "what_we_heard",
+      "roi",
+      "timeline",
+      "pricing",
+      "company_overview"
+    ],
+    "hours_spent": 5.4,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3006",
+    "template": "freeform",
+    "sections": [
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 5.7,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3007",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "company_overview"
+    ],
+    "hours_spent": 6.9,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3008",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "roi",
+      "pricing",
+      "case_study",
+      "company_overview"
+    ],
+    "hours_spent": 6.0,
+    "meeting_booked": true,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3009",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "pricing",
+      "case_study",
+      "company_overview"
+    ],
+    "hours_spent": 4.7,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3010",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study",
+      "company_overview"
+    ],
+    "hours_spent": 7.6,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3011",
+    "template": "freeform",
+    "sections": [
+      "what_we_heard",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 6.6,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3012",
+    "template": "freeform",
+    "sections": [
+      "what_we_heard",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 7.7,
+    "meeting_booked": true,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3013",
+    "template": "freeform",
+    "sections": [
+      "pains_solutions_table",
+      "timeline",
+      "pricing",
+      "company_overview"
+    ],
+    "hours_spent": 4.8,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3014",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "timeline",
+      "pricing",
+      "company_overview"
+    ],
+    "hours_spent": 6.8,
+    "meeting_booked": true,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3015",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 4.7,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3016",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "company_overview"
+    ],
+    "hours_spent": 6.3,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3017",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "pricing",
+      "case_study",
+      "company_overview"
+    ],
+    "hours_spent": 6.9,
+    "meeting_booked": true,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3018",
+    "template": "freeform",
+    "sections": [
+      "what_we_heard",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 4.6,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3019",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "timeline",
+      "pricing",
+      "case_study",
+      "company_overview"
+    ],
+    "hours_spent": 7.8,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3020",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "roi",
+      "pricing"
+    ],
+    "hours_spent": 5.2,
+    "meeting_booked": true,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3021",
+    "template": "freeform",
+    "sections": [
+      "what_we_heard",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 6.5,
+    "meeting_booked": true,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3022",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "pains_solutions_table",
+      "roi",
+      "pricing",
+      "company_overview"
+    ],
+    "hours_spent": 6.3,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3023",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 8.0,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3024",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "roi",
+      "pricing",
+      "case_study",
+      "company_overview"
+    ],
+    "hours_spent": 7.8,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3025",
+    "template": "freeform",
+    "sections": [
+      "timeline",
+      "pricing",
+      "case_study",
+      "company_overview"
+    ],
+    "hours_spent": 7.8,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3026",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 5.7,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3027",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "roi",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 6.0,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3028",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "pains_solutions_table",
+      "roi",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 5.5,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3029",
+    "template": "freeform",
+    "sections": [
+      "what_we_heard",
+      "pricing",
+      "case_study",
+      "company_overview"
+    ],
+    "hours_spent": 6.9,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3030",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "pains_solutions_table",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 7.5,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3031",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "pains_solutions_table",
+      "timeline",
+      "pricing",
+      "company_overview"
+    ],
+    "hours_spent": 8.0,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3032",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 6.4,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3033",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "pricing",
+      "case_study",
+      "company_overview"
+    ],
+    "hours_spent": 6.8,
+    "meeting_booked": true,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3034",
+    "template": "freeform",
+    "sections": [
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 7.0,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3035",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study",
+      "company_overview"
+    ],
+    "hours_spent": 4.9,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3036",
+    "template": "freeform",
+    "sections": [
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 6.6,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3037",
+    "template": "freeform",
+    "sections": [
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "pricing",
+      "company_overview"
+    ],
+    "hours_spent": 4.9,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3038",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "pains_solutions_table",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 7.2,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3039",
+    "template": "freeform",
+    "sections": [
+      "exec_summary",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study",
+      "company_overview"
+    ],
+    "hours_spent": 6.8,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3040",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 0.7,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3041",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 1.0,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3042",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 1.2,
+    "meeting_booked": true,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3043",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 1.4,
+    "meeting_booked": true,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3044",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 1.3,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3045",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "company_overview"
+    ],
+    "hours_spent": 0.9,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3046",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 0.9,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3047",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "company_overview"
+    ],
+    "hours_spent": 0.8,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3048",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 1.1,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3049",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 1.4,
+    "meeting_booked": true,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3050",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 1.1,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3051",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 1.3,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3052",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study",
+      "company_overview"
+    ],
+    "hours_spent": 0.9,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3053",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 1.0,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3054",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 1.2,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3055",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 1.3,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3056",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 1.0,
+    "meeting_booked": true,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3057",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 0.6,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3058",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 0.7,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3059",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 1.3,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3060",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study",
+      "company_overview"
+    ],
+    "hours_spent": 1.1,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3061",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 1.1,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3062",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 0.8,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3063",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 1.0,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3064",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 0.9,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3065",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "company_overview"
+    ],
+    "hours_spent": 1.3,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3066",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 1.2,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3067",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study",
+      "company_overview"
+    ],
+    "hours_spent": 0.6,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3068",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 1.1,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3069",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study",
+      "company_overview"
+    ],
+    "hours_spent": 1.1,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3070",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 1.0,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3071",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 1.2,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3072",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 1.0,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3073",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 0.7,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3074",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 1.4,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3075",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "company_overview"
+    ],
+    "hours_spent": 0.7,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3076",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing",
+      "case_study"
+    ],
+    "hours_spent": 1.2,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3077",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 1.3,
+    "meeting_booked": true,
+    "outcome": "won"
+  },
+  {
+    "proposal_id": "P-3078",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 1.2,
+    "meeting_booked": false,
+    "outcome": "lost"
+  },
+  {
+    "proposal_id": "P-3079",
+    "template": "skill",
+    "sections": [
+      "exec_summary",
+      "what_we_heard",
+      "pains_solutions_table",
+      "roi",
+      "timeline",
+      "pricing"
+    ],
+    "hours_spent": 0.8,
+    "meeting_booked": true,
+    "outcome": "won"
+  }
+]

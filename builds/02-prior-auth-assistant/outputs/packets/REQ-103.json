@@ -1,0 +1,8 @@
+{
+  "request_id": "REQ-103",
+  "ready_to_submit": false,
+  "missing_items": [
+    "LCA-27447-5: Documented tobacco-free status (non-smoker or quit at least 4 weeks prior). (MISSING - No supporting documentation found in the chart.)"
+  ],
+  "letter": "To: Lakeshore Care Alliance Utilization Management\nRe: Prior authorization for Total knee arthroplasty (knee replacement) (CPT 27447) - Patient C (fictional, 67F)\nDiagnosis: M17.11 Primary osteoarthritis, right knee\n\nI am requesting authorization for total knee arthroplasty (knee replacement). The chart documents each of your criteria:\n- Radiographic advanced osteoarthritis, Kellgren-Lawrence grade 3 or 4. Chart (Ortho consult 2026-07-15): \"Standing films: Kellgren-Lawrence grade 4 changes, right knee, bone-on-bone medial compartment.\"\n- At least 12 weeks of non-surgical treatment. Chart (Ortho follow-up 2026-10-20): \"Has tried 16 weeks of physical therapy, two steroid injection treatments and daily NSAID use.\"\n- Functional limitation in activities of daily living. Chart (Ortho follow-up 2026-10-20): \"Has difficulty climbing stairs and is unable to walk more than one block.\"\n- Body mass index below 40. Chart (Ortho consult 2026-07-15): \"BMI 33.8.\"\n\nSincerely, Dr. Priya Raman (fictional)"
+}
