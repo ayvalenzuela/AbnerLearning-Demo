@@ -107,7 +107,7 @@
   "industry": "Telecom / UCaaS",
   "pattern": "Workflow + batch",
   "why": "Batch is cheaper for work that can wait, and a schema makes every score comparable.",
-  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/claude/serene-lovelace-zoo2ae/builds/01-call-qa-coaching",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/01-call-qa-coaching",
   "video": "videos/build-01.mp4"
  },
  {
@@ -215,7 +215,7 @@
   "industry": "Healthcare",
   "pattern": "RAG + human review",
   "why": "RAG ties answers to the current policy, and citations let staff check fast. Health data needs a BAA-covered setup and a human who signs off.",
-  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/claude/serene-lovelace-zoo2ae/builds/02-prior-auth-assistant",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/02-prior-auth-assistant",
   "video": "videos/build-02.mp4"
  },
  {
@@ -323,7 +323,7 @@
   "industry": "Legal",
   "pattern": "Skill",
   "why": "A Skill bottles expertise once, and Claude loads it only when the task needs it. Same move for any playbook: underwriting, procurement, HR policy.",
-  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/claude/serene-lovelace-zoo2ae/builds/03-contract-review-skill",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/03-contract-review-skill",
   "video": "videos/build-03.mp4"
  },
  {
@@ -438,7 +438,7 @@
   "industry": "Manufacturing",
   "pattern": "RAG + MCP",
   "why": "RAG covers the documents and MCP covers the live system. Knowledge plus action is the core enterprise pattern.",
-  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/claude/serene-lovelace-zoo2ae/builds/04-maintenance-copilot",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/04-maintenance-copilot",
   "video": "videos/build-04.mp4"
  },
  {
@@ -555,7 +555,7 @@
   "industry": "Property management",
   "pattern": "Agent + approvals",
   "why": "The next step depends on the message. Tools give it hands, and the approval step keeps money and safety decisions with people.",
-  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/claude/serene-lovelace-zoo2ae/builds/05-tenant-triage-agent",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/05-tenant-triage-agent",
   "video": "videos/build-05.mp4"
  },
  {
@@ -677,7 +677,7 @@
   "industry": "Accounting",
   "pattern": "Claude Code + AI step",
   "why": "Code does the exact math and Claude handles messy judgment. Using AI only where rules break keeps it cheap, fast and auditable.",
-  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/claude/serene-lovelace-zoo2ae/builds/06-month-end-reconciliation",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/06-month-end-reconciliation",
   "video": "videos/build-06.mp4"
  },
  {
@@ -786,7 +786,7 @@
   "industry": "E-commerce",
   "pattern": "Batch + structured output",
   "why": "Batch plus a schema turns Claude into a data factory. Automated checks let people review a sample instead of every row.",
-  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/claude/serene-lovelace-zoo2ae/builds/07-catalog-enrichment",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/07-catalog-enrichment",
   "video": "videos/build-07.mp4"
  },
  {
@@ -898,7 +898,7 @@
   "industry": "Logistics",
   "pattern": "Event-driven agent",
   "why": "The agent wakes on a signal instead of waiting to be asked. That is the jump from assistant to operator.",
-  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/claude/serene-lovelace-zoo2ae/builds/08-shipment-exception-agent",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/08-shipment-exception-agent",
   "video": "videos/build-08.mp4"
  },
  {
@@ -1014,7 +1014,7 @@
   "industry": "Insurance",
   "pattern": "Vision + workflow",
   "why": "Claude reads messy documents, and the workflow keeps every step fixed and auditable. Confidence decides where people step in.",
-  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/claude/serene-lovelace-zoo2ae/builds/09-claims-intake",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/09-claims-intake",
   "video": "videos/build-09.mp4"
  },
  {
@@ -1126,7 +1126,7 @@
   "industry": "B2B sales",
   "pattern": "Skill + MCP",
   "why": "This is a seller's own job, automated. It is the easiest first build to demo, and every sales leader will want it.",
-  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/claude/serene-lovelace-zoo2ae/builds/10-account-research-proposal",
+  "repo": "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/builds/10-account-research-proposal",
   "video": "videos/build-10.mp4"
  }
 ]

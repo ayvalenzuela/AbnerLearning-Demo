@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-REPO = "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/claude/serene-lovelace-zoo2ae/"
+REPO = "https://github.com/ayvalenzuela/AbnerLearning-Demo/tree/main/"
 META = {
     "01": ("Telecom / UCaaS", "Workflow + batch", "Batch is cheaper for work that can wait, and a schema makes every score comparable."),
     "02": ("Healthcare", "RAG + human review", "RAG ties answers to the current policy, and citations let staff check fast. Health data needs a BAA-covered setup and a human who signs off."),
