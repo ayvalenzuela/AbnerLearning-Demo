@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GenAI Opportunity Canvas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Kalam:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #eeece6; --ink: #22252b; --muted: #5a5f68; --frame: #c9ccd2;
+    --board: #fbfaf6; --line: #b9bcc3; --zone: #2f4a7a; --col: #fff7ef;
+    --st-y: #fff1a8; --st-p: #ffd2df; --st-b: #cfe6ff; --st-g: #d3f1cf; --st-o: #ffe0b8;
+    --st-band: rgba(0,0,0,.05); --st-ink: #1f2228;
+    --accent: #c2410c; --soft: #fbe9dd;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #121418; --ink: #e8eaee; --muted: #a9aeb8; --frame: #3a3f48;
+      --board: #20242b; --line: #4a505b; --zone: #9cc0ff; --col: #2a2520;
+      --st-y: #f3e38f; --st-p: #f2bccd; --st-b: #b8d6f5; --st-g: #bfe3ba; --st-o: #f5cd9c;
+      --st-band: rgba(0,0,0,.08); --st-ink: #1a1c21;
+      --accent: #fb923c; --soft: #2b1d14;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.5; }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 16px 48px; }
+  h1 { font-size: clamp(28px, 5vw, 44px); margin: 0 0 4px; letter-spacing: -.02em; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  .figure { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 16px; }
+  svg { width: 100%; min-width: 760px; height: auto; display: block; }
+  .hint { display: none; font-size: 13px; color: var(--muted); margin: 6px 0 0; }
+  @media (max-width: 760px) { .hint { display: block; } }
+  svg text { font-family: inherit; }
+  svg text.pm { font-family: "Permanent Marker", "Comic Sans MS", "Segoe Print", cursive; }
+  svg text.m { font-family: Kalam, "Comic Sans MS", "Segoe Print", cursive; font-weight: 700; }
+  .notes { margin-top: 24px; padding-left: 20px; color: var(--muted); }
+  .notes li { margin: 4px 0; }
+  .takeaway { margin-top: 24px; padding: 16px 20px; border-left: 4px solid var(--accent);
+              background: var(--soft); border-radius: 8px; font-weight: 600; }
+  footer { margin-top: 32px; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>GenAI business-opportunity canvas</h1>
+  <p class="sub">Canvas · a whiteboard of sticky notes, best for business ideas and planning</p>
+
+  <div class="figure">
+  <svg viewBox="0 0 1200 1046" role="img" aria-label="A whiteboard canvas for a fictional B2B software company deciding whether to build a generative AI help assistant, with sticky notes for customers, problem, value, channels, data, risks and guardrails, revenue, costs and metrics, arrows linking related notes, and a column of three next actions.">
+    <defs>
+      <filter id="board-sh" x="-5%" y="-5%" width="110%" height="110%">
+        <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity=".18"/>
+      </filter>
+      <filter id="st-sh" x="-10%" y="-10%" width="125%" height="130%">
+        <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="#000" flood-opacity=".22"/>
+      </filter>
+      <marker id="ah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M1 1 L9 5 L1 9" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+    </defs>
+<rect x="16" y="18" width="1168" height="1010" rx="22" fill="var(--frame)"/>
+<rect x="24" y="26" width="1152" height="994" rx="16" fill="var(--board)" filter="url(#board-sh)"><title>Whiteboard</title></rect>
+<text x="44" y="74" class="pm" font-size="30" fill="var(--ink)">Should we build an AI help assistant?</text>
+<text x="1156" y="72" text-anchor="end" font-size="15" fill="var(--muted)">Illustrative example: a B2B software company</text>
+<g><title>Customers zone</title><rect x="40" y="100" width="284" height="290" rx="10" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="54" y="132" class="pm" font-size="20" fill="var(--zone)">Customers</text></g>
+<g transform="rotate(-2.5 114 204)"><title>Customers: Support teams at our B2B customers</title>
+<rect x="54" y="150" width="120" height="108" rx="3" fill="var(--st-y)" filter="url(#st-sh)"/>
+<rect x="54" y="150" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="114" y="190">Support teams</tspan><tspan x="114" y="210">at our B2B</tspan><tspan x="114" y="230">customers</tspan></text></g>
+<g transform="rotate(1.8 252 204)"><title>Customers: End users stuck on how-to questions</title>
+<rect x="192" y="150" width="120" height="108" rx="3" fill="var(--st-y)" filter="url(#st-sh)"/>
+<rect x="192" y="150" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="252" y="180">End users</tspan><tspan x="252" y="200">stuck on</tspan><tspan x="252" y="220">how-to</tspan><tspan x="252" y="240">questions</tspan></text></g>
+<g transform="rotate(-1.2 182 326)"><title>Customers: Our own support agents</title>
+<rect x="122" y="272" width="120" height="108" rx="3" fill="var(--st-y)" filter="url(#st-sh)"/>
+<rect x="122" y="272" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="182" y="312">Our own</tspan><tspan x="182" y="332">support</tspan><tspan x="182" y="352">agents</tspan></text></g>
+<g><title>Problem zone</title><rect x="338" y="100" width="284" height="290" rx="10" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="352" y="132" class="pm" font-size="20" fill="var(--zone)">Problem</text></g>
+<g transform="rotate(2.6 412 204)"><title>Problem: Same questions, answered every day</title>
+<rect x="352" y="150" width="120" height="108" rx="3" fill="var(--st-p)" filter="url(#st-sh)"/>
+<rect x="352" y="150" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="412" y="180">Same</tspan><tspan x="412" y="200">questions,</tspan><tspan x="412" y="220">answered</tspan><tspan x="412" y="240">every day</tspan></text></g>
+<g transform="rotate(-1.8 550 204)"><title>Problem: Long waits for simple answers</title>
+<rect x="490" y="150" width="120" height="108" rx="3" fill="var(--st-p)" filter="url(#st-sh)"/>
+<rect x="490" y="150" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="550" y="190">Long waits</tspan><tspan x="550" y="210">for simple</tspan><tspan x="550" y="230">answers</tspan></text></g>
+<g transform="rotate(1.2 480 326)"><title>Problem: Help docs are hard to search</title>
+<rect x="420" y="272" width="120" height="108" rx="3" fill="var(--st-p)" filter="url(#st-sh)"/>
+<rect x="420" y="272" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="480" y="312">Help docs</tspan><tspan x="480" y="332">are hard to</tspan><tspan x="480" y="352">search</tspan></text></g>
+<g><title>GenAI value proposition zone</title><rect x="636" y="100" width="284" height="290" rx="10" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="650" y="132" class="pm" font-size="20" fill="var(--zone)">GenAI value proposition</text></g>
+<g transform="rotate(2.2 710 204)"><title>GenAI value proposition: Instant answers drafted from our docs</title>
+<rect x="650" y="150" width="120" height="108" rx="3" fill="var(--st-g)" filter="url(#st-sh)"/>
+<rect x="650" y="150" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="710" y="180">Instant</tspan><tspan x="710" y="200">answers</tspan><tspan x="710" y="220">drafted from</tspan><tspan x="710" y="240">our docs</tspan></text></g>
+<g transform="rotate(-2.8 848 204)"><title>GenAI value proposition: Hands over to a human when unsure</title>
+<rect x="788" y="150" width="120" height="108" rx="3" fill="var(--st-g)" filter="url(#st-sh)"/>
+<rect x="788" y="150" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="848" y="190">Hands over to</tspan><tspan x="848" y="210">a human when</tspan><tspan x="848" y="230">unsure</tspan></text></g>
+<g transform="rotate(1.5 778 326)"><title>GenAI value proposition: Shows the help article it used</title>
+<rect x="718" y="272" width="120" height="108" rx="3" fill="var(--st-g)" filter="url(#st-sh)"/>
+<rect x="718" y="272" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="778" y="312">Shows the</tspan><tspan x="778" y="332">help article</tspan><tspan x="778" y="352">it used</tspan></text></g>
+<g><title>Channels zone</title><rect x="40" y="404" width="284" height="290" rx="10" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="54" y="436" class="pm" font-size="20" fill="var(--zone)">Channels</text></g>
+<g transform="rotate(-1 114 508)"><title>Channels: Chat widget inside the product</title>
+<rect x="54" y="454" width="120" height="108" rx="3" fill="var(--st-b)" filter="url(#st-sh)"/>
+<rect x="54" y="454" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="114" y="494">Chat widget</tspan><tspan x="114" y="514">inside the</tspan><tspan x="114" y="534">product</tspan></text></g>
+<g transform="rotate(2.4 252 508)"><title>Channels: Help centre search box</title>
+<rect x="192" y="454" width="120" height="108" rx="3" fill="var(--st-b)" filter="url(#st-sh)"/>
+<rect x="192" y="454" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="252" y="504">Help centre</tspan><tspan x="252" y="524">search box</tspan></text></g>
+<g transform="rotate(-2.2 182 630)"><title>Channels: Draft replies in the agent console</title>
+<rect x="122" y="576" width="120" height="108" rx="3" fill="var(--st-b)" filter="url(#st-sh)"/>
+<rect x="122" y="576" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="182" y="616">Draft replies</tspan><tspan x="182" y="636">in the agent</tspan><tspan x="182" y="656">console</tspan></text></g>
+<g><title>Data we have zone</title><rect x="338" y="404" width="284" height="290" rx="10" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="352" y="436" class="pm" font-size="20" fill="var(--zone)">Data we have</text></g>
+<g transform="rotate(-2.5 412 508)"><title>Data we have: Past solved tickets, if terms allow</title>
+<rect x="352" y="454" width="120" height="108" rx="3" fill="var(--st-y)" filter="url(#st-sh)"/>
+<rect x="352" y="454" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="412" y="494">Past solved</tspan><tspan x="412" y="514">tickets, if</tspan><tspan x="412" y="534">terms allow</tspan></text></g>
+<g transform="rotate(1.8 550 508)"><title>Data we have: Help centre articles and release notes</title>
+<rect x="490" y="454" width="120" height="108" rx="3" fill="var(--st-y)" filter="url(#st-sh)"/>
+<rect x="490" y="454" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="550" y="494">Help centre</tspan><tspan x="550" y="514">articles and</tspan><tspan x="550" y="534">release notes</tspan></text></g>
+<g transform="rotate(-1.2 480 630)"><title>Data we have: Product usage logs</title>
+<rect x="420" y="576" width="120" height="108" rx="3" fill="var(--st-y)" filter="url(#st-sh)"/>
+<rect x="420" y="576" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="480" y="626">Product</tspan><tspan x="480" y="646">usage logs</tspan></text></g>
+<g><title>Risks and guardrails zone</title><rect x="636" y="404" width="284" height="290" rx="10" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="650" y="436" class="pm" font-size="20" fill="var(--zone)">Risks and guardrails</text></g>
+<g transform="rotate(2.6 710 508)"><title>Risks and guardrails: Answer only from approved docs</title>
+<rect x="650" y="454" width="120" height="108" rx="3" fill="var(--st-p)" filter="url(#st-sh)"/>
+<rect x="650" y="454" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="710" y="494">Answer only</tspan><tspan x="710" y="514">from approved</tspan><tspan x="710" y="534">docs</tspan></text></g>
+<g transform="rotate(-1.8 848 508)"><title>Risks and guardrails: Confident but wrong answers</title>
+<rect x="788" y="454" width="120" height="108" rx="3" fill="var(--st-p)" filter="url(#st-sh)"/>
+<rect x="788" y="454" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="848" y="504">Confident but</tspan><tspan x="848" y="524">wrong answers</tspan></text></g>
+<g transform="rotate(1.2 710 630)"><title>Risks and guardrails: Remove personal data from prompts</title>
+<rect x="650" y="576" width="120" height="108" rx="3" fill="var(--st-p)" filter="url(#st-sh)"/>
+<rect x="650" y="576" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="710" y="616">Remove</tspan><tspan x="710" y="636">personal data</tspan><tspan x="710" y="656">from prompts</tspan></text></g>
+<g transform="rotate(2.2 848 630)"><title>Risks and guardrails: Humans approve refunds and legal replies</title>
+<rect x="788" y="576" width="120" height="108" rx="3" fill="var(--st-p)" filter="url(#st-sh)"/>
+<rect x="788" y="576" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="848" y="606">Humans</tspan><tspan x="848" y="626">approve</tspan><tspan x="848" y="646">refunds and</tspan><tspan x="848" y="666">legal replies</tspan></text></g>
+<g><title>Revenue zone</title><rect x="40" y="708" width="284" height="290" rx="10" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="54" y="740" class="pm" font-size="20" fill="var(--zone)">Revenue</text></g>
+<g transform="rotate(-2.8 114 812)"><title>Revenue: Paid add-on per seat</title>
+<rect x="54" y="758" width="120" height="108" rx="3" fill="var(--st-g)" filter="url(#st-sh)"/>
+<rect x="54" y="758" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="114" y="808">Paid add-on</tspan><tspan x="114" y="828">per seat</tspan></text></g>
+<g transform="rotate(1.5 252 812)"><title>Revenue: Included in a premium plan</title>
+<rect x="192" y="758" width="120" height="108" rx="3" fill="var(--st-g)" filter="url(#st-sh)"/>
+<rect x="192" y="758" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="252" y="798">Included in</tspan><tspan x="252" y="818">a premium</tspan><tspan x="252" y="838">plan</tspan></text></g>
+<g transform="rotate(-1 182 934)"><title>Revenue: Lower cost per support ticket</title>
+<rect x="122" y="880" width="120" height="108" rx="3" fill="var(--st-g)" filter="url(#st-sh)"/>
+<rect x="122" y="880" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="182" y="920">Lower cost</tspan><tspan x="182" y="940">per support</tspan><tspan x="182" y="960">ticket</tspan></text></g>
+<g><title>Costs (inference, people) zone</title><rect x="338" y="708" width="284" height="290" rx="10" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="352" y="740" class="pm" font-size="20" fill="var(--zone)">Costs (inference, people)</text></g>
+<g transform="rotate(2.4 412 812)"><title>Costs (inference, people): Engineers to build and maintain</title>
+<rect x="352" y="758" width="120" height="108" rx="3" fill="var(--st-b)" filter="url(#st-sh)"/>
+<rect x="352" y="758" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="412" y="798">Engineers to</tspan><tspan x="412" y="818">build and</tspan><tspan x="412" y="838">maintain</tspan></text></g>
+<g transform="rotate(-2.2 550 812)"><title>Costs (inference, people): Model usage, billed per token</title>
+<rect x="490" y="758" width="120" height="108" rx="3" fill="var(--st-b)" filter="url(#st-sh)"/>
+<rect x="490" y="758" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="550" y="798">Model usage,</tspan><tspan x="550" y="818">billed per</tspan><tspan x="550" y="838">token</tspan></text></g>
+<g transform="rotate(-2.5 480 934)"><title>Costs (inference, people): Testing and keeping docs up to date</title>
+<rect x="420" y="880" width="120" height="108" rx="3" fill="var(--st-b)" filter="url(#st-sh)"/>
+<rect x="420" y="880" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="480" y="920">Testing and</tspan><tspan x="480" y="940">keeping docs</tspan><tspan x="480" y="960">up to date</tspan></text></g>
+<g><title>Metrics zone</title><rect x="636" y="708" width="284" height="290" rx="10" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="650" y="740" class="pm" font-size="20" fill="var(--zone)">Metrics</text></g>
+<g transform="rotate(1.8 710 812)"><title>Metrics: Cost per solved question</title>
+<rect x="650" y="758" width="120" height="108" rx="3" fill="var(--st-y)" filter="url(#st-sh)"/>
+<rect x="650" y="758" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="710" y="798">Cost per</tspan><tspan x="710" y="818">solved</tspan><tspan x="710" y="838">question</tspan></text></g>
+<g transform="rotate(-1.2 848 812)"><title>Metrics: Questions solved with no human</title>
+<rect x="788" y="758" width="120" height="108" rx="3" fill="var(--st-y)" filter="url(#st-sh)"/>
+<rect x="788" y="758" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="848" y="798">Questions</tspan><tspan x="848" y="818">solved with</tspan><tspan x="848" y="838">no human</tspan></text></g>
+<g transform="rotate(2.6 710 934)"><title>Metrics: Accuracy on a fixed test set</title>
+<rect x="650" y="880" width="120" height="108" rx="3" fill="var(--st-y)" filter="url(#st-sh)"/>
+<rect x="650" y="880" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="710" y="920">Accuracy on</tspan><tspan x="710" y="940">a fixed test</tspan><tspan x="710" y="960">set</tspan></text></g>
+<g transform="rotate(-1.8 848 934)"><title>Metrics: Satisfaction after chat</title>
+<rect x="788" y="880" width="120" height="108" rx="3" fill="var(--st-y)" filter="url(#st-sh)"/>
+<rect x="788" y="880" width="120" height="12" fill="var(--st-band)"/>
+<text text-anchor="middle" class="m" font-size="17" fill="var(--st-ink)"><tspan x="848" y="930">Satisfaction</tspan><tspan x="848" y="950">after chat</tspan></text></g>
+<g><title>Next 3 actions column</title><rect x="940" y="100" width="220" height="898" rx="10" fill="var(--col)" stroke="var(--accent)" stroke-width="2.5"/>
+<text x="1050" y="136" text-anchor="middle" class="pm" font-size="22" fill="var(--accent)">Next 3 actions</text></g>
+<g transform="rotate(1.5 1050 277)"><title>Action 1: Gather real customer questions into a test set</title>
+<rect x="958" y="162" width="184" height="230" rx="3" fill="var(--st-o)" filter="url(#st-sh)"/>
+<rect x="958" y="162" width="184" height="14" fill="var(--st-band)"/>
+<text x="1050" y="232" text-anchor="middle" class="pm" font-size="42" fill="var(--st-ink)">1</text>
+<text text-anchor="middle" class="m" font-size="20" fill="var(--st-ink)"><tspan x="1050" y="274">Gather real</tspan><tspan x="1050" y="298">customer</tspan><tspan x="1050" y="322">questions into</tspan><tspan x="1050" y="346">a test set</tspan></text></g>
+<path d="M1050 396 q6 10 0 22" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" marker-end="url(#ah)"/>
+<g transform="rotate(-1.8 1050 537)"><title>Action 2: Pilot on one product’s help docs</title>
+<rect x="958" y="422" width="184" height="230" rx="3" fill="var(--st-o)" filter="url(#st-sh)"/>
+<rect x="958" y="422" width="184" height="14" fill="var(--st-band)"/>
+<text x="1050" y="492" text-anchor="middle" class="pm" font-size="42" fill="var(--st-ink)">2</text>
+<text text-anchor="middle" class="m" font-size="20" fill="var(--st-ink)"><tspan x="1050" y="534">Pilot on one</tspan><tspan x="1050" y="558">product’s</tspan><tspan x="1050" y="582">help docs</tspan></text></g>
+<path d="M1050 656 q6 10 0 22" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" marker-end="url(#ah)"/>
+<g transform="rotate(1.2 1050 797)"><title>Action 3: Agree a go / no-go bar for cost and quality</title>
+<rect x="958" y="682" width="184" height="230" rx="3" fill="var(--st-o)" filter="url(#st-sh)"/>
+<rect x="958" y="682" width="184" height="14" fill="var(--st-band)"/>
+<text x="1050" y="752" text-anchor="middle" class="pm" font-size="42" fill="var(--st-ink)">3</text>
+<text text-anchor="middle" class="m" font-size="20" fill="var(--st-ink)"><tspan x="1050" y="794">Agree a</tspan><tspan x="1050" y="818">go / no-go bar</tspan><tspan x="1050" y="842">for cost and</tspan><tspan x="1050" y="866">quality</tspan></text></g>
+<path d="M544 312 C 590 302, 610 240, 644 214" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" marker-end="url(#ah)"><title>Hard-to-search docs lead to instant answers</title></path>
+<path d="M600 450 C 620 404, 668 362, 712 346" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" marker-end="url(#ah)"><title>Help articles become cited sources</title></path>
+<path d="M590 568 C 616 612, 620 572, 644 538" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" marker-end="url(#ah)"><title>Approved docs limit what it answers</title></path>
+<path d="M898 450 C 930 384, 934 310, 900 264" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" marker-end="url(#ah)"><title>Wrong-answer risk is why it hands over to a human</title></path>
+<path d="M590 872 C 616 916, 620 876, 644 842" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" marker-end="url(#ah)"><title>Token costs feed cost per solved question</title></path>
+  </svg>
+  </div>
+  <p class="hint">Swipe sideways to see the whole picture.</p>
+
+  <ul class="notes">
+    <li>The company and its plans are an illustrative example, not a real case. Swap in your own customers, data and numbers.</li>
+    <li>Generative AI models can state wrong things confidently (often called hallucination), so the guardrails zone matters as much as the value zone.</li>
+    <li>Running costs scale with use: most hosted models are billed per token (small chunks of text) going in and out, so track cost per solved question, not just the monthly bill.</li>
+    <li>Check your contracts and privacy rules before using customer data such as old tickets to build or test the product.</li>
+    <li>Orange arrows link notes that depend on each other: the data you have shapes both the value you can offer and the guardrails you need.</li>
+  </ul>
+
+  <p class="takeaway">Key takeaway: a GenAI product is only as good as the data behind it and the guardrails around it, so test it on real questions before you scale.</p>
+
+  <footer>Generated with /canvas</footer>
+</main>
+</body>
+</html>
