@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GenAI in One Page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f3ec; --paper: #fdfbf6; --ink: #1c1c1c; --muted: #555049;
+    --a1: #d9480f; --a1-soft: #ffe3d3; --on-a1: #ffffff;
+    --a2: #0b7a75; --a2-soft: #d3f1ee;
+    --card: #ffffff; --shadow: rgba(40, 30, 10, .10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #15161a; --paper: #1e2026; --ink: #ecebe6; --muted: #b3afa6;
+      --a1: #ff8a4c; --a1-soft: #4a2617; --on-a1: #1a0d05;
+      --a2: #4fd1c5; --a2-soft: #123b39;
+      --card: #262930; --shadow: rgba(0, 0, 0, .45);
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: Kalam, "Comic Sans MS", "Segoe Print", cursive; line-height: 1.5; font-size: 19px; }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 16px 48px; }
+  h1 { font-size: clamp(34px, 6vw, 52px); line-height: 1.1; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  .figure { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 14px; box-shadow: 0 6px 24px var(--shadow); }
+  svg { width: 100%; min-width: 760px; height: auto; display: block; }
+  .hint { display: none; font-size: 15px; color: var(--muted); margin: 6px 0 0; }
+  @media (max-width: 760px) { .hint { display: block; } }
+  svg text { font-family: Kalam, "Comic Sans MS", "Segoe Print", cursive; fill: var(--ink); }
+  svg .h { font-size: 29px; font-weight: 700; }
+  svg .b { font-size: 19px; }
+  svg .s { font-size: 16px; fill: var(--muted); }
+  svg .c1 { fill: var(--a1); } svg .c2 { fill: var(--a2); }
+  .ln { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .notes { margin-top: 24px; padding-left: 20px; color: var(--muted); }
+  .notes li { margin: 4px 0; }
+  .takeaway { margin-top: 24px; padding: 14px 20px; border-left: 4px solid var(--a1);
+              background: var(--paper); border-radius: 8px; font-size: 21px; font-weight: 700; }
+  footer { margin-top: 32px; font-size: 15px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>GenAI</h1>
+  <p class="sub">Sketchnotes · doodles and notes on one page, best for visual learners</p>
+
+  <div class="figure">
+  <svg viewBox="0 0 1200 1060" role="img" aria-label="A one-page sketchnote on generative AI: it learns patterns from huge amounts of examples, you ask it with a prompt, and it makes new text, images, code, audio and video; it shines at drafting, summarising, brainstorming, translating and coding help; it works like a super-powered autocomplete; its risks are hallucination, bias, privacy and copyright; and you use it well by giving context, checking sources and facts, keeping private data out and making the final call yourself. The big idea in a starburst: it predicts, you verify.">
+    <defs>
+      <filter id="wob" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="7"/>
+        <feDisplacementMap in="SourceGraphic" scale="4"/>
+      </filter>
+      <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M1 1 L9 5 L1 9" fill="none" stroke="var(--ink)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+    </defs>
+
+    <rect x="0" y="0" width="1200" height="1060" fill="var(--paper)"/>
+
+    <!-- ===== Banner ===== -->
+    <g filter="url(#wob)">
+      <title>Title banner</title>
+      <path d="M252 50 L304 42 L304 110 L252 118 L272 84 Z" fill="var(--a1)" opacity=".75"/>
+      <path d="M948 50 L896 42 L896 110 L948 118 L928 84 Z" fill="var(--a1)" opacity=".75"/>
+      <path d="M300 36 Q 600 24 900 36 L902 106 Q 600 118 298 106 Z" fill="var(--a1)" stroke="var(--ink)" stroke-width="2.4"/>
+    </g>
+    <text x="600" y="90" font-size="52" font-weight="700" text-anchor="middle" style="fill:var(--on-a1)">GenAI in one page</text>
+    <text x="600" y="150" text-anchor="middle" class="s" font-size="20">generative AI, explained for everyone</text>
+    <!-- rhythm stars -->
+    <g class="ln" style="stroke:var(--a2)">
+      <path d="M180 60 L186 76 L202 78 L190 88 L194 104 L180 95 L166 104 L170 88 L158 78 L174 76 Z"/>
+      <path d="M1020 60 L1026 76 L1042 78 L1030 88 L1034 104 L1020 95 L1006 104 L1010 88 L998 78 L1014 76 Z"/>
+      <path d="M120 120 L140 120 M1060 120 L1080 120 M230 130 L242 140 M958 140 L970 130"/>
+    </g>
+
+    <!-- ===== 1 How it learns ===== -->
+    <g>
+      <circle cx="58" cy="194" r="17" fill="var(--a1)"/>
+      <text x="58" y="202" text-anchor="middle" font-size="21" font-weight="700" style="fill:var(--on-a1)">1</text>
+      <text class="h" x="86" y="204">How it learns</text>
+      <path class="ln" d="M86 214 Q 160 208 250 216" style="stroke:var(--a1)"/>
+      <g filter="url(#wob)">
+        <title>Doodle: a pile of documents feeding a network</title>
+        <rect x="60" y="244" width="62" height="78" rx="4" fill="var(--card)" stroke="var(--ink)" stroke-width="2.2"/>
+        <rect x="74" y="236" width="62" height="78" rx="4" fill="var(--card)" stroke="var(--ink)" stroke-width="2.2"/>
+        <rect x="88" y="228" width="62" height="78" rx="4" fill="var(--card)" stroke="var(--ink)" stroke-width="2.2"/>
+        <path class="ln" d="M98 248 L140 248 M98 262 L136 262 M98 276 L140 276 M98 290 L128 290" stroke-width="1.8"/>
+        <g class="ln" stroke-width="1.8">
+          <path d="M244 236 L302 222 M244 236 L302 264 M244 236 L302 306 M244 292 L302 222 M244 292 L302 264 M244 292 L302 306 M302 222 L356 264 M302 264 L356 264 M302 306 L356 264"/>
+        </g>
+        <g fill="var(--a2-soft)" stroke="var(--a2)" stroke-width="2.4">
+          <circle cx="244" cy="236" r="11"/><circle cx="244" cy="292" r="11"/>
+          <circle cx="302" cy="222" r="11"/><circle cx="302" cy="264" r="11"/><circle cx="302" cy="306" r="11"/>
+          <circle cx="356" cy="264" r="12"/>
+        </g>
+      </g>
+      <path class="ln" d="M162 266 C 180 256, 200 258, 222 264" marker-end="url(#ar)"/>
+      <text class="b" x="44" y="356">Finds patterns in huge amounts</text>
+      <text class="b" x="44" y="382">of examples: text, images, code.</text>
+    </g>
+
+    <!-- arrow 1 → 2 -->
+    <path class="ln" d="M372 236 C 392 222, 410 224, 428 236" marker-end="url(#ar)"/>
+
+    <!-- ===== 2 You ask ===== -->
+    <g>
+      <circle cx="458" cy="194" r="17" fill="var(--a1)"/>
+      <text x="458" y="202" text-anchor="middle" font-size="21" font-weight="700" style="fill:var(--on-a1)">2</text>
+      <text class="h" x="486" y="204">You ask: a prompt</text>
+      <path class="ln" d="M486 214 Q 580 208 700 216" style="stroke:var(--a1)"/>
+      <g filter="url(#wob)">
+        <title>Doodle: a person typing a prompt in a speech bubble</title>
+        <circle cx="470" cy="270" r="22" fill="var(--card)" stroke="var(--ink)" stroke-width="2.4"/>
+        <path class="ln" d="M440 326 Q 470 290 500 326"/>
+        <path d="M520 236 Q 520 226 534 226 L760 228 Q 772 228 772 240 L772 298 Q 772 310 760 310 L548 310 L516 328 L528 306 Q 520 302 520 292 Z" fill="var(--a2-soft)" stroke="var(--ink)" stroke-width="2.2"/>
+      </g>
+      <circle cx="463" cy="266" r="2.6" fill="var(--ink)"/><circle cx="478" cy="266" r="2.6" fill="var(--ink)"/>
+      <text x="646" y="262" text-anchor="middle" font-size="19">“Write a short poem</text>
+      <text x="646" y="290" text-anchor="middle" font-size="19">about rain, for kids.”</text>
+      <text class="b" x="444" y="356">Plain words in. Clear, specific</text>
+      <text class="b" x="444" y="382">asks get better results.</text>
+    </g>
+
+    <!-- arrow 2 → 3 -->
+    <path class="ln" d="M778 236 C 794 222, 808 224, 822 236" marker-end="url(#ar)"/>
+
+    <!-- ===== 3 What it makes ===== -->
+    <g>
+      <circle cx="848" cy="194" r="17" fill="var(--a1)"/>
+      <text x="848" y="202" text-anchor="middle" font-size="21" font-weight="700" style="fill:var(--on-a1)">3</text>
+      <text class="h" x="876" y="204">What it makes</text>
+      <path class="ln" d="M876 214 Q 960 208 1060 216" style="stroke:var(--a1)"/>
+      <g filter="url(#wob)">
+        <title>Doodles: text, image, code, audio and video</title>
+        <!-- text -->
+        <rect x="834" y="234" width="46" height="56" rx="4" fill="var(--card)" stroke="var(--ink)" stroke-width="2.2"/>
+        <path class="ln" d="M842 248 L872 248 M842 260 L870 260 M842 272 L872 272 M842 282 L862 282" stroke-width="1.8"/>
+        <!-- image -->
+        <rect x="900" y="234" width="56" height="56" rx="4" fill="var(--card)" stroke="var(--ink)" stroke-width="2.2"/>
+        <path d="M904 284 L922 260 L934 274 L942 266 L952 284 Z" fill="var(--a2)"/>
+        <circle cx="942" cy="248" r="6" fill="var(--a1)"/>
+        <!-- code -->
+        <rect x="972" y="234" width="56" height="56" rx="4" fill="var(--card)" stroke="var(--ink)" stroke-width="2.2"/>
+        <path class="ln" d="M990 250 L980 262 L990 274 M1010 250 L1020 262 L1010 274 M1004 248 L996 276" stroke="var(--a2)" style="stroke:var(--a2)"/>
+        <!-- audio -->
+        <rect x="1044" y="234" width="56" height="56" rx="4" fill="var(--card)" stroke="var(--ink)" stroke-width="2.2"/>
+        <path class="ln" d="M1054 262 L1054 262 M1062 252 L1062 272 M1070 244 L1070 280 M1078 254 L1078 270 M1086 248 L1086 276 M1094 258 L1094 266" style="stroke:var(--a1)"/>
+        <!-- video -->
+        <rect x="1116" y="234" width="56" height="56" rx="4" fill="var(--card)" stroke="var(--ink)" stroke-width="2.2"/>
+        <path d="M1136 248 L1158 262 L1136 276 Z" fill="var(--a1)"/>
+      </g>
+      <g class="s" text-anchor="middle" font-size="16">
+        <text x="857" y="312">text</text><text x="928" y="312">image</text><text x="1000" y="312">code</text>
+        <text x="1072" y="312">audio</text><text x="1144" y="312">video</text>
+      </g>
+      <text class="b" x="834" y="356">New content that fits the</text>
+      <text class="b" x="834" y="382">patterns it learned.</text>
+    </g>
+
+    <!-- ===== Where it shines (box) ===== -->
+    <g>
+      <path d="M40 440 Q 210 432 384 442 L388 664 Q 210 672 36 662 Z" fill="var(--card)" stroke="var(--ink)" stroke-width="2.4" filter="url(#wob)"><title>Where it shines</title></path>
+      <path d="M68 456 L74 472 L90 476 L74 480 L68 496 L62 480 L46 476 L62 472 Z" fill="var(--a2)"/>
+      <text class="h" x="98" y="488">Where it shines</text>
+      <path class="ln" d="M98 498 Q 190 492 300 500" style="stroke:var(--a2)"/>
+      <g class="b">
+        <text x="62" y="534"><tspan class="c2">✦</tspan> First drafts and rewrites</text>
+        <text x="62" y="564"><tspan class="c2">✦</tspan> Summing up long text</text>
+        <text x="62" y="594"><tspan class="c2">✦</tspan> Brainstorming ideas</text>
+        <text x="62" y="624"><tspan class="c2">✦</tspan> Translating</text>
+        <text x="62" y="654"><tspan class="c2">✦</tspan> Help with writing code</text>
+      </g>
+    </g>
+
+    <!-- ===== Starburst big idea ===== -->
+    <g>
+      <path filter="url(#wob)" fill="var(--a1-soft)" stroke="var(--a1)" stroke-width="3.2" stroke-linejoin="round"
+        d="M600 400 L636 446 L692 420 L694 482 L752 486 L722 536 L770 570 L722 604 L752 654 L694 658 L692 720 L636 694 L600 740 L564 694 L508 720 L506 658 L448 654 L478 604 L430 570 L478 536 L448 486 L506 482 L508 420 L564 446 Z">
+        <title>Big idea starburst</title></path>
+      <text x="600" y="524" text-anchor="middle" font-size="18" font-weight="700" letter-spacing="3" class="c1">BIG IDEA</text>
+      <text x="600" y="578" text-anchor="middle" font-size="40" font-weight="700">It predicts.</text>
+      <text x="600" y="628" text-anchor="middle" font-size="40" font-weight="700" class="c1">You verify.</text>
+      <path class="ln" d="M534 640 Q 600 650 666 638" style="stroke:var(--a1)"/>
+    </g>
+    <!-- dotted links from top row into the idea -->
+    <path class="ln" d="M600 398 L600 398" />
+    <path class="ln" d="M826 398 C 806 424, 788 448, 766 480" stroke-dasharray="3 7" marker-end="url(#ar)"/>
+    <text class="s" x="842" y="436">output = a best guess</text>
+    <path class="ln" d="M388 556 L428 562" stroke-dasharray="3 7"/>
+
+    <!-- ===== Autocomplete cloud ===== -->
+    <g>
+      <path filter="url(#wob)" fill="var(--a2-soft)" stroke="var(--ink)" stroke-width="2.4"
+        d="M864 662 C 818 662, 806 612, 840 596 C 808 572, 828 520, 872 528 C 872 486, 930 470, 958 498 C 978 462, 1050 466, 1060 506 C 1104 494, 1150 530, 1132 566 C 1172 584, 1162 650, 1116 652 C 1100 682, 1040 682, 1020 660 C 990 684, 930 684, 910 660 C 896 668, 880 666, 864 662 Z">
+        <title>Thought cloud: think of it as super-powered autocomplete</title></path>
+      <text x="988" y="548" text-anchor="middle" font-size="19" font-weight="700" class="c2">Think of it as…</text>
+      <text x="984" y="580" text-anchor="middle" font-size="19" font-weight="700">super-powered autocomplete:</text>
+      <text x="988" y="610" text-anchor="middle" font-size="18">it continues with what is likely,</text>
+      <text x="988" y="636" text-anchor="middle" font-size="18">not with what has been checked.</text>
+    </g>
+    <path class="ln" d="M772 570 L808 572" stroke-dasharray="3 7"/>
+
+    <!-- dotted links down -->
+    <path class="ln" d="M520 712 C 480 750, 470 780, 486 818" stroke-dasharray="3 7" marker-end="url(#ar)"/>
+    <path class="ln" d="M680 712 C 730 750, 770 780, 806 810" stroke-dasharray="3 7" marker-end="url(#ar)"/>
+
+    <!-- ===== Watch out ===== -->
+    <g>
+      <path d="M42 806 L62 772 L82 806 Z" fill="var(--a1)" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/>
+      <text x="62" y="802" text-anchor="middle" font-size="20" font-weight="700" style="fill:var(--on-a1)">!</text>
+      <text class="h c1" x="94" y="804">Watch out</text>
+      <path class="ln" d="M94 814 Q 160 808 230 816" style="stroke:var(--a1)"/>
+      <g filter="url(#wob)" fill="var(--card)" stroke="var(--ink)" stroke-width="2.2">
+        <path d="M40 830 L390 828 L392 922 L42 926 Z"><title>Risk: hallucination</title></path>
+        <path d="M410 828 L760 830 L758 926 L408 922 Z"><title>Risk: bias</title></path>
+        <path d="M42 942 L390 940 L392 1036 L40 1038 Z"><title>Risk: privacy</title></path>
+        <path d="M408 940 L760 942 L758 1038 L410 1036 Z"><title>Risk: copyright and IP</title></path>
+      </g>
+      <g>
+        <text x="62" y="862" font-size="22" font-weight="700" class="c1">Hallucination</text>
+        <text class="b" x="62" y="890">Can make things up</text>
+        <text class="b" x="62" y="914">and still sound sure.</text>
+        <text x="430" y="862" font-size="22" font-weight="700" class="c1">Bias</text>
+        <text class="b" x="430" y="890">Can repeat unfair patterns</text>
+        <text class="b" x="430" y="914">found in its training data.</text>
+        <text x="62" y="974" font-size="22" font-weight="700" class="c1">Privacy</text>
+        <text class="b" x="62" y="1002">What you type may be stored.</text>
+        <text class="b" x="62" y="1026">Keep secrets and personal info out.</text>
+        <text x="430" y="974" font-size="22" font-weight="700" class="c1">Copyright and IP</text>
+        <text class="b" x="430" y="1002">Who owns training data and</text>
+        <text class="b" x="430" y="1026">outputs is still being argued.</text>
+      </g>
+      <!-- tiny doodles in the risk boxes -->
+      <g class="ln" stroke-width="2">
+        <path d="M352 852 Q 352 840 362 840 Q 374 840 372 852 Q 370 860 362 862 L362 868 M362 876 L362 878"/>
+        <path d="M704 846 L736 846 M720 840 L720 880 M706 846 L700 862 L712 862 Z M734 846 L728 868 L740 868 Z M712 880 L728 880"/>
+        <path d="M346 966 L376 966 L376 990 L346 990 Z M352 966 L352 956 Q 361 944 370 956 L370 966"/>
+        <path d="M722 972 m -16 0 a 16 16 0 1 0 32 0 a 16 16 0 1 0 -32 0 M729 965 Q 720 958 714 966 Q 710 974 716 980 Q 722 986 729 979"/>
+      </g>
+    </g>
+
+    <!-- ===== Use it well (notepad) ===== -->
+    <g>
+      <path filter="url(#wob)" d="M800 784 L1164 780 L1166 1040 L798 1042 Z" fill="var(--card)" stroke="var(--ink)" stroke-width="2.4"><title>Checklist: use it well</title></path>
+      <g fill="var(--paper)" stroke="var(--ink)" stroke-width="2">
+        <circle cx="840" cy="782" r="7"/><circle cx="900" cy="782" r="7"/><circle cx="960" cy="782" r="7"/>
+        <circle cx="1020" cy="782" r="7"/><circle cx="1080" cy="782" r="7"/><circle cx="1140" cy="782" r="7"/>
+      </g>
+      <text class="h c2" x="824" y="830">Use it well</text>
+      <path class="ln" d="M824 840 Q 900 834 980 842" style="stroke:var(--a2)"/>
+      <g>
+        <g class="ln" stroke-width="2">
+          <rect x="824" y="858" width="20" height="20" rx="3"/><rect x="824" y="894" width="20" height="20" rx="3"/>
+          <rect x="824" y="930" width="20" height="20" rx="3"/><rect x="824" y="966" width="20" height="20" rx="3"/>
+          <rect x="824" y="1002" width="20" height="20" rx="3"/>
+        </g>
+        <g class="ln" stroke-width="3" style="stroke:var(--a2)">
+          <path d="M828 868 L834 876 L848 856"/><path d="M828 904 L834 912 L848 892"/>
+          <path d="M828 940 L834 948 L848 928"/><path d="M828 976 L834 984 L848 964"/>
+          <path d="M828 1012 L834 1020 L848 1000"/>
+        </g>
+        <g class="b">
+          <text x="856" y="875">Give context and examples</text>
+          <text x="856" y="911">Ask for sources, then check them</text>
+          <text x="856" y="947">Double-check facts and numbers</text>
+          <text x="856" y="983">Keep private data out</text>
+          <text x="856" y="1019">You make the final call</text>
+        </g>
+      </g>
+    </g>
+  </svg>
+  </div>
+  <p class="hint">Swipe sideways to see the whole picture.</p>
+
+  <ul class="notes">
+    <li>Read the top row left to right: it learns patterns, you prompt it, it makes something new.</li>
+    <li>How inputs are stored or used depends on the service and its settings, so check its privacy terms.</li>
+  </ul>
+
+  <p class="takeaway">Key takeaway: GenAI is a fast, fluent guesser. Let it draft, then you check the facts and make the call.</p>
+
+  <footer>Generated with /sketchnotes</footer>
+</main>
+</body>
+</html>
