@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GenAI Assistant Exploded</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Layout: isometric parts stack on one vertical axis at left, logging rail beside it,
+     bill of materials and message path on the right. */
+  :root {
+    --bg: #eceff3; --ink: #1b2632; --ink-soft: #33414f; --muted: #5a6876;
+    --panel: #f8f9fb; --rule: #d8dee5;
+    --top: #ffffff; --left: #d3dae2; --right: #b9c3ce; --edge: #3d4a58;
+    --detail: #7f8d9b; --detail-fill: #c4ccd5;
+    --core-top: #ffe6d6; --core-left: #f5c4a6; --core-right: #e9a983;
+    --accent: #c2410c; --on-accent: #ffffff; --accent-ink: #b23c0b;
+    --takeaway-bg: #dfe4ea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14181d; --ink: #e7ecf1; --ink-soft: #c5ced7; --muted: #9aa7b4;
+      --panel: #1c2128; --rule: #2e3640;
+      --top: #36404b; --left: #262e37; --right: #1e252d; --edge: #a3b0bd;
+      --detail: #8695a4; --detail-fill: #56636f;
+      --core-top: #6b3a20; --core-left: #4e2915; --core-right: #3d200f;
+      --accent: #fb8a4c; --on-accent: #1a0e06; --accent-ink: #ff9c66;
+      --takeaway-bg: #1f252c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.5; }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 16px 48px; }
+  h1 { font-size: clamp(28px, 5vw, 44px); margin: 0 0 4px; letter-spacing: -.02em; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  .figure { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 16px; }
+  svg { width: 100%; min-width: 760px; height: auto; display: block; }
+  .hint { display: none; font-size: 13px; color: var(--muted); margin: 6px 0 0; }
+  @media (max-width: 760px) { .hint { display: block; } }
+  svg text { font-family: inherit; }
+  svg .dl { fill: none; stroke: var(--detail); }
+  svg .df { fill: var(--detail-fill); stroke: var(--detail); }
+  svg .da { fill: var(--accent); stroke: none; }
+  .notes { margin-top: 24px; padding-left: 20px; color: var(--muted); }
+  .notes li { margin: 4px 0; }
+  .takeaway { margin-top: 24px; padding: 16px 20px; border-left: 4px solid var(--accent);
+              background: var(--takeaway-bg); border-radius: 8px; font-weight: 600; }
+  footer { margin-top: 32px; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>GenAI</h1>
+  <p class="sub">Exploded view · a GenAI chat assistant pulled apart into the components that make it work</p>
+
+  <div class="figure">
+  <svg viewBox="0 0 1200 1030" role="img" aria-label="Exploded view of a GenAI chat assistant: from the base up, GPU infrastructure, the foundation model, retrieval and a vector database, tools and APIs, orchestration, the system prompt, guardrails and the user interface, with logging and evals running alongside every layer, plus a bill of materials.">
+<!-- logging rail (9) -->
+<rect x="14" y="74" width="30" height="886" rx="4" fill="var(--left)" stroke="var(--edge)" stroke-width="1.5"><title>9 Logging and evals</title></rect>
+<text transform="translate(34 517) rotate(-90)" text-anchor="middle" font-size="15" font-weight="700" fill="var(--ink)" letter-spacing=".12em">LOGGING &amp; EVALS · WATCHES EVERY LAYER</text>
+<g><title>8 User interface</title>
+<polygon points="80,110 250,146 250,162 80,126" fill="var(--left)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="250,146 420,110 420,126 250,162" fill="var(--right)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="80,110 250,74 420,110 250,146" fill="var(--top)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<g transform="matrix(1.7 -0.36 1.7 0.36 80 110)" stroke-width="2"><rect x="14" y="14" width="72" height="72" rx="4" class="dl"/><rect x="24" y="26" width="34" height="12" rx="4" class="df"/><rect x="42" y="46" width="34" height="12" rx="4" class="da"/><rect x="24" y="66" width="52" height="10" rx="3" class="dl"/></g>
+</g>
+<line x1="44" y1="118" x2="78" y2="118" stroke="var(--edge)" stroke-width="1.2" stroke-dasharray="3 4"/>
+<g stroke="var(--detail)" stroke-width="1.2" stroke-dasharray="6 5"><line x1="80" y1="130" x2="80" y2="220"/><line x1="420" y1="130" x2="420" y2="220"/><line x1="250" y1="166" x2="250" y2="184"/></g>
+<line x1="380" y1="126" x2="456" y2="126" stroke="var(--ink)" stroke-width="1.2"/><circle cx="380" cy="126" r="3.5" fill="var(--ink)"/>
+<circle cx="470" cy="126" r="14" fill="var(--accent)"/><text x="470" y="131" text-anchor="middle" font-size="15" font-weight="800" fill="var(--on-accent)">8</text>
+<text x="492" y="132" font-size="17" font-weight="700" fill="var(--ink)">User interface</text>
+<g><title>7 Guardrails</title>
+<polygon points="80,224 250,260 250,276 80,240" fill="var(--left)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="250,260 420,224 420,240 250,276" fill="var(--right)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="80,224 250,188 420,224 250,260" fill="var(--top)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<g transform="matrix(1.7 -0.36 1.7 0.36 80 224)" stroke-width="2"><rect x="10" y="10" width="80" height="80" class="dl"/><rect x="22" y="22" width="56" height="56" class="dl"/><line x1="36" y1="22" x2="36" y2="78" class="dl"/><line x1="50" y1="22" x2="50" y2="78" class="dl"/><line x1="64" y1="22" x2="64" y2="78" class="dl"/><line x1="22" y1="36" x2="78" y2="36" class="dl"/><line x1="22" y1="50" x2="78" y2="50" class="dl"/><line x1="22" y1="64" x2="78" y2="64" class="dl"/></g>
+</g>
+<line x1="44" y1="232" x2="78" y2="232" stroke="var(--edge)" stroke-width="1.2" stroke-dasharray="3 4"/>
+<g stroke="var(--detail)" stroke-width="1.2" stroke-dasharray="6 5"><line x1="80" y1="244" x2="80" y2="334"/><line x1="420" y1="244" x2="420" y2="334"/><line x1="250" y1="280" x2="250" y2="298"/></g>
+<line x1="380" y1="240" x2="456" y2="240" stroke="var(--ink)" stroke-width="1.2"/><circle cx="380" cy="240" r="3.5" fill="var(--ink)"/>
+<circle cx="470" cy="240" r="14" fill="var(--accent)"/><text x="470" y="245" text-anchor="middle" font-size="15" font-weight="800" fill="var(--on-accent)">7</text>
+<text x="492" y="246" font-size="17" font-weight="700" fill="var(--ink)">Guardrails</text>
+<g><title>6 System prompt</title>
+<polygon points="80,338 250,374 250,390 80,354" fill="var(--left)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="250,374 420,338 420,354 250,390" fill="var(--right)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="80,338 250,302 420,338 250,374" fill="var(--top)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<g transform="matrix(1.7 -0.36 1.7 0.36 80 338)" stroke-width="2"><rect x="18" y="18" width="64" height="7" class="df"/><rect x="18" y="32" width="52" height="7" class="df"/><rect x="18" y="46" width="60" height="7" class="df"/><rect x="18" y="60" width="40" height="7" class="df"/><rect x="18" y="74" width="56" height="7" class="df"/></g>
+</g>
+<line x1="44" y1="346" x2="78" y2="346" stroke="var(--edge)" stroke-width="1.2" stroke-dasharray="3 4"/>
+<g stroke="var(--detail)" stroke-width="1.2" stroke-dasharray="6 5"><line x1="80" y1="358" x2="80" y2="448"/><line x1="420" y1="358" x2="420" y2="448"/><line x1="250" y1="394" x2="250" y2="412"/></g>
+<line x1="380" y1="354" x2="456" y2="354" stroke="var(--ink)" stroke-width="1.2"/><circle cx="380" cy="354" r="3.5" fill="var(--ink)"/>
+<circle cx="470" cy="354" r="14" fill="var(--accent)"/><text x="470" y="359" text-anchor="middle" font-size="15" font-weight="800" fill="var(--on-accent)">6</text>
+<text x="492" y="360" font-size="17" font-weight="700" fill="var(--ink)">System prompt</text>
+<g><title>5 Orchestration</title>
+<polygon points="80,452 250,488 250,504 80,468" fill="var(--left)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="250,488 420,452 420,468 250,504" fill="var(--right)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="80,452 250,416 420,452 250,488" fill="var(--top)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<g transform="matrix(1.7 -0.36 1.7 0.36 80 452)" stroke-width="2"><circle cx="50" cy="50" r="28" class="dl" stroke-dasharray="10 6"/><circle cx="50" cy="22" r="8" class="da"/><circle cx="78" cy="50" r="8" class="da"/><circle cx="50" cy="78" r="8" class="da"/><circle cx="22" cy="50" r="8" class="da"/><circle cx="50" cy="50" r="9" class="df"/></g>
+</g>
+<line x1="44" y1="460" x2="78" y2="460" stroke="var(--edge)" stroke-width="1.2" stroke-dasharray="3 4"/>
+<g stroke="var(--detail)" stroke-width="1.2" stroke-dasharray="6 5"><line x1="80" y1="472" x2="80" y2="562"/><line x1="420" y1="472" x2="420" y2="562"/><line x1="250" y1="508" x2="250" y2="526"/></g>
+<line x1="380" y1="468" x2="456" y2="468" stroke="var(--ink)" stroke-width="1.2"/><circle cx="380" cy="468" r="3.5" fill="var(--ink)"/>
+<circle cx="470" cy="468" r="14" fill="var(--accent)"/><text x="470" y="473" text-anchor="middle" font-size="15" font-weight="800" fill="var(--on-accent)">5</text>
+<text x="492" y="474" font-size="17" font-weight="700" fill="var(--ink)">Orchestration</text>
+<g><title>4 Tools / APIs</title>
+<polygon points="80,566 250,602 250,618 80,582" fill="var(--left)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="250,602 420,566 420,582 250,618" fill="var(--right)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="80,566 250,530 420,566 250,602" fill="var(--top)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<g transform="matrix(1.7 -0.36 1.7 0.36 80 566)" stroke-width="2"><rect x="14" y="24" width="24" height="24" rx="3" class="df"/><line x1="22" y1="18" x2="22" y2="24" class="dl"/><line x1="30" y1="18" x2="30" y2="24" class="dl"/><rect x="52" y="24" width="24" height="24" rx="3" class="df"/><line x1="60" y1="18" x2="60" y2="24" class="dl"/><line x1="68" y1="18" x2="68" y2="24" class="dl"/><rect x="14" y="62" width="24" height="24" rx="3" class="df"/><line x1="22" y1="56" x2="22" y2="62" class="dl"/><line x1="30" y1="56" x2="30" y2="62" class="dl"/><rect x="52" y="62" width="24" height="24" rx="3" class="df"/><line x1="60" y1="56" x2="60" y2="62" class="dl"/><line x1="68" y1="56" x2="68" y2="62" class="dl"/></g>
+</g>
+<line x1="44" y1="574" x2="78" y2="574" stroke="var(--edge)" stroke-width="1.2" stroke-dasharray="3 4"/>
+<g stroke="var(--detail)" stroke-width="1.2" stroke-dasharray="6 5"><line x1="80" y1="586" x2="80" y2="676"/><line x1="420" y1="586" x2="420" y2="676"/><line x1="250" y1="622" x2="250" y2="640"/></g>
+<line x1="380" y1="582" x2="456" y2="582" stroke="var(--ink)" stroke-width="1.2"/><circle cx="380" cy="582" r="3.5" fill="var(--ink)"/>
+<circle cx="470" cy="582" r="14" fill="var(--accent)"/><text x="470" y="587" text-anchor="middle" font-size="15" font-weight="800" fill="var(--on-accent)">4</text>
+<text x="492" y="588" font-size="17" font-weight="700" fill="var(--ink)">Tools / APIs</text>
+<g><title>3 Retrieval + vector DB</title>
+<polygon points="80,680 250,716 250,732 80,696" fill="var(--left)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="250,716 420,680 420,696 250,732" fill="var(--right)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="80,680 250,644 420,680 250,716" fill="var(--top)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<g transform="matrix(1.7 -0.36 1.7 0.36 80 680)" stroke-width="2"><rect x="14" y="16" width="22" height="28" class="df"/><rect x="40" y="16" width="22" height="28" class="df"/><rect x="66" y="16" width="22" height="28" class="df"/><rect x="14" y="56" width="22" height="28" class="df"/><rect x="40" y="56" width="22" height="28" class="df"/><circle cx="77" cy="70" r="12" class="dl" stroke-width="3"/></g>
+</g>
+<line x1="44" y1="688" x2="78" y2="688" stroke="var(--edge)" stroke-width="1.2" stroke-dasharray="3 4"/>
+<g stroke="var(--detail)" stroke-width="1.2" stroke-dasharray="6 5"><line x1="80" y1="700" x2="80" y2="790"/><line x1="420" y1="700" x2="420" y2="790"/><line x1="250" y1="736" x2="250" y2="754"/></g>
+<line x1="380" y1="696" x2="456" y2="696" stroke="var(--ink)" stroke-width="1.2"/><circle cx="380" cy="696" r="3.5" fill="var(--ink)"/>
+<circle cx="470" cy="696" r="14" fill="var(--accent)"/><text x="470" y="701" text-anchor="middle" font-size="15" font-weight="800" fill="var(--on-accent)">3</text>
+<text x="492" y="702" font-size="17" font-weight="700" fill="var(--ink)">Retrieval + vector DB</text>
+<g><title>2 Foundation model</title>
+<polygon points="80,794 250,830 250,846 80,810" fill="var(--core-left)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="250,830 420,794 420,810 250,846" fill="var(--core-right)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="80,794 250,758 420,794 250,830" fill="var(--core-top)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<g transform="matrix(1.7 -0.36 1.7 0.36 80 794)" stroke-width="2"><line x1="20" y1="25" x2="50" y2="20" class="dl"/><line x1="20" y1="25" x2="50" y2="40" class="dl"/><line x1="20" y1="25" x2="50" y2="60" class="dl"/><line x1="20" y1="25" x2="50" y2="80" class="dl"/><line x1="20" y1="50" x2="50" y2="20" class="dl"/><line x1="20" y1="50" x2="50" y2="40" class="dl"/><line x1="20" y1="50" x2="50" y2="60" class="dl"/><line x1="20" y1="50" x2="50" y2="80" class="dl"/><line x1="20" y1="75" x2="50" y2="20" class="dl"/><line x1="20" y1="75" x2="50" y2="40" class="dl"/><line x1="20" y1="75" x2="50" y2="60" class="dl"/><line x1="20" y1="75" x2="50" y2="80" class="dl"/><line x1="50" y1="20" x2="80" y2="35" class="dl"/><line x1="50" y1="20" x2="80" y2="65" class="dl"/><line x1="50" y1="40" x2="80" y2="35" class="dl"/><line x1="50" y1="40" x2="80" y2="65" class="dl"/><line x1="50" y1="60" x2="80" y2="35" class="dl"/><line x1="50" y1="60" x2="80" y2="65" class="dl"/><line x1="50" y1="80" x2="80" y2="35" class="dl"/><line x1="50" y1="80" x2="80" y2="65" class="dl"/><circle cx="20" cy="25" r="6" class="da"/><circle cx="20" cy="50" r="6" class="da"/><circle cx="20" cy="75" r="6" class="da"/><circle cx="50" cy="20" r="6" class="da"/><circle cx="50" cy="40" r="6" class="da"/><circle cx="50" cy="60" r="6" class="da"/><circle cx="50" cy="80" r="6" class="da"/><circle cx="80" cy="35" r="6" class="da"/><circle cx="80" cy="65" r="6" class="da"/></g>
+</g>
+<line x1="44" y1="802" x2="78" y2="802" stroke="var(--edge)" stroke-width="1.2" stroke-dasharray="3 4"/>
+<g stroke="var(--detail)" stroke-width="1.2" stroke-dasharray="6 5"><line x1="80" y1="814" x2="80" y2="904"/><line x1="420" y1="814" x2="420" y2="904"/><line x1="250" y1="850" x2="250" y2="868"/></g>
+<line x1="380" y1="810" x2="456" y2="810" stroke="var(--ink)" stroke-width="1.2"/><circle cx="380" cy="810" r="3.5" fill="var(--ink)"/>
+<circle cx="470" cy="810" r="14" fill="var(--accent)"/><text x="470" y="815" text-anchor="middle" font-size="15" font-weight="800" fill="var(--on-accent)">2</text>
+<text x="492" y="816" font-size="17" font-weight="700" fill="var(--ink)">Foundation model</text>
+<g><rect x="492" y="826" width="150" height="24" rx="12" fill="none" stroke="var(--accent)" stroke-width="1.5"/><text x="567" y="843" text-anchor="middle" font-size="13" font-weight="800" fill="var(--accent-ink)" letter-spacing=".08em">↻ REPLACEABLE</text></g>
+<g><title>1 GPU infrastructure</title>
+<polygon points="80,908 250,944 250,960 80,924" fill="var(--left)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="250,944 420,908 420,924 250,960" fill="var(--right)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<polygon points="80,908 250,872 420,908 250,944" fill="var(--top)" stroke="var(--edge)" stroke-width="1.5" stroke-linejoin="round"/>
+<g transform="matrix(1.7 -0.36 1.7 0.36 80 908)" stroke-width="2"><rect x="14" y="14" width="20" height="20" class="df"/><rect x="14" y="40" width="20" height="20" class="df"/><rect x="14" y="66" width="20" height="20" class="df"/><rect x="40" y="14" width="20" height="20" class="df"/><rect x="40" y="40" width="20" height="20" class="df"/><rect x="40" y="66" width="20" height="20" class="df"/><rect x="66" y="14" width="20" height="20" class="df"/><rect x="66" y="40" width="20" height="20" class="df"/><rect x="66" y="66" width="20" height="20" class="df"/><line x1="24" y1="4" x2="24" y2="10" class="dl"/><line x1="4" y1="24" x2="10" y2="24" class="dl"/><line x1="50" y1="4" x2="50" y2="10" class="dl"/><line x1="4" y1="50" x2="10" y2="50" class="dl"/><line x1="76" y1="4" x2="76" y2="10" class="dl"/><line x1="4" y1="76" x2="10" y2="76" class="dl"/></g>
+</g>
+<line x1="44" y1="916" x2="78" y2="916" stroke="var(--edge)" stroke-width="1.2" stroke-dasharray="3 4"/>
+<line x1="380" y1="924" x2="456" y2="924" stroke="var(--ink)" stroke-width="1.2"/><circle cx="380" cy="924" r="3.5" fill="var(--ink)"/>
+<circle cx="470" cy="924" r="14" fill="var(--accent)"/><text x="470" y="929" text-anchor="middle" font-size="15" font-weight="800" fill="var(--on-accent)">1</text>
+<text x="492" y="930" font-size="17" font-weight="700" fill="var(--ink)">GPU infrastructure</text>
+<circle cx="29" cy="46" r="14" fill="var(--accent)"/><text x="29" y="51" text-anchor="middle" font-size="15" font-weight="800" fill="var(--on-accent)">9</text>
+<line x1="29" y1="60" x2="29" y2="74" stroke="var(--ink)" stroke-width="1.2"/>
+<text x="50" y="52" font-size="17" font-weight="700" fill="var(--ink)">Logging &amp; evals</text>
+<rect x="690" y="24" width="490" height="664" rx="10" fill="var(--panel)" stroke="var(--edge)" stroke-width="1.2"/>
+<text x="708" y="58" font-size="20" font-weight="800" fill="var(--ink)" letter-spacing=".06em">BILL OF MATERIALS</text>
+<g font-size="13" font-weight="700" fill="var(--muted)" letter-spacing=".08em"><text x="708" y="90">#</text><text x="734" y="90">PART · WHAT IT DOES</text><text x="1164" y="90" text-anchor="end">ATTACHES</text></g>
+<line x1="702" y1="100" x2="1168" y2="100" stroke="var(--edge)" stroke-width="1.5"/>
+<circle cx="714" cy="126" r="12" fill="var(--accent)"/><text x="714" y="131" text-anchor="middle" font-size="14" font-weight="800" fill="var(--on-accent)">1</text>
+<text x="734" y="131" font-size="16" font-weight="700" fill="var(--ink)">GPU infrastructure</text>
+<text x="1164" y="131" text-anchor="end" font-size="14" font-style="italic" fill="var(--muted)">Base plate</text>
+<text x="734" y="154" font-size="14.5" fill="var(--ink-soft)">Data-center accelerator chips that run the model's math</text>
+<line x1="702" y1="167" x2="1168" y2="167" stroke="var(--rule)" stroke-width="1"/>
+<circle cx="714" cy="190" r="12" fill="var(--accent)"/><text x="714" y="195" text-anchor="middle" font-size="14" font-weight="800" fill="var(--on-accent)">2</text>
+<text x="734" y="195" font-size="16" font-weight="700" fill="var(--ink)">Foundation model</text>
+<text x="1164" y="195" text-anchor="end" font-size="14" font-style="italic" fill="var(--muted)">Loads onto the GPUs</text>
+<text x="734" y="218" font-size="14.5" fill="var(--ink-soft)">A neural network trained on vast text; predicts next token</text>
+<line x1="702" y1="231" x2="1168" y2="231" stroke="var(--rule)" stroke-width="1"/>
+<circle cx="714" cy="254" r="12" fill="var(--accent)"/><text x="714" y="259" text-anchor="middle" font-size="14" font-weight="800" fill="var(--on-accent)">3</text>
+<text x="734" y="259" font-size="16" font-weight="700" fill="var(--ink)">Retrieval + vector DB</text>
+<text x="1164" y="259" text-anchor="end" font-size="14" font-style="italic" fill="var(--muted)">Called by orchestration</text>
+<text x="734" y="282" font-size="14.5" fill="var(--ink-soft)">Finds passages in your documents by meaning</text>
+<line x1="702" y1="295" x2="1168" y2="295" stroke="var(--rule)" stroke-width="1"/>
+<circle cx="714" cy="318" r="12" fill="var(--accent)"/><text x="714" y="323" text-anchor="middle" font-size="14" font-weight="800" fill="var(--on-accent)">4</text>
+<text x="734" y="323" font-size="16" font-weight="700" fill="var(--ink)">Tools / APIs</text>
+<text x="1164" y="323" text-anchor="end" font-size="14" font-style="italic" fill="var(--muted)">Plug in via function calls</text>
+<text x="734" y="346" font-size="14.5" fill="var(--ink-soft)">Let the assistant search, run code or take actions</text>
+<line x1="702" y1="359" x2="1168" y2="359" stroke="var(--rule)" stroke-width="1"/>
+<circle cx="714" cy="382" r="12" fill="var(--accent)"/><text x="714" y="387" text-anchor="middle" font-size="14" font-weight="800" fill="var(--on-accent)">5</text>
+<text x="734" y="387" font-size="16" font-weight="700" fill="var(--ink)">Orchestration</text>
+<text x="1164" y="387" text-anchor="end" font-size="14" font-style="italic" fill="var(--muted)">Wires every part together</text>
+<text x="734" y="410" font-size="14.5" fill="var(--ink-soft)">App code that builds each request and runs the loop</text>
+<line x1="702" y1="423" x2="1168" y2="423" stroke="var(--rule)" stroke-width="1"/>
+<circle cx="714" cy="446" r="12" fill="var(--accent)"/><text x="714" y="451" text-anchor="middle" font-size="14" font-weight="800" fill="var(--on-accent)">6</text>
+<text x="734" y="451" font-size="16" font-weight="700" fill="var(--ink)">System prompt</text>
+<text x="1164" y="451" text-anchor="end" font-size="14" font-style="italic" fill="var(--muted)">Prepended to each request</text>
+<text x="734" y="474" font-size="14.5" fill="var(--ink-soft)">Hidden instructions that set role, tone and rules</text>
+<line x1="702" y1="487" x2="1168" y2="487" stroke="var(--rule)" stroke-width="1"/>
+<circle cx="714" cy="510" r="12" fill="var(--accent)"/><text x="714" y="515" text-anchor="middle" font-size="14" font-weight="800" fill="var(--on-accent)">7</text>
+<text x="734" y="515" font-size="16" font-weight="700" fill="var(--ink)">Guardrails</text>
+<text x="1164" y="515" text-anchor="end" font-size="14" font-style="italic" fill="var(--muted)">Wrap input and output</text>
+<text x="734" y="538" font-size="14.5" fill="var(--ink-soft)">Screen what goes in and what comes out for harm</text>
+<line x1="702" y1="551" x2="1168" y2="551" stroke="var(--rule)" stroke-width="1"/>
+<circle cx="714" cy="574" r="12" fill="var(--accent)"/><text x="714" y="579" text-anchor="middle" font-size="14" font-weight="800" fill="var(--on-accent)">8</text>
+<text x="734" y="579" font-size="16" font-weight="700" fill="var(--ink)">User interface</text>
+<text x="1164" y="579" text-anchor="end" font-size="14" font-style="italic" fill="var(--muted)">Snaps on top</text>
+<text x="734" y="602" font-size="14.5" fill="var(--ink-soft)">The chat window, app or voice screen you use</text>
+<line x1="702" y1="615" x2="1168" y2="615" stroke="var(--rule)" stroke-width="1"/>
+<circle cx="714" cy="638" r="12" fill="var(--accent)"/><text x="714" y="643" text-anchor="middle" font-size="14" font-weight="800" fill="var(--on-accent)">9</text>
+<text x="734" y="643" font-size="16" font-weight="700" fill="var(--ink)">Logging &amp; evals</text>
+<text x="1164" y="643" text-anchor="end" font-size="14" font-style="italic" fill="var(--muted)">Runs beside all layers</text>
+<text x="734" y="666" font-size="14.5" fill="var(--ink-soft)">Records runs and tests answer quality over time</text>
+<rect x="690" y="720" width="490" height="214" rx="10" fill="var(--panel)" stroke="var(--edge)" stroke-width="1.2"/>
+<text x="708" y="752" font-size="16" font-weight="800" fill="var(--ink)" letter-spacing=".06em">HOW ONE MESSAGE TRAVELS</text>
+<text x="708" y="786" font-size="15" font-weight="800" fill="var(--accent-ink)">8 → 7</text><text x="780" y="786" font-size="15" fill="var(--ink)">Your message is screened by input guardrails</text>
+<text x="708" y="816" font-size="15" font-weight="800" fill="var(--accent-ink)">5 + 6</text><text x="780" y="816" font-size="15" fill="var(--ink)">Orchestration adds the system prompt</text>
+<text x="708" y="846" font-size="15" font-weight="800" fill="var(--accent-ink)">3 · 4</text><text x="780" y="846" font-size="15" fill="var(--ink)">It fetches documents or calls tools if needed</text>
+<text x="708" y="876" font-size="15" font-weight="800" fill="var(--accent-ink)">2 on 1</text><text x="780" y="876" font-size="15" fill="var(--ink)">The model writes a reply, running on GPUs</text>
+<text x="708" y="906" font-size="15" font-weight="800" fill="var(--accent-ink)">7 → 8</text><text x="780" y="906" font-size="15" fill="var(--ink)">The reply is screened, then shown; 9 logs it</text>
+<g><rect x="690" y="962" width="490" height="48" rx="10" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="6 4"/><text x="708" y="992" font-size="16" font-weight="800" fill="var(--ink)">Assembly order: 1 → 9 <tspan font-weight="400" fill="var(--muted)">· base up, then logging alongside</tspan></text></g>
+
+  </svg>
+  </div>
+  <p class="hint">Swipe sideways to see the whole picture.</p>
+
+  <ul class="notes">
+    <li>The stack is drawn for illustration. In a real product, orchestration acts more like a hub: it calls retrieval, tools and the model, often several times for one reply.</li>
+    <li>The foundation model is the only part that generates text. Everything above it shapes what goes in and checks what comes out.</li>
+    <li>Parts are swappable: many assistants can change their model, tools or document store without rebuilding the rest.</li>
+  </ul>
+
+  <p class="takeaway">Key takeaway: a chat assistant is much more than the model. Prompts, guardrails, tools, retrieval and monitoring wrap around it to make it useful and safe.</p>
+
+  <footer>Generated with /exploded-view</footer>
+</main>
+</body>
+</html>
