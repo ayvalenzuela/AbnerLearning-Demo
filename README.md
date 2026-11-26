@@ -41,3 +41,24 @@ cd site
 python -m http.server 8765 &
 node record.js 01 02 03 04 05 06 07 08 09 10
 ```
+
+## Visual lessons: 15 slash commands
+Fifteen Claude Code skills in `.claude/skills/` turn any topic into a one-page visual lesson. Open Claude Code in this repo and type a format followed by a topic, for example `/iceberg coffee` or `/flowchart our refund process`. Each command writes a self-contained HTML page to `lessons/`, with a hand-drawn SVG that works in light and dark mode. The rules all 15 share are in `.claude/visual-lessons/CONVENTIONS.md`. For a worked example, see [`lessons/coffee-iceberg.html`](lessons/coffee-iceberg.html).
+
+| Command | Shape | Best for |
+|---|---|---|
+| `/blueprint` | Technical blueprint with labelled parts | How a machine or system works |
+| `/roadmap` | Winding path with numbered stops | Step-by-step journeys |
+| `/handwritten` | Notebook notes with highlights | Revision |
+| `/decision-matrix` | Options scored side by side | Comparing choices |
+| `/flowchart` | Steps with decisions and branches | Processes with options |
+| `/infographic` | Clean visual summary | Quick overviews |
+| `/canvas` | Whiteboard of sticky notes | Business ideas and planning |
+| `/layers` | Cross-section of each layer | What something is made of |
+| `/cycle` | Loop of repeating stages | Life cycles and routines |
+| `/diagram` | Labelled anatomy of one object | The parts of a single thing |
+| `/sketchnotes` | Doodles and notes on one page | Visual learners |
+| `/iceberg` | Seen vs. hidden below | Hidden factors and depth |
+| `/exploded-view` | Product pulled apart | Products and assembly |
+| `/tree` | Family tree of categories | Types and groups |
+| `/timeline` | Key dates in order | History and milestones |

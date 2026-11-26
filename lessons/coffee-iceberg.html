@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coffee Iceberg</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f8fb; --ink: #0f2233; --muted: #4d6274;
+    --sky: #dcebf6; --water-top: #4f9bd1; --water-deep: #0b2f52;
+    --ice: #ffffff; --ice-edge: #b9d6ea; --berg-top: #cfe6f6; --berg-deep: #6fa3c8;
+    --pill: rgba(255,255,255,.88); --pill-ink: #0f2233; --accent: #c2410c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0b1520; --ink: #e6eef5; --muted: #9fb3c4;
+      --sky: #13263a; --water-top: #1d5f90; --water-deep: #04121f;
+      --ice: #e9f3fb; --ice-edge: #7fa9c7; --berg-top: #8fbcdc; --berg-deep: #2c5b80;
+      --pill: rgba(8,22,36,.82); --pill-ink: #e6eef5; --accent: #fb923c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.5; }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 16px 48px; }
+  h1 { font-size: clamp(28px, 5vw, 44px); margin: 0 0 4px; letter-spacing: -.02em; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  .figure { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 16px; }
+  svg { width: 100%; min-width: 760px; height: auto; display: block; }
+  .hint { display: none; font-size: 13px; color: var(--muted); margin: 6px 0 0; }
+  @media (max-width: 760px) { .hint { display: block; } }
+  svg text { font-family: inherit; }
+  .notes { margin-top: 24px; padding-left: 20px; color: var(--muted); }
+  .notes li { margin: 4px 0; }
+  .takeaway { margin-top: 24px; padding: 16px 20px; border-left: 4px solid var(--accent);
+              background: var(--sky); border-radius: 8px; font-weight: 600; }
+  footer { margin-top: 32px; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Coffee</h1>
+  <p class="sub">Iceberg view · what you see in the cup versus what's hidden below it</p>
+
+  <div class="figure">
+  <svg viewBox="0 0 1200 920" role="img" aria-label="An iceberg of coffee: above the water are the cup, the drink style, the caffeine and the price; below are brewing choices, then bean, processing and growing conditions, and deepest of all the farm, the harvest and the supply chain.">
+    <defs>
+      <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="var(--water-top)"/>
+        <stop offset="1" stop-color="var(--water-deep)"/>
+      </linearGradient>
+      <linearGradient id="berg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="var(--berg-top)"/>
+        <stop offset="1" stop-color="var(--berg-deep)"/>
+      </linearGradient>
+    </defs>
+
+    <!-- sky and water -->
+    <rect x="0" y="0" width="1200" height="270" fill="var(--sky)"/>
+    <rect x="0" y="270" width="1200" height="650" fill="url(#water)"/>
+
+    <!-- iceberg below water -->
+    <path d="M470 270 L330 360 L250 500 L210 640 L270 790 L420 880 L620 900 L820 870 L960 780 L1000 630 L950 470 L860 350 L740 270 Z"
+          fill="url(#berg)" opacity=".92"><title>The hidden part of the iceberg</title></path>
+    <!-- tip above water -->
+    <path d="M470 270 L520 180 L575 120 L615 95 L660 140 L700 200 L740 270 Z"
+          fill="var(--ice)" stroke="var(--ice-edge)" stroke-width="3"><title>The visible tip of the iceberg</title></path>
+
+    <!-- waterline -->
+    <line x1="0" y1="270" x2="1200" y2="270" stroke="var(--ice)" stroke-width="3" stroke-dasharray="10 8" opacity=".9"/>
+    <text x="1170" y="256" text-anchor="end" font-size="18" font-weight="800" fill="var(--ink)">What you see ▲</text>
+    <text x="1170" y="300" text-anchor="end" font-size="18" font-weight="800" fill="#ffffff">▼ What actually shapes it</text>
+
+    <!-- above-water items -->
+    <g font-size="18" font-weight="600" fill="var(--ink)">
+      <text x="400" y="130" text-anchor="end">The cup in your hand</text>
+      <line x1="408" y1="124" x2="560" y2="150" stroke="var(--muted)" stroke-width="1.5"/>
+      <text x="400" y="200" text-anchor="end">Espresso, latte or drip</text>
+      <line x1="408" y1="194" x2="520" y2="210" stroke="var(--muted)" stroke-width="1.5"/>
+      <text x="800" y="130">The caffeine kick</text>
+      <line x1="792" y1="124" x2="650" y2="140" stroke="var(--muted)" stroke-width="1.5"/>
+      <text x="800" y="200">The price on the menu</text>
+      <line x1="792" y1="194" x2="690" y2="200" stroke="var(--muted)" stroke-width="1.5"/>
+    </g>
+
+    <!-- depth bands -->
+    <g stroke="#ffffff" stroke-opacity=".35" stroke-width="1.5" stroke-dasharray="4 6">
+      <line x1="0" y1="470" x2="1200" y2="470"/>
+      <line x1="0" y1="680" x2="1200" y2="680"/>
+    </g>
+    <g font-size="15" font-weight="800" fill="#ffffff" letter-spacing=".08em">
+      <text x="24" y="330">UNDER THE SURFACE</text>
+      <text x="24" y="352" font-weight="400" font-size="14" letter-spacing="0" opacity=".85">How it's made in the café</text>
+      <text x="24" y="510">DEEP</text>
+      <text x="24" y="532" font-weight="400" font-size="14" letter-spacing="0" opacity=".85">The bean itself</text>
+      <text x="24" y="720">DEEPEST</text>
+      <text x="24" y="742" font-weight="400" font-size="14" letter-spacing="0" opacity=".85">Where it all starts</text>
+    </g>
+
+    <!-- hidden items: pills -->
+    <g font-size="17" text-anchor="middle">
+      <!-- band 1 -->
+      <g><rect x="345" y="300" width="250" height="64" rx="12" fill="var(--pill)"/>
+         <text x="470" y="327" font-weight="800" fill="var(--pill-ink)">Grind size</text>
+         <text x="470" y="350" font-size="14" fill="var(--pill-ink)">Fine for espresso, coarse for press</text></g>
+      <g><rect x="610" y="300" width="230" height="64" rx="12" fill="var(--pill)"/>
+         <text x="725" y="327" font-weight="800" fill="var(--pill-ink)">Water and ratio</text>
+         <text x="725" y="350" font-size="14" fill="var(--pill-ink)">About 90–96 °C, ~1:16 for drip</text></g>
+      <g><rect x="300" y="384" width="270" height="64" rx="12" fill="var(--pill)"/>
+         <text x="435" y="411" font-weight="800" fill="var(--pill-ink)">Roast level</text>
+         <text x="435" y="434" font-size="14" fill="var(--pill-ink)">Light keeps fruit, dark adds bitterness</text></g>
+      <g><rect x="590" y="384" width="290" height="64" rx="12" fill="var(--pill)"/>
+         <text x="735" y="411" font-weight="800" fill="var(--pill-ink)">Freshness</text>
+         <text x="735" y="434" font-size="14" fill="var(--pill-ink)">Flavor fades in weeks after roasting</text></g>
+      <!-- band 2 -->
+      <g><rect x="260" y="500" width="320" height="64" rx="12" fill="var(--pill)"/>
+         <text x="420" y="527" font-weight="800" fill="var(--pill-ink)">Species: Arabica vs. Robusta</text>
+         <text x="420" y="550" font-size="14" fill="var(--pill-ink)">Robusta has roughly twice the caffeine</text></g>
+      <g><rect x="600" y="500" width="340" height="64" rx="12" fill="var(--pill)"/>
+         <text x="770" y="527" font-weight="800" fill="var(--pill-ink)">Processing</text>
+         <text x="770" y="550" font-size="14" fill="var(--pill-ink)">Washed tastes clean, natural tastes fruity</text></g>
+      <g><rect x="380" y="584" width="440" height="64" rx="12" fill="var(--pill)"/>
+         <text x="600" y="611" font-weight="800" fill="var(--pill-ink)">Altitude and climate</text>
+         <text x="600" y="634" font-size="14" fill="var(--pill-ink)">Higher, cooler farms ripen slower and taste more complex</text></g>
+      <!-- band 3 -->
+      <g><rect x="270" y="712" width="320" height="64" rx="12" fill="var(--pill)"/>
+         <text x="430" y="739" font-weight="800" fill="var(--pill-ink)">The harvest</text>
+         <text x="430" y="762" font-size="14" fill="var(--pill-ink)">Coffee is the seed of a red cherry</text></g>
+      <g><rect x="610" y="712" width="330" height="64" rx="12" fill="var(--pill)"/>
+         <text x="775" y="739" font-weight="800" fill="var(--pill-ink)">Growing belt</text>
+         <text x="775" y="762" font-size="14" fill="var(--pill-ink)">Grown near the equator, in the tropics</text></g>
+      <g><rect x="400" y="796" width="400" height="64" rx="12" fill="var(--pill)"/>
+         <text x="600" y="823" font-weight="800" fill="var(--pill-ink)">Farmers and supply chain</text>
+         <text x="600" y="846" font-size="14" fill="var(--pill-ink)">Most is grown on small family farms</text></g>
+    </g>
+  </svg>
+  </div>
+  <p class="hint">Swipe sideways to see the whole picture.</p>
+
+  <ul class="notes">
+    <li>Most of what decides how a cup tastes is fixed long before the barista touches it: species, altitude and processing are set at the farm.</li>
+    <li>Brewing choices (grind, water, ratio) can't add flavor the bean doesn't have, but they can easily lose it.</li>
+    <li>Figures are rounded, typical values; they vary by bean, method and taste.</li>
+  </ul>
+
+  <p class="takeaway">Key takeaway: the cup is the tip. Taste is mostly decided by the bean, the farm and the processing long before brewing.</p>
+
+  <footer>Generated with /iceberg</footer>
+</main>
+</body>
+</html>
