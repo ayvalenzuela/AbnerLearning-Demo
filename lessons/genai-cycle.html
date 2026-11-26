@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GenAI Life Cycle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f7fb; --ink: #1a1d2e; --muted: #535d78;
+    --ring: #c5cbe0; --arrow: #6b7393;
+    --node: #4338ca; --node-ink: #ffffff; --node-halo: #e0e3f7;
+    --center: #eceffb; --center-edge: #c9cfee;
+    --accent: #c2410c; --accent-soft: #fde7da; --panel: #e6e9f6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1220; --ink: #e8eaf6; --muted: #a8b0cc;
+      --ring: #3b4266; --arrow: #8d95b8;
+      --node: #818cf8; --node-ink: #0f1220; --node-halo: #252b4d;
+      --center: #181d36; --center-edge: #343c66;
+      --accent: #fb923c; --accent-soft: #3a2416; --panel: #1a1f38;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.5; }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 16px 48px; }
+  h1 { font-size: clamp(28px, 5vw, 44px); margin: 0 0 4px; letter-spacing: -.02em; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  .figure { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 16px; }
+  svg { width: 100%; min-width: 760px; height: auto; display: block; }
+  .hint { display: none; font-size: 13px; color: var(--muted); margin: 6px 0 0; }
+  @media (max-width: 760px) { .hint { display: block; } }
+  svg text { font-family: inherit; }
+  .t { font-size: 20px; font-weight: 800; fill: var(--ink); }
+  .d { font-size: 16px; fill: var(--muted); }
+  .notes { margin-top: 24px; padding-left: 20px; color: var(--muted); }
+  .notes li { margin: 4px 0; }
+  .takeaway { margin-top: 24px; padding: 16px 20px; border-left: 4px solid var(--accent);
+              background: var(--panel); border-radius: 8px; font-weight: 600; }
+  footer { margin-top: 32px; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>GenAI</h1>
+  <p class="sub">Cycle view · the life cycle of a generative AI model, a loop that repeats with every new generation</p>
+
+  <div class="figure">
+  <svg viewBox="0 70 1200 810" role="img" aria-label="A clockwise loop of six stages in a generative AI model's life: collect and clean data, pre-train, fine-tune and align, evaluate and red-team, deploy (where users enter), and monitor usage and feedback, which leads back to data for the next model generation.">
+    <defs>
+      <marker id="head" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 Z" fill="var(--arrow)"/>
+      </marker>
+      <marker id="head-accent" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 Z" fill="var(--accent)"/>
+      </marker>
+      <marker id="head-node" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto">
+        <path d="M0 0 L10 5 L0 10 Z" fill="var(--node)"/>
+      </marker>
+    </defs>
+
+    <!-- ring -->
+    <circle cx="600" cy="470" r="240" fill="none" stroke="var(--ring)" stroke-width="2" stroke-dasharray="3 7"/>
+
+    <!-- clockwise arrows between stages -->
+    <g fill="none" stroke="var(--arrow)" stroke-width="4" stroke-linecap="round" marker-end="url(#head)">
+      <path d="M662.1 238.2 A240 240 0 0 1 769.7 300.3"/>
+      <path d="M831.8 407.9 A240 240 0 0 1 831.8 532.1"/>
+      <path d="M769.7 639.7 A240 240 0 0 1 662.1 701.8"/>
+      <path d="M537.9 701.8 A240 240 0 0 1 430.3 639.7"/>
+      <path d="M368.2 532.1 A240 240 0 0 1 368.2 407.9"/>
+      <path d="M430.3 300.3 A240 240 0 0 1 537.9 238.2"><title>Feedback flows back into the data for the next model</title></path>
+    </g>
+    <text x="462" y="228" text-anchor="end" font-size="15" font-style="italic" font-weight="600" fill="var(--muted)">back to data for</text>
+    <text x="462" y="248" text-anchor="end" font-size="15" font-style="italic" font-weight="600" fill="var(--muted)">the next model</text>
+
+    <!-- branch: failed evaluation goes back to tuning -->
+    <path d="M634.7 667 Q 712 672 744 612" fill="none" stroke="var(--arrow)" stroke-width="2.5" stroke-dasharray="6 6" marker-end="url(#head)"><title>If tests find problems, the model goes back for more tuning</title></path>
+    <text x="702" y="620" text-anchor="middle" font-size="14" font-weight="600" fill="var(--muted)">not ready?</text>
+    <text x="702" y="636" text-anchor="middle" font-size="14" font-weight="600" fill="var(--muted)">tune again</text>
+
+    <!-- centre -->
+    <circle cx="600" cy="470" r="150" fill="var(--center)" stroke="var(--center-edge)" stroke-width="2"><title>The GenAI model life cycle</title></circle>
+    <path d="M618 404 A19 19 0 1 1 609.5 387.5" fill="none" stroke="var(--node)" stroke-width="3.5" stroke-linecap="round" marker-end="url(#head-node)"/>
+    <text x="600" y="466" text-anchor="middle" font-size="28" font-weight="800" fill="var(--ink)">The GenAI</text>
+    <text x="600" y="499" text-anchor="middle" font-size="28" font-weight="800" fill="var(--ink)">model life cycle</text>
+    <text x="600" y="532" text-anchor="middle" font-size="16" fill="var(--muted)">Repeats with each new</text>
+    <text x="600" y="553" text-anchor="middle" font-size="16" fill="var(--muted)">model generation</text>
+
+    <!-- users enter at deploy -->
+    <line x1="232" y1="752" x2="350" y2="634" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" marker-end="url(#head-accent)"><title>Users enter the cycle at deployment</title></line>
+    <g fill="var(--accent)">
+      <circle cx="206" cy="764" r="11"/>
+      <path d="M186 806 Q186 780 206 780 Q226 780 226 806 Z"/>
+    </g>
+    <text x="206" y="834" text-anchor="middle" font-size="18" font-weight="800" fill="var(--accent)">Users enter here</text>
+
+    <!-- nodes -->
+    <g text-anchor="middle" font-size="26" font-weight="800">
+      <g><circle cx="600" cy="230" r="54" fill="var(--node-halo)"/><circle cx="600" cy="230" r="44" fill="var(--node)"><title>Stage 1: collect and clean data</title></circle>
+         <text x="600" y="239" fill="var(--node-ink)">1</text></g>
+      <g><circle cx="807.8" cy="350" r="54" fill="var(--node-halo)"/><circle cx="807.8" cy="350" r="44" fill="var(--node)"><title>Stage 2: pre-train</title></circle>
+         <text x="807.8" y="359" fill="var(--node-ink)">2</text></g>
+      <g><circle cx="807.8" cy="590" r="54" fill="var(--node-halo)"/><circle cx="807.8" cy="590" r="44" fill="var(--node)"><title>Stage 3: fine-tune and align</title></circle>
+         <text x="807.8" y="599" fill="var(--node-ink)">3</text></g>
+      <g><circle cx="600" cy="710" r="54" fill="var(--node-halo)"/><circle cx="600" cy="710" r="44" fill="var(--node)"><title>Stage 4: evaluate and red-team</title></circle>
+         <text x="600" y="719" fill="var(--node-ink)">4</text></g>
+      <g><circle cx="392.2" cy="590" r="54" fill="var(--accent-soft)"/><circle cx="392.2" cy="590" r="44" fill="var(--accent)"><title>Stage 5: deploy, where users enter</title></circle>
+         <text x="392.2" y="599" fill="var(--node-ink)">5</text></g>
+      <g><circle cx="392.2" cy="350" r="54" fill="var(--node-halo)"/><circle cx="392.2" cy="350" r="44" fill="var(--node)"><title>Stage 6: monitor usage and feedback</title></circle>
+         <text x="392.2" y="359" fill="var(--node-ink)">6</text></g>
+    </g>
+
+    <!-- stage labels -->
+    <g text-anchor="middle">
+      <text class="t" x="600" y="104">Collect &amp; clean data</text>
+      <text class="d" x="600" y="130">Gather huge amounts of text, code and images,</text>
+      <text class="d" x="600" y="151">then remove duplicates, spam and harmful content.</text>
+    </g>
+    <g>
+      <text class="t" x="880" y="320">Pre-train</text>
+      <text class="d" x="880" y="346">Learns patterns by predicting the</text>
+      <text class="d" x="880" y="367">next token, across the whole dataset.</text>
+      <text class="d" x="880" y="388">The slowest, costliest step.</text>
+    </g>
+    <g>
+      <text class="t" x="880" y="560">Fine-tune &amp; align</text>
+      <text class="d" x="880" y="586">Example chats teach it to follow</text>
+      <text class="d" x="880" y="607">instructions; human feedback (RLHF)</text>
+      <text class="d" x="880" y="628">steers it to helpful, safe answers.</text>
+    </g>
+    <g text-anchor="middle">
+      <text class="t" x="600" y="808">Evaluate &amp; red-team</text>
+      <text class="d" x="600" y="834">Benchmarks test its skills; red-teamers try to</text>
+      <text class="d" x="600" y="855">make it misbehave so the gaps can be fixed.</text>
+    </g>
+    <g text-anchor="end">
+      <text class="t" x="320" y="560" fill="var(--accent)" style="fill:var(--accent)">Deploy</text>
+      <text class="d" x="320" y="586">Released in apps and APIs.</text>
+      <text class="d" x="320" y="607">This is where users come in.</text>
+    </g>
+    <g text-anchor="end">
+      <text class="t" x="320" y="320">Monitor usage &amp; feedback</text>
+      <text class="d" x="320" y="346">Track errors, misuse and user</text>
+      <text class="d" x="320" y="367">ratings to learn what to fix</text>
+      <text class="d" x="320" y="388">in the next version.</text>
+    </g>
+  </svg>
+  </div>
+  <p class="hint">Swipe sideways to see the whole picture.</p>
+
+  <ul class="notes">
+    <li>A "token" is a small piece of text, often part of a word. Pre-training is just guessing the next one, repeated across an enormous dataset.</li>
+    <li>RLHF means reinforcement learning from human feedback: people rate or rank answers, and the model is trained toward the ones they prefer.</li>
+    <li>Red-teaming is deliberate attack testing, where people try to make the model produce harmful or wrong output before the public does.</li>
+    <li>Monitoring never really stops. Problems seen after launch become the data and tests for the next model.</li>
+  </ul>
+
+  <p class="takeaway">Key takeaway: a GenAI model is never "finished". What users do after launch feeds straight back into the data that shapes the next generation.</p>
+
+  <footer>Generated with /cycle</footer>
+</main>
+</body>
+</html>
