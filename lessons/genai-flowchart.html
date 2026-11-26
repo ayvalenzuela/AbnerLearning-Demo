@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Choosing a GenAI Approach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f7fa; --ink: #14202e; --muted: #526173;
+    --panel: #eaeff5; --card: #ffffff; --edge: #b8c4d2; --line: #6b7a8c;
+    --accent: #0f766e; --accent-soft: #d6f1ed; --on-accent: #ffffff;
+    --decision: #fff6dc; --decision-edge: #c79a2b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d141c; --ink: #e5edf5; --muted: #a3b2c2;
+      --panel: #131d28; --card: #1a2633; --edge: #3d4e61; --line: #8a9bb0;
+      --accent: #2dd4bf; --accent-soft: #10332f; --on-accent: #062420;
+      --decision: #2a2414; --decision-edge: #c9a24a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.5; }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 16px 48px; }
+  h1 { font-size: clamp(28px, 5vw, 44px); margin: 0 0 4px; letter-spacing: -.02em; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  .figure { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 16px; }
+  svg { width: 100%; min-width: 760px; height: auto; display: block; }
+  .hint { display: none; font-size: 13px; color: var(--muted); margin: 6px 0 0; }
+  @media (max-width: 760px) { .hint { display: block; } }
+  svg text { font-family: inherit; }
+  .notes { margin-top: 24px; padding-left: 20px; color: var(--muted); }
+  .notes li { margin: 4px 0; }
+  .takeaway { margin-top: 24px; padding: 16px 20px; border-left: 4px solid var(--accent);
+              background: var(--panel); border-radius: 8px; font-weight: 600; }
+  footer { margin-top: 32px; font-size: 13px; color: var(--muted); }
+  /* svg classes */
+  .hp { stroke: var(--accent); stroke-width: 4; fill: none; }
+  .alt { stroke: var(--line); stroke-width: 2.5; fill: none; }
+  .dia { fill: var(--decision); stroke: var(--decision-edge); stroke-width: 2.5; }
+  .box { fill: var(--card); stroke: var(--edge); stroke-width: 2; }
+  .end { fill: var(--card); stroke: var(--line); stroke-width: 2.5; }
+  .end-hp { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 3; }
+  .t { fill: var(--ink); font-size: 18px; font-weight: 800; }
+  .s { fill: var(--muted); font-size: 15px; }
+  .q { fill: var(--ink); font-size: 17px; font-weight: 700; }
+  .yn { font-size: 15px; font-weight: 800; }
+</style>
+</head>
+<body>
+<main>
+  <h1>GenAI</h1>
+  <p class="sub">Flowchart view · should we use generative AI for this task, and which approach?</p>
+
+  <div class="figure">
+  <svg viewBox="0 0 1200 1120" role="img" aria-label="A flowchart that starts with a task and asks four questions: if the steps are fixed rules, use plain automation; if a wrong answer is costly, add human review; if the answer is in your own documents, use retrieval-augmented generation; if it must take actions, use an agent with tools; otherwise prompt a general model.">
+    <defs>
+      <marker id="ah-hp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 Z" fill="var(--accent)"/>
+      </marker>
+      <marker id="ah-alt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 Z" fill="var(--line)"/>
+      </marker>
+    </defs>
+
+    <rect x="0" y="0" width="1200" height="1120" rx="16" fill="var(--panel)"/>
+
+    <!-- ===== connectors (drawn first, under shapes) ===== -->
+    <!-- happy path spine -->
+    <line class="hp" x1="500" y1="86"  x2="500" y2="114" marker-end="url(#ah-hp)"/>
+    <line class="hp" x1="500" y1="190" x2="500" y2="218" marker-end="url(#ah-hp)"/>
+    <line class="hp" x1="500" y1="372" x2="500" y2="408" marker-end="url(#ah-hp)"/>
+    <line class="hp" x1="500" y1="562" x2="500" y2="636" marker-end="url(#ah-hp)"/>
+    <line class="hp" x1="500" y1="790" x2="500" y2="826" marker-end="url(#ah-hp)"/>
+    <line class="hp" x1="500" y1="980" x2="500" y2="1016" marker-end="url(#ah-hp)"/>
+
+    <!-- alternate branches -->
+    <line class="alt" x1="670" y1="297" x2="756" y2="297" marker-end="url(#ah-alt)"/>
+    <line class="alt" x1="330" y1="487" x2="266" y2="487" marker-end="url(#ah-alt)"/>
+    <path class="alt" d="M141 535 L141 600 L492 600" marker-end="url(#ah-alt)"/>
+    <line class="alt" x1="670" y1="715" x2="756" y2="715" marker-end="url(#ah-alt)"/>
+    <line class="alt" x1="670" y1="905" x2="756" y2="905" marker-end="url(#ah-alt)"/>
+
+    <!-- Yes / No labels -->
+    <g class="yn">
+      <text x="713" y="285" text-anchor="middle" fill="var(--ink)">Yes</text>
+      <text x="514" y="396" fill="var(--accent)">No</text>
+      <text x="298" y="475" text-anchor="middle" fill="var(--ink)">Yes</text>
+      <text x="514" y="590" fill="var(--accent)">No</text>
+      <text x="713" y="703" text-anchor="middle" fill="var(--ink)">Yes</text>
+      <text x="514" y="814" fill="var(--accent)">No</text>
+      <text x="713" y="893" text-anchor="middle" fill="var(--ink)">Yes</text>
+      <text x="514" y="1004" fill="var(--accent)">No</text>
+    </g>
+    <text x="316" y="590" font-size="14" fill="var(--muted)" text-anchor="middle">then continue</text>
+
+    <!-- ===== nodes ===== -->
+    <!-- start -->
+    <g><rect x="340" y="30" width="320" height="56" rx="28" class="end-hp"><title>Start</title></rect>
+       <text x="500" y="64" text-anchor="middle" class="t">A task you'd like help with</text></g>
+
+    <!-- step: describe -->
+    <g><rect x="320" y="118" width="360" height="72" rx="10" class="box"><title>Step: describe the task</title></rect>
+       <text x="500" y="148" text-anchor="middle" class="t">Describe the task</text>
+       <text x="500" y="172" text-anchor="middle" class="s">and what a good result looks like</text></g>
+
+    <!-- D1 -->
+    <g><path d="M500 222 L670 297 L500 372 L330 297 Z" class="dia"><title>Question: is it a fixed, rules-based process?</title></path>
+       <text x="500" y="292" text-anchor="middle" class="q">Fixed, rules-based</text>
+       <text x="500" y="314" text-anchor="middle" class="q">steps every time?</text></g>
+
+    <!-- End: plain automation -->
+    <g><rect x="760" y="261" width="420" height="72" rx="36" class="end"><title>Approach: plain automation</title></rect>
+       <text x="970" y="291" text-anchor="middle" class="t">Plain automation</text>
+       <text x="970" y="314" text-anchor="middle" class="s">Rules, scripts or a workflow tool. No AI needed.</text></g>
+
+    <!-- D2 -->
+    <g><path d="M500 412 L670 487 L500 562 L330 487 Z" class="dia"><title>Question: is a wrong answer costly?</title></path>
+       <text x="500" y="482" text-anchor="middle" class="q">Is a wrong answer</text>
+       <text x="500" y="504" text-anchor="middle" class="q">costly?</text></g>
+
+    <!-- Step: human review -->
+    <g><rect x="20" y="439" width="242" height="96" rx="10" class="box"><title>Step: add human review</title></rect>
+       <text x="141" y="471" text-anchor="middle" class="t">Add human review</text>
+       <text x="141" y="495" text-anchor="middle" class="s">A person checks each</text>
+       <text x="141" y="515" text-anchor="middle" class="s">output before it's used</text></g>
+
+    <!-- D3 -->
+    <g><path d="M500 640 L670 715 L500 790 L330 715 Z" class="dia"><title>Question: is the answer in your own documents?</title></path>
+       <text x="500" y="710" text-anchor="middle" class="q">Is the answer in</text>
+       <text x="500" y="732" text-anchor="middle" class="q">your own documents?</text></g>
+
+    <!-- End: RAG -->
+    <g><rect x="760" y="679" width="420" height="72" rx="36" class="end"><title>Approach: retrieval-augmented generation</title></rect>
+       <text x="970" y="709" text-anchor="middle" class="t">RAG: search, then answer</text>
+       <text x="970" y="732" text-anchor="middle" class="s">Find the right passages, answer from them, cite them</text></g>
+
+    <!-- D4 -->
+    <g><path d="M500 830 L670 905 L500 980 L330 905 Z" class="dia"><title>Question: does it need to take actions?</title></path>
+       <text x="500" y="900" text-anchor="middle" class="q">Does it need to</text>
+       <text x="500" y="922" text-anchor="middle" class="q">take actions?</text></g>
+
+    <!-- End: agent -->
+    <g><rect x="760" y="869" width="420" height="72" rx="36" class="end"><title>Approach: agent with tools</title></rect>
+       <text x="970" y="899" text-anchor="middle" class="t">Agent with tools</text>
+       <text x="970" y="922" text-anchor="middle" class="s">Send, book or update, with the fewest permissions</text></g>
+
+    <!-- End: prompt a general model (happy path) -->
+    <g><rect x="290" y="1020" width="420" height="72" rx="36" class="end-hp"><title>Approach: prompt a general model</title></rect>
+       <text x="500" y="1050" text-anchor="middle" class="t">Prompt a general model</text>
+       <text x="500" y="1073" text-anchor="middle" class="s">Drafting, summarizing, rewriting, brainstorming</text></g>
+
+    <!-- ===== side cards ===== -->
+    <g>
+      <rect x="760" y="40" width="420" height="150" rx="12" fill="var(--card)" stroke="var(--edge)" stroke-dasharray="6 5"/>
+      <text x="784" y="74" class="t">Examples of each question</text>
+      <text x="784" y="102" class="s">Fixed rules: "copy each new form into</text>
+      <text x="784" y="122" class="s">the spreadsheet." Own documents: "what</text>
+      <text x="784" y="142" class="s">does our leave policy say?" Actions:</text>
+      <text x="784" y="162" class="s">"book the meeting and email everyone."</text>
+    </g>
+    <g>
+      <rect x="760" y="420" width="420" height="150" rx="12" fill="var(--card)" stroke="var(--edge)" stroke-dasharray="6 5"/>
+      <text x="784" y="454" class="t">Approaches can combine</text>
+      <text x="784" y="482" class="s">An agent can also search your documents,</text>
+      <text x="784" y="502" class="s">and any approach can keep a human review</text>
+      <text x="784" y="522" class="s">step. Start with the simplest one that</text>
+      <text x="784" y="542" class="s">passes your tests on real examples.</text>
+    </g>
+
+    <!-- legend -->
+    <g>
+      <rect x="20" y="690" width="260" height="236" rx="12" fill="var(--card)" stroke="var(--edge)"/>
+      <text x="40" y="722" class="t">Key</text>
+      <rect x="40" y="740" width="54" height="26" rx="13" class="end"/>
+      <text x="106" y="759" class="s">Start or approach</text>
+      <rect x="40" y="782" width="54" height="26" rx="4" class="box"/>
+      <text x="106" y="801" class="s">Step to take</text>
+      <path d="M67 822 L94 837 L67 852 L40 837 Z" class="dia"/>
+      <text x="106" y="842" class="s">Yes / no question</text>
+      <line x1="40" y1="878" x2="94" y2="878" class="hp"/>
+      <text x="106" y="883" class="s">Most common path</text>
+      <line x1="40" y1="908" x2="94" y2="908" class="alt"/>
+      <text x="106" y="913" class="s">Other branch</text>
+    </g>
+  </svg>
+  </div>
+  <p class="hint">Swipe sideways to see the whole picture.</p>
+
+  <ul class="notes">
+    <li><strong>RAG</strong> (retrieval-augmented generation) looks up relevant passages in your own files first, so answers can point to a source you can check.</li>
+    <li>An <strong>agent</strong> is a model that can call tools, such as search, email or a database, over several steps. Limit what it can change and ask for confirmation before risky actions.</li>
+    <li>Generative models can produce fluent answers that are wrong, so the "costly?" question comes before choosing an approach.</li>
+  </ul>
+
+  <p class="takeaway">Key takeaway: use the simplest tool that works. Plain automation for fixed rules, RAG for your own documents, agents only when it must act, and a human check whenever mistakes are costly.</p>
+
+  <footer>Generated with /flowchart</footer>
+</main>
+</body>
+</html>
