@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GenAI Family Tree</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f7fa; --ink: #1a1f2e; --muted: #556072; --line: #8792a3; --panel: #e9edf3;
+    --root: #1a1f2e; --root-ink: #ffffff;
+    --sym: #64748b; --sym-t: #e6eaf0;
+    --ml: #2563eb; --ml-t: #dce7fd;
+    --gen: #c2410c; --gen-ink: #ffffff; --gen-t: #fde3d3; --gen-tt: #fff4ed;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e121a; --ink: #e8ecf4; --muted: #a3adbf; --line: #7d889b; --panel: #1a202b;
+      --root: #e8ecf4; --root-ink: #0e121a;
+      --sym: #94a3b8; --sym-t: #1f2733;
+      --ml: #6ea8ff; --ml-t: #15264a;
+      --gen: #fb923c; --gen-ink: #1a0f08; --gen-t: #4a2413; --gen-tt: #2a1810;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.5; }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 16px 48px; }
+  h1 { font-size: clamp(28px, 5vw, 44px); margin: 0 0 4px; letter-spacing: -.02em; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  .figure { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 16px; }
+  svg { width: 100%; min-width: 760px; height: auto; display: block; }
+  .hint { display: none; font-size: 13px; color: var(--muted); margin: 6px 0 0; }
+  @media (max-width: 760px) { .hint { display: block; } }
+  svg text { font-family: inherit; }
+  .notes { margin-top: 24px; padding-left: 20px; color: var(--muted); }
+  .notes li { margin: 4px 0; }
+  .takeaway { margin-top: 24px; padding: 16px 20px; border-left: 4px solid var(--gen);
+              background: var(--panel); border-radius: 8px; font-weight: 600; }
+  footer { margin-top: 32px; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>GenAI</h1>
+  <p class="sub">Tree view · the family tree of AI that leads to generative AI, best for seeing types and groups</p>
+
+  <div class="figure">
+  <svg viewBox="0 0 1200 770" role="img" aria-label="A family tree: artificial intelligence splits into symbolic AI and machine learning; machine learning splits into classic machine learning and deep learning; deep learning splits into predictive models and generative models; generative models branch by what they create into text, images, audio and music, video and code, each with example model families.">
+    <!-- connectors: root -->
+    <path d="M600 84 V108 M220 108 H760 M220 108 V132 M760 108 V132" fill="none" stroke="var(--line)" stroke-width="2.5"/>
+    <!-- connectors: machine learning -->
+    <path d="M760 188 V212 M500 212 H960 M500 212 V236 M960 212 V236" fill="none" stroke="var(--ml)" stroke-width="2.5"/>
+    <!-- connectors: deep learning -->
+    <path d="M960 292 V321 M700 321 H1050 M1050 321 V350" fill="none" stroke="var(--ml)" stroke-width="2.5"/>
+    <path d="M700 321 V350" fill="none" stroke="var(--gen)" stroke-width="2.5"/>
+
+    <!-- root -->
+    <g><rect x="440" y="20" width="320" height="64" rx="14" fill="var(--root)"><title>Root: artificial intelligence</title></rect>
+       <text x="600" y="48" text-anchor="middle" font-size="22" font-weight="800" fill="var(--root-ink)">Artificial intelligence</text>
+       <text x="600" y="70" text-anchor="middle" font-size="14" fill="var(--root-ink)" opacity=".85">machines doing tasks that need thinking</text></g>
+
+    <!-- level 1 -->
+    <g><rect x="80" y="132" width="280" height="80" rx="12" fill="var(--sym-t)" stroke="var(--sym)" stroke-width="2"><title>Symbolic AI, which does not learn from data</title></rect>
+       <text x="96" y="157" font-size="17" font-weight="800" fill="var(--ink)">Symbolic AI</text>
+       <text x="96" y="180" font-size="14" fill="var(--ink)">Hand-written rules and logic</text>
+       <text x="96" y="200" font-size="14" fill="var(--muted)">e.g. expert systems, Deep Blue</text></g>
+    <g><rect x="645" y="132" width="230" height="56" rx="12" fill="var(--ml-t)" stroke="var(--ml)" stroke-width="2"><title>Machine learning</title></rect>
+       <text x="760" y="157" text-anchor="middle" font-size="18" font-weight="800" fill="var(--ink)">Machine learning</text>
+       <text x="760" y="177" text-anchor="middle" font-size="14" fill="var(--muted)">learns patterns from data</text></g>
+
+    <!-- level 2 -->
+    <g><rect x="355" y="236" width="290" height="80" rx="12" fill="var(--ml-t)" stroke="var(--ml)" stroke-opacity=".5" stroke-width="1.5"><title>Classic machine learning</title></rect>
+       <text x="371" y="261" font-size="17" font-weight="800" fill="var(--ink)">Classic machine learning</text>
+       <text x="371" y="284" font-size="14" fill="var(--ink)">Smaller models, chosen features</text>
+       <text x="371" y="304" font-size="14" fill="var(--muted)">e.g. decision trees, spam filters</text></g>
+    <g><rect x="845" y="236" width="230" height="56" rx="12" fill="var(--ml-t)" stroke="var(--ml)" stroke-width="2"><title>Deep learning</title></rect>
+       <text x="960" y="261" text-anchor="middle" font-size="18" font-weight="800" fill="var(--ink)">Deep learning</text>
+       <text x="960" y="281" text-anchor="middle" font-size="14" fill="var(--muted)">many-layered neural networks</text></g>
+
+    <!-- level 3 -->
+    <g><rect x="910" y="350" width="280" height="80" rx="12" fill="var(--ml-t)" stroke="var(--ml)" stroke-opacity=".5" stroke-width="1.5"><title>Predictive deep learning models, the non-generative sibling</title></rect>
+       <text x="926" y="375" font-size="17" font-weight="800" fill="var(--ink)">Predictive models</text>
+       <text x="926" y="398" font-size="14" fill="var(--ink)">Label, sort or forecast</text>
+       <text x="926" y="418" font-size="14" fill="var(--muted)">e.g. image classifiers, face ID</text></g>
+    <g><rect x="565" y="350" width="270" height="64" rx="14" fill="var(--gen)"><title>Generative models: generative AI</title></rect>
+       <text x="700" y="378" text-anchor="middle" font-size="20" font-weight="800" fill="var(--gen-ink)">Generative models</text>
+       <text x="700" y="400" text-anchor="middle" font-size="14" fill="var(--gen-ink)">create new content = GenAI</text></g>
+
+    <!-- grouping caption and legend -->
+    <g>
+      <rect x="24" y="240" width="310" height="214" rx="12" fill="var(--panel)"/>
+      <text x="42" y="268" font-size="14" font-weight="800" fill="var(--muted)" letter-spacing=".08em">GROUPED BY</text>
+      <text x="42" y="292" font-size="15" fill="var(--ink)">Each split narrows its parent:</text>
+      <text x="42" y="315" font-size="15" fill="var(--ink)">1. rules vs. learning from data</text>
+      <text x="42" y="337" font-size="15" fill="var(--ink)">2. simpler models vs. deep nets</text>
+      <text x="42" y="359" font-size="15" fill="var(--ink)">3. predict vs. create</text>
+      <text x="42" y="381" font-size="15" fill="var(--ink)">4. what the model creates</text>
+      <rect x="42" y="400" width="16" height="16" rx="4" fill="var(--sym-t)" stroke="var(--sym)" stroke-width="2"/>
+      <text x="66" y="413" font-size="14" fill="var(--ink)">no learning</text>
+      <rect x="160" y="400" width="16" height="16" rx="4" fill="var(--ml-t)" stroke="var(--ml)" stroke-width="2"/>
+      <text x="184" y="413" font-size="14" fill="var(--ink)">learns from data</text>
+      <rect x="42" y="426" width="16" height="16" rx="4" fill="var(--gen)"/>
+      <text x="66" y="439" font-size="14" fill="var(--ink)">generative AI</text>
+    </g>
+
+    <!-- generative fan-out -->
+    <path d="M700 414 V466 M118 466 H1062 M118 466 V500 M354 466 V500 M590 466 V500 M826 466 V500 M1062 466 V500" fill="none" stroke="var(--gen)" stroke-width="2.5"/>
+    <g><rect x="8" y="500" width="220" height="48" rx="10" fill="var(--gen-t)" stroke="var(--gen)" stroke-width="2"><title>Generative models that create text</title></rect>
+       <text x="118" y="531" text-anchor="middle" font-size="18" font-weight="800" fill="var(--ink)">Text</text></g>
+    <path d="M22 548 V610 M22 610 H34" fill="none" stroke="var(--gen)" stroke-width="2"/>
+    <g><rect x="34" y="570" width="202" height="80" rx="10" fill="var(--gen-tt)" stroke="var(--gen)" stroke-opacity=".5" stroke-width="1.5"><title>Large language models: GPT, Claude, Gemini</title></rect>
+       <text x="46" y="594" font-size="16" font-weight="800" fill="var(--ink)">Large language models</text>
+       <text x="46" y="616" font-size="14" fill="var(--ink)">GPT, Claude, Gemini</text>
+       <text x="46" y="636" font-size="14" fill="var(--muted)">predict the next word</text></g>
+    <g><rect x="244" y="500" width="220" height="48" rx="10" fill="var(--gen-t)" stroke="var(--gen)" stroke-width="2"><title>Generative models that create images</title></rect>
+       <text x="354" y="531" text-anchor="middle" font-size="18" font-weight="800" fill="var(--ink)">Images</text></g>
+    <path d="M258 548 V708 M258 610 H270 M258 708 H270" fill="none" stroke="var(--gen)" stroke-width="2"/>
+    <g><rect x="270" y="570" width="202" height="80" rx="10" fill="var(--gen-tt)" stroke="var(--gen)" stroke-opacity=".5" stroke-width="1.5"><title>Diffusion models: Stable Diffusion, DALL·E 3</title></rect>
+       <text x="282" y="594" font-size="16" font-weight="800" fill="var(--ink)">Diffusion models</text>
+       <text x="282" y="616" font-size="14" fill="var(--ink)">Stable Diffusion, DALL·E 3</text>
+       <text x="282" y="636" font-size="14" fill="var(--muted)">turn noise into a picture</text></g>
+    <g><rect x="270" y="668" width="202" height="80" rx="10" fill="var(--gen-tt)" stroke="var(--gen)" stroke-opacity=".5" stroke-width="1.5"><title>GANs: StyleGAN</title></rect>
+       <text x="282" y="692" font-size="16" font-weight="800" fill="var(--ink)">GANs</text>
+       <text x="282" y="714" font-size="14" fill="var(--ink)">StyleGAN</text>
+       <text x="282" y="734" font-size="14" fill="var(--muted)">generator vs. critic</text></g>
+    <g><rect x="480" y="500" width="220" height="48" rx="10" fill="var(--gen-t)" stroke="var(--gen)" stroke-width="2"><title>Generative models that create audio and music</title></rect>
+       <text x="590" y="531" text-anchor="middle" font-size="18" font-weight="800" fill="var(--ink)">Audio &amp; music</text></g>
+    <path d="M494 548 V708 M494 610 H506 M494 708 H506" fill="none" stroke="var(--gen)" stroke-width="2"/>
+    <g><rect x="506" y="570" width="202" height="80" rx="10" fill="var(--gen-tt)" stroke="var(--gen)" stroke-opacity=".5" stroke-width="1.5"><title>Speech: WaveNet</title></rect>
+       <text x="518" y="594" font-size="16" font-weight="800" fill="var(--ink)">Speech</text>
+       <text x="518" y="616" font-size="14" fill="var(--ink)">WaveNet</text>
+       <text x="518" y="636" font-size="14" fill="var(--muted)">natural-sounding voices</text></g>
+    <g><rect x="506" y="668" width="202" height="80" rx="10" fill="var(--gen-tt)" stroke="var(--gen)" stroke-opacity=".5" stroke-width="1.5"><title>Music: MusicLM, Jukebox</title></rect>
+       <text x="518" y="692" font-size="16" font-weight="800" fill="var(--ink)">Music</text>
+       <text x="518" y="714" font-size="14" fill="var(--ink)">MusicLM, Jukebox</text>
+       <text x="518" y="734" font-size="14" fill="var(--muted)">songs from a prompt</text></g>
+    <g><rect x="716" y="500" width="220" height="48" rx="10" fill="var(--gen-t)" stroke="var(--gen)" stroke-width="2"><title>Generative models that create video</title></rect>
+       <text x="826" y="531" text-anchor="middle" font-size="18" font-weight="800" fill="var(--ink)">Video</text></g>
+    <path d="M730 548 V610 M730 610 H742" fill="none" stroke="var(--gen)" stroke-width="2"/>
+    <g><rect x="742" y="570" width="202" height="80" rx="10" fill="var(--gen-tt)" stroke="var(--gen)" stroke-opacity=".5" stroke-width="1.5"><title>Video models: Sora, Veo</title></rect>
+       <text x="754" y="594" font-size="16" font-weight="800" fill="var(--ink)">Video models</text>
+       <text x="754" y="616" font-size="14" fill="var(--ink)">Sora, Veo</text>
+       <text x="754" y="636" font-size="14" fill="var(--muted)">clips from a text prompt</text></g>
+    <g><rect x="952" y="500" width="220" height="48" rx="10" fill="var(--gen-t)" stroke="var(--gen)" stroke-width="2"><title>Generative models that create code</title></rect>
+       <text x="1062" y="531" text-anchor="middle" font-size="18" font-weight="800" fill="var(--ink)">Code</text></g>
+    <path d="M966 548 V610 M966 610 H978" fill="none" stroke="var(--gen)" stroke-width="2"/>
+    <g><rect x="978" y="570" width="202" height="80" rx="10" fill="var(--gen-tt)" stroke="var(--gen)" stroke-opacity=".5" stroke-width="1.5"><title>Code models: Codex, Code Llama</title></rect>
+       <text x="990" y="594" font-size="16" font-weight="800" fill="var(--ink)">Code models</text>
+       <text x="990" y="616" font-size="14" fill="var(--ink)">Codex, Code Llama</text>
+       <text x="990" y="636" font-size="14" fill="var(--muted)">write and explain code</text></g>
+  </svg>
+  </div>
+  <p class="hint">Swipe sideways to see the whole picture.</p>
+
+  <ul class="notes">
+    <li>Each level sits inside the one above: modern generative AI is built on deep learning, deep learning is part of machine learning, and machine learning is part of AI.</li>
+    <li>The output branches overlap in practice: many large language models also write code, and some models handle text, images and audio together.</li>
+    <li>Examples are well-known model families, not a complete list.</li>
+  </ul>
+
+  <p class="takeaway">Key takeaway: generative AI is one branch of the AI family tree. It is deep learning aimed at creating new content rather than labelling or predicting.</p>
+
+  <footer>Generated with /tree</footer>
+</main>
+</body>
+</html>

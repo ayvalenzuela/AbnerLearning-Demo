@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GenAI Stack Layers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f5fb; --ink: #1b1733; --muted: #57526e; --line: #8a84a6; --panel: #ebe8f6;
+    --accent: #c2410c;
+    /* layer fills, light at the top to deep at the bottom */
+    --l1: #ece7ff; --l2: #d9cffc; --l3: #b9a8f2; --l4: #7f6ad6; --l5: #4f3ea6; --l6: #2a2163;
+    --l1-ink: #1b1733; --l2-ink: #1b1733; --l3-ink: #1b1733; --l4-ink: #ffffff; --l5-ink: #ffffff; --l6-ink: #ffffff;
+    --side: #1b1733; --top: #f7f4ff; --tex: #1b1733; --tex2: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #100e1c; --ink: #ece9fb; --muted: #aaa4c6; --line: #8f88b5; --panel: #1d1a31;
+      --accent: #fb923c;
+      --l1: #5b4ab8; --l2: #4b3c9e; --l3: #3d3184; --l4: #30276b; --l5: #251e54; --l6: #1a1540;
+      --l1-ink: #ffffff; --l2-ink: #ffffff; --l3-ink: #ffffff; --l4-ink: #ffffff; --l5-ink: #ffffff; --l6-ink: #ffffff;
+      --side: #000000; --top: #7564d0; --tex: #ffffff; --tex2: #ffffff;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.5; }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 16px 48px; }
+  h1 { font-size: clamp(28px, 5vw, 44px); margin: 0 0 4px; letter-spacing: -.02em; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  .figure { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 16px; }
+  svg { width: 100%; min-width: 760px; height: auto; display: block; }
+  .hint { display: none; font-size: 13px; color: var(--muted); margin: 6px 0 0; }
+  @media (max-width: 760px) { .hint { display: block; } }
+  svg text { font-family: inherit; }
+  .notes { margin-top: 24px; padding-left: 20px; color: var(--muted); }
+  .notes li { margin: 4px 0; }
+  .takeaway { margin-top: 24px; padding: 16px 20px; border-left: 4px solid var(--accent);
+              background: var(--panel); border-radius: 8px; font-weight: 600; }
+  footer { margin-top: 32px; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>GenAI</h1>
+  <p class="sub">Layers view · a cross-section of the generative AI stack, best for seeing what it is made of</p>
+
+  <div class="figure">
+  <svg viewBox="0 52 1200 828" role="img" aria-label="A cross-section of the generative AI stack in six layers, from top to bottom: applications, orchestration with agents and tools, foundation models, training data, cloud and compute, and chips and energy, each labelled on the right with what it does and one fact.">
+    <defs>
+      <pattern id="tex-dots" width="14" height="14" patternUnits="userSpaceOnUse">
+        <circle cx="7" cy="7" r="2" fill="var(--tex)"/>
+      </pattern>
+      <pattern id="tex-dots2" width="14" height="14" patternUnits="userSpaceOnUse">
+        <circle cx="7" cy="7" r="2" fill="var(--tex2)"/>
+      </pattern>
+      <pattern id="tex-grid" width="18" height="18" patternUnits="userSpaceOnUse">
+        <path d="M18 0H0V18" fill="none" stroke="var(--tex2)" stroke-width="1.5"/>
+      </pattern>
+      <pattern id="tex-diag" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="12" stroke="var(--tex)" stroke-width="2"/>
+      </pattern>
+      <pattern id="tex-wave" width="24" height="12" patternUnits="userSpaceOnUse">
+        <path d="M0 6 Q6 0 12 6 T24 6" fill="none" stroke="var(--tex)" stroke-width="1.5"/>
+      </pattern>
+      <pattern id="tex-chip" width="22" height="22" patternUnits="userSpaceOnUse">
+        <rect x="5" y="5" width="12" height="12" fill="none" stroke="var(--tex)" stroke-width="1.5"/>
+      </pattern>
+      <pattern id="tex-bolt" width="20" height="20" patternUnits="userSpaceOnUse">
+        <path d="M11 2 L6 11 H10 L8 18 L14 8 H10 Z" fill="var(--tex2)"/>
+      </pattern>
+      <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 Z" fill="var(--muted)"/>
+      </marker>
+    </defs>
+
+    <!-- direction arrow -->
+    <text x="44" y="96" text-anchor="middle" font-size="15" font-weight="800" fill="var(--muted)" letter-spacing=".08em">TOP</text>
+    <line x1="44" y1="110" x2="44" y2="792" stroke="var(--muted)" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="44" y="824" text-anchor="middle" font-size="15" font-weight="800" fill="var(--muted)" letter-spacing=".08em">BOTTOM</text>
+    <text transform="translate(30 450) rotate(-90)" text-anchor="middle" font-size="14" fill="var(--muted)">closest to the user → closest to the hardware</text>
+
+    <!-- top face of the slab -->
+    <polygon points="90,110 140,70 610,70 560,110" fill="var(--top)" stroke="var(--line)" stroke-width="1.5"><title>Top surface: what the user sees</title></polygon>
+
+    <!-- band 1: applications -->
+    <g>
+      <rect x="90" y="110" width="470" height="115" fill="var(--l1)"><title>Layer 1: applications</title></rect>
+      <rect x="430" y="122" width="118" height="91" fill="url(#tex-dots)" opacity=".18"/>
+      <polygon points="560,110 610,70 610,185 560,225" fill="var(--l1)"/>
+      <polygon points="560,110 610,70 610,185 560,225" fill="var(--side)" opacity=".18"/>
+      <text x="116" y="160" font-size="22" font-weight="800" fill="var(--l1-ink)">1 · Applications</text>
+      <text x="116" y="190" font-size="15" fill="var(--l1-ink)">Chat · writing · images · search</text>
+    </g>
+    <!-- band 2: orchestration -->
+    <g>
+      <rect x="90" y="225" width="470" height="115" fill="var(--l2)"><title>Layer 2: orchestration, agents and tools</title></rect>
+      <rect x="430" y="237" width="118" height="91" fill="url(#tex-wave)" opacity=".22"/>
+      <polygon points="560,225 610,185 610,300 560,340" fill="var(--l2)"/>
+      <polygon points="560,225 610,185 610,300 560,340" fill="var(--side)" opacity=".18"/>
+      <text x="116" y="275" font-size="22" font-weight="800" fill="var(--l2-ink)">2 · Orchestration &amp; agents</text>
+      <text x="116" y="305" font-size="15" fill="var(--l2-ink)">Retrieval · tool calls · agent loops</text>
+    </g>
+    <!-- band 3: foundation models -->
+    <g>
+      <rect x="90" y="340" width="470" height="115" fill="var(--l3)"><title>Layer 3: foundation models</title></rect>
+      <rect x="430" y="352" width="118" height="91" fill="url(#tex-diag)" opacity=".18"/>
+      <polygon points="560,340 610,300 610,415 560,455" fill="var(--l3)"/>
+      <polygon points="560,340 610,300 610,415 560,455" fill="var(--side)" opacity=".18"/>
+      <text x="116" y="390" font-size="22" font-weight="800" fill="var(--l3-ink)">3 · Foundation models</text>
+      <text x="116" y="420" font-size="15" fill="var(--l3-ink)">Language, image and video models</text>
+    </g>
+    <!-- band 4: training data -->
+    <g>
+      <rect x="90" y="455" width="470" height="115" fill="var(--l4)"><title>Layer 4: training data</title></rect>
+      <rect x="430" y="467" width="118" height="91" fill="url(#tex-dots2)" opacity=".3"/>
+      <polygon points="560,455 610,415 610,530 560,570" fill="var(--l4)"/>
+      <polygon points="560,455 610,415 610,530 560,570" fill="var(--side)" opacity=".22"/>
+      <text x="116" y="505" font-size="22" font-weight="800" fill="var(--l4-ink)">4 · Training data</text>
+      <text x="116" y="535" font-size="15" fill="var(--l4-ink)">Web text · books · code · images</text>
+    </g>
+    <!-- band 5: compute -->
+    <g>
+      <rect x="90" y="570" width="470" height="115" fill="var(--l5)"><title>Layer 5: cloud and compute</title></rect>
+      <rect x="430" y="582" width="118" height="91" fill="url(#tex-grid)" opacity=".3"/>
+      <polygon points="560,570 610,530 610,645 560,685" fill="var(--l5)"/>
+      <polygon points="560,570 610,530 610,645 560,685" fill="var(--side)" opacity=".25"/>
+      <text x="116" y="620" font-size="22" font-weight="800" fill="var(--l5-ink)">5 · Cloud &amp; compute</text>
+      <text x="116" y="650" font-size="15" fill="var(--l5-ink)">GPU clusters · data centers</text>
+    </g>
+    <!-- band 6: chips & energy -->
+    <g>
+      <rect x="90" y="685" width="470" height="115" fill="var(--l6)"><title>Layer 6: chips and energy</title></rect>
+      <rect x="430" y="697" width="118" height="91" fill="url(#tex-bolt)" opacity=".35"/>
+      <polygon points="560,685 610,645 610,760 560,800" fill="var(--l6)"/>
+      <polygon points="560,685 610,645 610,760 560,800" fill="var(--side)" opacity=".3"/>
+      <text x="116" y="735" font-size="22" font-weight="800" fill="var(--l6-ink)">6 · Chips &amp; energy</text>
+      <text x="116" y="765" font-size="15" fill="var(--l6-ink)">Chip factories · power · cooling</text>
+    </g>
+    <!-- slab outline -->
+    <path d="M90 110 V800 H560 L610 760 V70" fill="none" stroke="var(--line)" stroke-width="1.5"/>
+    <g stroke="var(--line)" stroke-width="1" opacity=".6">
+      <line x1="90" y1="225" x2="560" y2="225"/><line x1="560" y1="225" x2="610" y2="185"/>
+      <line x1="90" y1="340" x2="560" y2="340"/><line x1="560" y1="340" x2="610" y2="300"/>
+      <line x1="90" y1="455" x2="560" y2="455"/><line x1="560" y1="455" x2="610" y2="415"/>
+      <line x1="90" y1="570" x2="560" y2="570"/><line x1="560" y1="570" x2="610" y2="530"/>
+      <line x1="90" y1="685" x2="560" y2="685"/><line x1="560" y1="685" x2="610" y2="645"/>
+    </g>
+
+    <!-- leader lines -->
+    <g stroke="var(--line)" stroke-width="1.5" fill="none">
+      <polyline points="585,147 630,147 650,133"/>
+      <polyline points="585,262 630,262 650,248"/>
+      <polyline points="585,377 630,377 650,363"/>
+      <polyline points="585,492 630,492 650,478"/>
+      <polyline points="585,607 630,607 650,593"/>
+      <polyline points="585,722 630,722 650,708"/>
+    </g>
+    <g fill="var(--accent)">
+      <circle cx="585" cy="147" r="4.5"/><circle cx="585" cy="262" r="4.5"/><circle cx="585" cy="377" r="4.5"/>
+      <circle cx="585" cy="492" r="4.5"/><circle cx="585" cy="607" r="4.5"/><circle cx="585" cy="722" r="4.5"/>
+    </g>
+
+    <!-- labels -->
+    <g fill="var(--ink)">
+      <text x="660" y="140" font-size="19" font-weight="800">Applications</text>
+      <text x="660" y="166" font-size="16" fill="var(--muted)">The apps people use: a product built on top of a model.</text>
+      <text x="660" y="191" font-size="15"><tspan font-weight="800" fill="var(--accent)">Fact: </tspan>ChatGPT's launch in late 2022 took GenAI mainstream.</text>
+
+      <text x="660" y="255" font-size="19" font-weight="800">Orchestration, agents &amp; tools</text>
+      <text x="660" y="281" font-size="16" fill="var(--muted)">Code that feeds a model context, tools and multi-step plans.</text>
+      <text x="660" y="306" font-size="15"><tspan font-weight="800" fill="var(--accent)">Fact: </tspan>Retrieval (RAG) looks up documents so answers can cite them.</text>
+
+      <text x="660" y="370" font-size="19" font-weight="800">Foundation models</text>
+      <text x="660" y="396" font-size="16" fill="var(--muted)">Large neural networks trained once, then reused for many tasks.</text>
+      <text x="660" y="421" font-size="15"><tspan font-weight="800" fill="var(--accent)">Fact: </tspan>Most are built on the Transformer, published by Google in 2017.</text>
+
+      <text x="660" y="485" font-size="19" font-weight="800">Training data</text>
+      <text x="660" y="511" font-size="16" fill="var(--muted)">The text, code, images and audio a model learns patterns from.</text>
+      <text x="660" y="536" font-size="15"><tspan font-weight="800" fill="var(--accent)">Fact: </tspan>Text is cut into tokens, small chunks of words, before training.</text>
+
+      <text x="660" y="600" font-size="19" font-weight="800">Cloud &amp; compute</text>
+      <text x="660" y="626" font-size="16" fill="var(--muted)">Data centers packed with GPUs and other AI accelerators.</text>
+      <text x="660" y="651" font-size="15"><tspan font-weight="800" fill="var(--accent)">Fact: </tspan>Big models train on thousands of chips for weeks or months.</text>
+
+      <text x="660" y="715" font-size="19" font-weight="800">Chips &amp; energy</text>
+      <text x="660" y="741" font-size="16" fill="var(--muted)">The silicon, electricity and cooling everything else rests on.</text>
+      <text x="660" y="766" font-size="15"><tspan font-weight="800" fill="var(--accent)">Fact: </tspan>Most leading AI chips are made by one foundry, TSMC.</text>
+    </g>
+
+    <!-- scale note -->
+    <rect x="90" y="836" width="1060" height="32" rx="8" fill="var(--panel)"/>
+    <text x="106" y="858" font-size="15" fill="var(--muted)"><tspan font-weight="800" fill="var(--ink)">Not to scale: </tspan>every layer is drawn the same thickness. Real size, cost and effort differ a lot from layer to layer.</text>
+  </svg>
+  </div>
+  <p class="hint">Swipe sideways to see the whole picture.</p>
+
+  <ul class="notes">
+    <li>Each layer depends on the one below it: an app calls a model, the model was trained on data, and training and answering both run on data-center chips powered by electricity.</li>
+    <li>Many companies work in only one or two layers; a few large ones span several, from chips or cloud up to their own apps.</li>
+    <li>Layer thickness is not proportional to anything; the layers are drawn equal so each label fits.</li>
+  </ul>
+
+  <p class="takeaway">Key takeaway: the chat box is only the top layer. Every answer rests on a model, the data it learned from, and data centers full of chips that run on electricity.</p>
+
+  <footer>Generated with /layers</footer>
+</main>
+</body>
+</html>
