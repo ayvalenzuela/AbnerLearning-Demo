@@ -43,7 +43,7 @@ node record.js 01 02 03 04 05 06 07 08 09 10
 ```
 
 ## Visual lessons: 15 slash commands
-Fifteen Claude Code skills in `.claude/skills/` turn any topic into a one-page visual lesson. Open Claude Code in this repo and type a format followed by a topic, for example `/iceberg coffee` or `/flowchart our refund process`. Each command writes a self-contained HTML page to `lessons/`, with a hand-drawn SVG that works in light and dark mode. The rules all 15 share are in `.claude/visual-lessons/CONVENTIONS.md`. For a worked example, see [`lessons/coffee-iceberg.html`](lessons/coffee-iceberg.html).
+Fifteen Claude Code skills in `.claude/skills/` turn any topic into a one-page visual lesson. Open Claude Code in this repo and type a format followed by a topic, for example `/iceberg coffee` or `/flowchart our refund process`. Each command writes a self-contained HTML page to `lessons/`, with a hand-drawn SVG that works in light and dark mode. The rules all 15 share are in `.claude/visual-lessons/CONVENTIONS.md`. For worked examples, see [`lessons/coffee-iceberg.html`](lessons/coffee-iceberg.html) and the full set of 15 on GenAI (`lessons/genai-*.html`), one per format.
 
 | Command | Shape | Best for |
 |---|---|---|

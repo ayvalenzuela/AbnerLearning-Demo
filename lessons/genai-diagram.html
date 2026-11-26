@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transformer Block Anatomy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f9fc; --ink: #16202e; --muted: #526074;
+    --line: #8593a6; --flow: #3d4a5c;
+    --block-fill: #eef2f8; --block-edge: #9aa8bb;
+    --box: #ffffff; --box-edge: #9aa8bb;
+    --att: #4f46e5; --att-fill: #e4e3fd;
+    --ffn: #0f766e; --ffn-fill: #d5f2ee;
+    --norm: #b45309; --norm-fill: #fdefd5;
+    --bar: #c3cad6; --inset: #ffffff; --panel: #e9edf5; --on-dot: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d131c; --ink: #e6ecf4; --muted: #a3b0c2;
+      --line: #6b7a90; --flow: #c4cedb;
+      --block-fill: #141c28; --block-edge: #45546a;
+      --box: #182232; --box-edge: #4f6078;
+      --att: #a5b4fc; --att-fill: #272b5c;
+      --ffn: #5eead4; --ffn-fill: #123b38;
+      --norm: #fbbf24; --norm-fill: #3b2a0e;
+      --bar: #3d4a5e; --inset: #121a26; --panel: #162030; --on-dot: #0d131c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.5; }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 16px 48px; }
+  h1 { font-size: clamp(28px, 5vw, 44px); margin: 0 0 4px; letter-spacing: -.02em; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  .figure { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 16px; }
+  svg { width: 100%; min-width: 760px; height: auto; display: block; }
+  .hint { display: none; font-size: 13px; color: var(--muted); margin: 6px 0 0; }
+  @media (max-width: 760px) { .hint { display: block; } }
+  svg text { font-family: inherit; }
+  .t { font-size: 18px; font-weight: 800; fill: var(--ink); }
+  .d { font-size: 15px; fill: var(--muted); }
+  .bx { font-size: 17px; font-weight: 800; fill: var(--ink); }
+  .lead { stroke: var(--line); stroke-width: 1.5; fill: none; }
+  .flow { stroke: var(--flow); stroke-width: 3; fill: none; }
+  .notes { margin-top: 24px; padding-left: 20px; color: var(--muted); }
+  .notes li { margin: 4px 0; }
+  .takeaway { margin-top: 24px; padding: 16px 20px; border-left: 4px solid var(--att);
+              background: var(--panel); border-radius: 8px; font-weight: 600; }
+  footer { margin-top: 32px; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>GenAI: inside a transformer block</h1>
+  <p class="sub">Diagram view · the labelled anatomy of one transformer block, the part an LLM stacks over and over</p>
+
+  <div class="figure">
+  <svg viewBox="0 30 1200 1135" role="img" aria-label="Anatomy of a transformer block: input tokens become embeddings plus position signals, pass through multi-head self-attention and add-and-norm, then a feed-forward network and another add-and-norm, with residual shortcuts around each step; the result goes to the next block, and after the last block an output layer gives probabilities for the next token. A magnified inset shows attention's query, key and value.">
+    <defs>
+      <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0 0 L10 5 L0 10 Z" fill="var(--flow)"/>
+      </marker>
+    </defs>
+
+    <!-- ===== Drawing (bottom to top) ===== -->
+
+    <!-- input tokens -->
+    <g font-size="15" font-weight="600" text-anchor="middle" fill="var(--ink)">
+      <rect x="470" y="1088" width="48" height="36" rx="8" fill="var(--box)" stroke="var(--box-edge)" stroke-width="1.5"/><text x="494" y="1111">The</text>
+      <rect x="523" y="1088" width="48" height="36" rx="8" fill="var(--box)" stroke="var(--box-edge)" stroke-width="1.5"/><text x="547" y="1111">cat</text>
+      <rect x="576" y="1088" width="48" height="36" rx="8" fill="var(--box)" stroke="var(--box-edge)" stroke-width="1.5"/><text x="600" y="1111">sat</text>
+      <rect x="629" y="1088" width="48" height="36" rx="8" fill="var(--box)" stroke="var(--box-edge)" stroke-width="1.5"/><text x="653" y="1111">on</text>
+      <rect x="682" y="1088" width="48" height="36" rx="8" fill="var(--box)" stroke="var(--box-edge)" stroke-width="1.5"/><text x="706" y="1111">the</text>
+      <title>Input tokens</title>
+    </g>
+    <path d="M476 1084 V1076 H724 V1084" fill="none" stroke="var(--flow)" stroke-width="2"/>
+    <line class="flow" x1="527" y1="1076" x2="527" y2="1025" marker-end="url(#arr)"/>
+
+    <!-- embeddings + position -->
+    <rect x="470" y="960" width="115" height="60" rx="10" fill="var(--box)" stroke="var(--box-edge)" stroke-width="2"><title>Token embedding</title></rect>
+    <text x="527" y="985" text-anchor="middle" font-size="15" font-weight="800" fill="var(--ink)">Token</text>
+    <text x="527" y="1005" text-anchor="middle" font-size="15" font-weight="800" fill="var(--ink)">embedding</text>
+    <rect x="615" y="960" width="115" height="60" rx="10" fill="var(--box)" stroke="var(--box-edge)" stroke-width="2"><title>Positional information</title></rect>
+    <text x="672" y="985" text-anchor="middle" font-size="15" font-weight="800" fill="var(--ink)">Position</text>
+    <text x="672" y="1005" text-anchor="middle" font-size="15" font-weight="800" fill="var(--ink)">signal</text>
+    <circle cx="600" cy="990" r="11" fill="var(--box)" stroke="var(--flow)" stroke-width="2"/>
+    <path d="M594 990 H606 M600 984 V996" stroke="var(--flow)" stroke-width="2"/>
+
+    <!-- block outline -->
+    <rect x="420" y="380" width="370" height="480" rx="22" fill="var(--block-fill)" stroke="var(--block-edge)" stroke-width="2" stroke-dasharray="8 6"><title>One transformer block</title></rect>
+    <text x="776" y="406" text-anchor="end" font-size="16" font-weight="800" fill="var(--muted)">× N</text>
+
+    <!-- main flow up through the block -->
+    <line class="flow" x1="600" y1="978" x2="600" y2="814" marker-end="url(#arr)"/>
+    <line class="flow" x1="600" y1="730" x2="600" y2="674" marker-end="url(#arr)"/>
+    <line class="flow" x1="600" y1="620" x2="600" y2="574" marker-end="url(#arr)"/>
+    <line class="flow" x1="600" y1="490" x2="600" y2="464" marker-end="url(#arr)"/>
+
+    <!-- residual shortcuts -->
+    <path class="flow" d="M600 840 H445 V658 H466" marker-end="url(#arr)" stroke-dasharray="none"><title>Residual connection around attention</title></path>
+    <path class="flow" d="M600 595 H760 V448 H734" marker-end="url(#arr)"><title>Residual connection around the feed-forward network</title></path>
+    <circle cx="600" cy="840" r="5" fill="var(--flow)"/>
+    <circle cx="600" cy="595" r="5" fill="var(--flow)"/>
+
+    <!-- attention (stacked to suggest several heads) -->
+    <rect x="482" y="718" width="260" height="80" rx="12" fill="var(--att-fill)" stroke="var(--att)" stroke-width="1.5" opacity=".45"/>
+    <rect x="476" y="724" width="260" height="80" rx="12" fill="var(--att-fill)" stroke="var(--att)" stroke-width="1.5" opacity=".7"/>
+    <rect x="470" y="730" width="260" height="80" rx="12" fill="var(--att-fill)" stroke="var(--att)" stroke-width="2.5"><title>Multi-head self-attention</title></rect>
+    <text class="bx" x="590" y="764" text-anchor="middle">Multi-head</text>
+    <text class="bx" x="590" y="788" text-anchor="middle">self-attention</text>
+
+    <!-- add & norm 1 -->
+    <rect x="470" y="620" width="260" height="50" rx="10" fill="var(--norm-fill)" stroke="var(--norm)" stroke-width="2"><title>Add and norm after attention</title></rect>
+    <circle cx="497" cy="645" r="10" fill="none" stroke="var(--norm)" stroke-width="2"/>
+    <path d="M491 645 H503 M497 639 V651" stroke="var(--norm)" stroke-width="2"/>
+    <text class="bx" x="605" y="651" text-anchor="middle">Add &amp; norm</text>
+
+    <!-- feed-forward -->
+    <rect x="470" y="490" width="260" height="80" rx="12" fill="var(--ffn-fill)" stroke="var(--ffn)" stroke-width="2.5"><title>Feed-forward network</title></rect>
+    <text class="bx" x="600" y="527" text-anchor="middle">Feed-forward network</text>
+    <text x="600" y="550" text-anchor="middle" font-size="14" fill="var(--muted)">applied to each token</text>
+
+    <!-- add & norm 2 -->
+    <rect x="470" y="410" width="260" height="50" rx="10" fill="var(--norm-fill)" stroke="var(--norm)" stroke-width="2"><title>Add and norm after the feed-forward network</title></rect>
+    <circle cx="703" cy="435" r="10" fill="none" stroke="var(--norm)" stroke-width="2"/>
+    <path d="M697 435 H709 M703 429 V441" stroke="var(--norm)" stroke-width="2"/>
+    <text class="bx" x="595" y="441" text-anchor="middle">Add &amp; norm</text>
+
+    <!-- out of the block, through more blocks, to the output layer -->
+    <line class="flow" x1="600" y1="380" x2="600" y2="350"/>
+    <line class="flow" x1="600" y1="350" x2="600" y2="290" stroke-dasharray="4 7"/>
+    <line class="flow" x1="600" y1="290" x2="600" y2="254" marker-end="url(#arr)"/>
+    <rect x="470" y="200" width="260" height="50" rx="10" fill="var(--box)" stroke="var(--box-edge)" stroke-width="2"><title>Output layer</title></rect>
+    <text class="bx" x="600" y="231" text-anchor="middle">Linear + softmax</text>
+    <line class="flow" x1="600" y1="200" x2="600" y2="174" marker-end="url(#arr)"/>
+
+    <!-- next-token probabilities (illustrative) -->
+    <rect x="470" y="40" width="260" height="130" rx="12" fill="var(--box)" stroke="var(--box-edge)" stroke-width="2"><title>Next-token probabilities (illustrative)</title></rect>
+    <text x="600" y="64" text-anchor="middle" font-size="14" font-style="italic" fill="var(--muted)">“The cat sat on the …”</text>
+    <g font-size="15" font-weight="600" text-anchor="end" fill="var(--ink)">
+      <text x="548" y="93">mat</text><rect x="556" y="81" width="150" height="15" rx="3" fill="var(--att)"/>
+      <text x="548" y="116">floor</text><rect x="556" y="104" width="72" height="15" rx="3" fill="var(--bar)"/>
+      <text x="548" y="139">sofa</text><rect x="556" y="127" width="42" height="15" rx="3" fill="var(--bar)"/>
+      <text x="548" y="162">roof</text><rect x="556" y="150" width="18" height="15" rx="3" fill="var(--bar)"/>
+    </g>
+
+    <!-- ===== Magnified inset: attention ===== -->
+    <circle cx="700" cy="770" r="24" fill="none" stroke="var(--att)" stroke-width="2" stroke-dasharray="4 4"/>
+    <line x1="700" y1="746" x2="905.6" y2="731.1" stroke="var(--att)" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <line x1="700" y1="794" x2="905.6" y2="898.9" stroke="var(--att)" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <circle cx="1030" cy="815" r="150" fill="var(--inset)" stroke="var(--att)" stroke-width="3"><title>Magnified view of self-attention: query, key and value</title></circle>
+    <text x="1030" y="712" text-anchor="middle" font-size="17" font-weight="800" fill="var(--att)">Attention, zoomed in</text>
+    <g text-anchor="middle">
+      <circle cx="950" cy="752" r="20" fill="var(--att)"/><text x="950" y="758" font-size="18" font-weight="800" fill="var(--on-dot)">Q</text>
+      <circle cx="1030" cy="752" r="20" fill="var(--ffn)"/><text x="1030" y="758" font-size="18" font-weight="800" fill="var(--on-dot)">K</text>
+      <circle cx="1110" cy="752" r="20" fill="var(--norm)"/><text x="1110" y="758" font-size="18" font-weight="800" fill="var(--on-dot)">V</text>
+      <g font-size="15" font-weight="800" fill="var(--ink)">
+        <text x="950" y="794">Query</text><text x="1030" y="794">Key</text><text x="1110" y="794">Value</text>
+      </g>
+      <g font-size="14" fill="var(--muted)">
+        <text x="950" y="813">what I'm</text><text x="950" y="831">looking for</text>
+        <text x="1030" y="813">what I</text><text x="1030" y="831">contain</text>
+        <text x="1110" y="813">what I</text><text x="1110" y="831">pass on</text>
+      </g>
+      <g font-size="14" fill="var(--ink)">
+        <text x="1030" y="862">Queries are matched to keys;</text>
+        <text x="1030" y="881">good matches pull in more</text>
+        <text x="1030" y="900">of that token's value.</text>
+      </g>
+      <text x="1030" y="924" font-size="14" font-weight="800" fill="var(--att)">Many heads do this at once</text>
+    </g>
+
+    <!-- ===== Labels: left column ===== -->
+    <g text-anchor="end">
+      <text class="t" x="380" y="93">Next-token probabilities</text>
+      <text class="d" x="380" y="115">A score for every token it knows.</text>
+      <text class="d" x="380" y="135">One is picked, added, and it repeats.</text>
+
+      <text class="t" x="380" y="400">Transformer block</text>
+      <text class="d" x="380" y="422">One layer. LLMs stack many of</text>
+      <text class="d" x="380" y="442">these, one on top of the next.</text>
+
+      <text class="t" x="380" y="525">Feed-forward network</text>
+      <text class="d" x="380" y="547">A small neural network that</text>
+      <text class="d" x="380" y="567">processes each token on its own.</text>
+
+      <text class="t" x="380" y="745">Residual connection</text>
+      <text class="d" x="380" y="767">A shortcut around each step: the input</text>
+      <text class="d" x="380" y="787">is added back to the output, which helps</text>
+      <text class="d" x="380" y="807">very deep stacks train well.</text>
+
+      <text class="t" x="380" y="985">Token embeddings</text>
+      <text class="d" x="380" y="1007">Each token becomes a long list of</text>
+      <text class="d" x="380" y="1027">numbers that captures its meaning.</text>
+
+      <text class="t" x="380" y="1108">Input tokens</text>
+      <text class="d" x="380" y="1130">Your text, chopped into word</text>
+      <text class="d" x="380" y="1150">pieces called tokens.</text>
+    </g>
+    <g>
+      <line class="lead" x1="388" y1="87" x2="466" y2="87"/>
+      <line class="lead" x1="388" y1="394" x2="418" y2="394"/>
+      <line class="lead" x1="388" y1="519" x2="466" y2="519"/>
+      <line class="lead" x1="388" y1="739" x2="443" y2="739"/>
+      <line class="lead" x1="388" y1="979" x2="466" y2="979"/>
+      <line class="lead" x1="388" y1="1102" x2="466" y2="1102"/>
+    </g>
+
+    <!-- ===== Labels: right column ===== -->
+    <g>
+      <text class="t" x="830" y="218">Output layer</text>
+      <text class="d" x="830" y="240">Turns the last block's numbers into</text>
+      <text class="d" x="830" y="260">a probability for each possible token.</text>
+
+      <text class="t" x="830" y="330">Output to the next block</text>
+      <text class="d" x="830" y="352">The same-shaped result goes up to the</text>
+      <text class="d" x="830" y="372">next block; after the last one, it goes</text>
+      <text class="d" x="830" y="392">to the output layer.</text>
+
+      <text class="t" x="830" y="425">Add &amp; norm</text>
+      <text class="d" x="830" y="447">Adds the shortcut back in, then rescales</text>
+      <text class="d" x="830" y="467">the numbers to keep them steady.</text>
+
+      <text class="t" x="830" y="628">Add &amp; norm</text>
+      <text class="d" x="830" y="650">The same step, after attention.</text>
+
+      <text class="t" x="830" y="1000">Positional information</text>
+      <text class="d" x="830" y="1022">Marks each token's place in line,</text>
+      <text class="d" x="830" y="1042">since attention alone ignores order.</text>
+    </g>
+    <g>
+      <line class="lead" x1="822" y1="212" x2="734" y2="212"/>
+      <line class="lead" x1="822" y1="324" x2="606" y2="324"/>
+      <line class="lead" x1="822" y1="419" x2="734" y2="419"/>
+      <line class="lead" x1="822" y1="622" x2="734" y2="622"/>
+      <line class="lead" x1="822" y1="994" x2="734" y2="994"/>
+    </g>
+  </svg>
+  </div>
+  <p class="hint">Swipe sideways to see the whole picture.</p>
+
+  <ul class="notes">
+    <li>Read the drawing from the bottom up: text goes in at the bottom and a guess for the next token comes out at the top.</li>
+    <li>Self-attention is how each token gathers context from the other tokens. In chat-style LLMs, a token can only look at the tokens before it.</li>
+    <li>The block keeps the same shape of numbers in and out, which is what lets it be stacked many times.</li>
+    <li>Many newer models put the "norm" step before attention and the feed-forward network instead of after. The parts are the same.</li>
+    <li>The word scores at the top are an illustration, not real model output.</li>
+  </ul>
+
+  <p class="takeaway">Key takeaway: an LLM is mostly one simple block, attention plus a feed-forward network joined by shortcuts, stacked many times and used to guess the next token.</p>
+
+  <footer>Generated with /diagram</footer>
+</main>
+</body>
+</html>
